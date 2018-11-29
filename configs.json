@@ -1,0 +1,15 @@
+[
+    {
+        "imgs dir": "imgs/",
+        "training path": "data/train_data.tfrecord",
+        "testing path": "data/test_data.tfrecord",
+        "validation path": "data/val_data.tfrecord",
+        "image resize": 64,
+        "train percentage": 0.80,
+        "learning rate": 2E-5,
+        "max epochs": 3000,
+        "batch size": 64,
+        "checkpoint interval": 250,
+        "checkpoint dir": "training/"
+    }
+]

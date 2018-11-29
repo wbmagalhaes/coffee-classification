@@ -1,0 +1,61 @@
+import os
+
+import numpy as np
+import cv2 as cv
+import xml.etree.ElementTree as ET
+
+from utils import config
+from utils import labelmap
+
+
+def read_xml(img_dir, addr):
+    """Abre o arquivo xml, carrega a imagem e retorna as imagens cortadas e as labels
+        Args:
+            img_dir: diretório onde estão as imagens.
+            addr: endereco do arquivo xml.
+
+        Returns:
+            string com o nome do arquivo da imagem
+            lista de numpy arrays no formato (config.IMG_SIZE, config.IMG_SIZE, 3) com as imagens
+            lista de inteiros com a label de cada imagem
+
+    """
+    tree = ET.parse(addr)
+    root = tree.getroot()
+
+    filename = root.find('filename').text
+    print(filename)
+
+    image = cv.imread(os.path.join(img_dir, filename))
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB).astype(np.uint8)
+
+    imgs = []
+    labels = []
+    for obj in root.findall('object'):
+        name = obj.find('name').text
+        bndbox = obj.find('bndbox')
+
+        xmin = int(bndbox.find('xmin').text)
+        xmax = int(bndbox.find('xmax').text)
+        ymin = int(bndbox.find('ymin').text)
+        ymax = int(bndbox.find('ymax').text)
+
+        croped = image[ymin:ymax, xmin:xmax]
+
+        sx = xmax - xmin
+        sy = ymax - ymin
+
+        s = max(sx, sy)
+        bx = int((s - sx) / 2)
+        by = int((s - sy) / 2)
+
+        croped = cv.copyMakeBorder(
+            croped, by, by, bx, bx, cv.BORDER_CONSTANT, value=(255, 255, 255))
+        croped = cv.resize(
+            croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
+        imgs.append(croped)
+
+        label = labelmap.index_of_label(name)
+        labels.append(label)
+
+    return filename, imgs, labels

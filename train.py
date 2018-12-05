@@ -1,12 +1,16 @@
 import tensorflow as tf
 import numpy as np
+import time
 
 from utils import config
 from utils import labelmap
 from utils.tfrecords import get_data
 from utils.data_augment import aug_data
 
-import cnn_simple4 as cnn
+from utils.model import loss_function
+from utils.model import accuracy_function
+
+import CoffeeNet6 as cnn
 
 training_dir = config.CHECKPOINT_DIR + cnn.model_id
 
@@ -40,17 +44,32 @@ with tf.name_scope('result'):
 
 with tf.name_scope('score'):
     y_true = tf.argmax(y, 1)
-    loss_op = cnn.loss_function(y_pred, y_true)
-    accuracy_op = cnn.accuracy_function(label, y_true)
+    loss_op = loss_function(y_pred, y_true)
+    accuracy_op = accuracy_function(label, y_true)
 
 tf.summary.scalar('score/loss', loss_op)
 tf.summary.scalar('score/accuracy', accuracy_op)
 
+global_step = tf.train.get_or_create_global_step()
+
+learning_rate = tf.train.exponential_decay(
+    learning_rate=config.LEARNING_RATE,
+    global_step=global_step,
+    decay_steps=500,
+    decay_rate=1,
+    staircase=False
+)
+
+tf.summary.scalar('learning_rate', learning_rate)
+
+step_per_sec = tf.placeholder(tf.float32)
+tf.summary.scalar('step_per_sec', step_per_sec)
+
 with tf.name_scope('optimizer'):
     optimizer = tf.train.AdamOptimizer(
-        learning_rate=config.LEARNING_RATE, name='AdamOpt')
+        learning_rate=learning_rate, name='AdamOpt')
     train_op = optimizer.minimize(
-        loss_op, global_step=tf.train.get_or_create_global_step(), name='train_op')
+        loss_op, global_step=global_step, name='train_op')
 
 merged = tf.summary.merge_all()
 saver = tf.train.Saver()
@@ -61,24 +80,39 @@ with tf.Session() as sess:
 
     tf.global_variables_initializer().run()
 
+    time_i = time.time()
+
     print('Starting train...')
     for epoch in range(config.EPOCHS + 1):
+        delta_time = time.time() - time_i
+        time_i = time.time()
+
+        if delta_time <= 0:
+            delta_time = 1
+        s_per_sec = 1.0 / delta_time
+
         p = np.random.permutation(len(train_x))[:config.BATCH_SIZE]
         batch_x = train_x[p]
         batch_y = train_y[p]
 
         aug_x = sess.run(augument_op, feed_dict={x: batch_x})
 
-        feed_dict = {x: aug_x, y: batch_y, is_training: True}
+        feed_dict = {x: aug_x, y: batch_y,
+                     step_per_sec: s_per_sec, is_training: True}
         summary, _ = sess.run([merged, train_op], feed_dict=feed_dict)
         train_writer.add_summary(summary, epoch)
 
         if epoch % 10 == 0:
-            feed_dict = {x: test_x, y: test_y, is_training: False}
+            feed_dict = {x: test_x, y: test_y,
+                         step_per_sec: s_per_sec, is_training: False}
             summary, loss, acc = sess.run(
                 [merged, loss_op, accuracy_op], feed_dict=feed_dict)
+
             test_writer.add_summary(summary, epoch)
-            print('Epoch: {} Loss: {:.5f} Accuracy: {:.5f}'.format(epoch, loss, acc))
+
+            print(
+                'epoch: {} loss: {:.3f} accuracy: {:.3f} s/step: {:.3f}'.format(
+                    epoch, loss, acc, delta_time))
 
         if epoch % config.CHECKPOINT_INTERVAL == 0:
             saver.save(sess, training_dir + '/model', global_step=epoch)

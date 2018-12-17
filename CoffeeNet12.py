@@ -5,29 +5,24 @@ from utils import model as cnn
 
 model_id = 'CoffeeNet12'
 
-# CoffeNet12
-# demora 15min chega em 90%
-
-# learning rate 1e-4 é um valor bom, mesmo sem decaimento exponencial
-
 def model(x, is_training):
     with tf.name_scope('INPUT'):
         x = tf.truediv(tf.cast(x, tf.float32), 255.0)
         print("INPUT " + str(x.shape))
 
-    x = cnn.conv2d(x, w=64, k=7, s=1)
     x = cnn.conv2d(x, w=64, k=5, s=1)
+    x = cnn.conv2d(x, w=64, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
-    x = cnn.conv2d(x, w=128, k=7, s=1)
     x = cnn.conv2d(x, w=128, k=5, s=1)
+    x = cnn.conv2d(x, w=128, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
-    x = cnn.conv2d(x, w=256, k=5, s=1)
+    x = cnn.conv2d(x, w=256, k=3, s=1)
     x = cnn.conv2d(x, w=256, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
-    x = cnn.conv2d(x, w=512, k=5, s=1)
+    x = cnn.conv2d(x, w=512, k=3, s=1)
     x = cnn.conv2d(x, w=512, k=3, s=1)
     x = cnn.conv2d(x, w=512, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)

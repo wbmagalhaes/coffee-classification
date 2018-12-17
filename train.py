@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import time
+import glob
 
 from utils import config
 from utils import labelmap
@@ -55,8 +56,8 @@ global_step = tf.train.get_or_create_global_step()
 learning_rate = tf.train.exponential_decay(
     learning_rate=config.LEARNING_RATE,
     global_step=global_step,
-    decay_steps=500,
-    decay_rate=1,
+    decay_steps=1000,
+    decay_rate=0.94,
     staircase=False
 )
 
@@ -69,7 +70,7 @@ with tf.name_scope('optimizer'):
     optimizer = tf.train.AdamOptimizer(
         learning_rate=learning_rate, name='AdamOpt')
     train_op = optimizer.minimize(
-        loss_op, global_step=global_step, name='train_op')
+        loss_op, global_step=global_step, name='TrainOp')
 
 merged = tf.summary.merge_all()
 saver = tf.train.Saver()
@@ -78,12 +79,25 @@ with tf.Session() as sess:
     train_writer = tf.summary.FileWriter(training_dir + '/train', sess.graph)
     test_writer = tf.summary.FileWriter(training_dir + '/test')
 
-    tf.global_variables_initializer().run()
+    latest_ckpt = tf.train.latest_checkpoint(training_dir)
+    if latest_ckpt is not None:
+        ckpt = latest_ckpt + '.meta'
 
+        saver = tf.train.import_meta_graph(ckpt)
+        saver.restore(sess, latest_ckpt)
+
+        latest_ckpt = latest_ckpt.replace(training_dir + '\\model-', '')
+        ckpt_step = int(latest_ckpt)
+
+        print('Model restored at', ckpt_step)
+    else:
+        tf.global_variables_initializer().run()
+        ckpt_step = 0
+    
     time_i = time.time()
 
     print('Starting train...')
-    for epoch in range(config.EPOCHS + 1):
+    for epoch in range(ckpt_step, config.EPOCHS + 1):
         delta_time = time.time() - time_i
         time_i = time.time()
 

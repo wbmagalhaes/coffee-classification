@@ -114,3 +114,5 @@ training
 export_model_to_js.txt
 validate_result.jpg
 testes.txt
+dream.py
+CoffeeNet12.py

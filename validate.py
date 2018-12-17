@@ -10,6 +10,7 @@ print('Using model', model_id)
 export_dir = 'saved_models/' + model_id + '/'
 
 val_x, val_y = get_data([config.VALIDATION_PATH], shuffle=False)
+print(len(val_x))
 print('Validation data loaded.')
 
 with tf.Session(graph=tf.Graph()) as sess:

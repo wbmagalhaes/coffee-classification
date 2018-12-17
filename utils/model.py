@@ -2,7 +2,6 @@ import tensorflow as tf
 
 from utils import labelmap
 
-initializer = tf.variance_scaling_initializer()
 n_layer = 0
 
 
@@ -12,10 +11,8 @@ def conv2d(x, w, k, s, activation=tf.nn.relu):
     name = 'CONV' + str(n_layer)
 
     with tf.name_scope(name):
-        out = tf.layers.conv2d(inputs=x, filters=w, kernel_size=k, strides=s, activation=activation,
-                               kernel_initializer=initializer, bias_initializer=initializer,
-                               padding='SAME',
-                               name=name)
+        out = tf.layers.conv2d(
+            inputs=x, filters=w, kernel_size=k, strides=s, activation=activation, padding='SAME', name=name)
 
     print(name, out.shape)
     return out
@@ -27,10 +24,8 @@ def conv2d_t(x, w, k, s, activation=tf.nn.relu):
     name = 'CONVT' + str(n_layer)
 
     with tf.name_scope(name):
-        out = tf.layers.conv2d_transpose(inputs=x, filters=w, kernel_size=k, strides=s, activation=activation,
-                                         kernel_initializer=initializer, bias_initializer=initializer,
-                                         padding='SAME',
-                                         name=name)
+        out = tf.layers.conv2d_transpose(
+            inputs=x, filters=w, kernel_size=k, strides=s, activation=activation, padding='SAME', name=name)
 
     print(name, out.shape)
     return out
@@ -54,9 +49,8 @@ def dense(x, w, activation=tf.nn.relu):
     name = 'DENSE' + str(n_layer)
 
     with tf.name_scope(name):
-        out = tf.layers.dense(inputs=x, units=w, activation=activation,
-                              kernel_initializer=initializer, bias_initializer=initializer,
-                              name=name)
+        out = tf.layers.dense(
+            inputs=x, units=w, activation=activation, name=name)
 
     print(name, out.shape)
     return out

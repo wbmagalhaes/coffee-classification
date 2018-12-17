@@ -7,7 +7,7 @@
         "image resize": 64,
         "train percentage": 0.80,
         "learning rate": 1E-4,
-        "max epochs": 50000,
+        "max epochs": 12000,
         "batch size": 64,
         "checkpoint interval": 500,
         "checkpoint dir": "training/"

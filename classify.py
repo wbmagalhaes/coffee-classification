@@ -37,16 +37,19 @@ with tf.Session(graph=tf.Graph()) as sess:
 
         defects = 0
         count = [0] * labelmap.count
-        for label in real_y:
+        for label in labels:
             count[label] += 1
             defects += labelmap.labels[label]['weight']
 
-        #print('==================')
-        #for i in range(labelmap.count):
-            #print('{}\t{}'.format(labelmap.labels[i]['name'], count[i]))
+        print('==================')
+        for i in range(labelmap.count):
+            if (i == 4):
+                print('{}\t{}'.format(labelmap.labels[i]['name'], count[i]))
+            else:
+                print('{}\t\t{}'.format(labelmap.labels[i]['name'], count[i]))
 
         print('Defects:\t{:.2f}'.format(defects))
-        #print('==================')
-        #print(' ')
+        print('==================')
+        print(' ')
 
     print('Predictions completed!')

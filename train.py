@@ -79,25 +79,12 @@ with tf.Session() as sess:
     train_writer = tf.summary.FileWriter(training_dir + '/train', sess.graph)
     test_writer = tf.summary.FileWriter(training_dir + '/test')
 
-    latest_ckpt = tf.train.latest_checkpoint(training_dir)
-    if latest_ckpt is not None:
-        ckpt = latest_ckpt + '.meta'
-
-        saver = tf.train.import_meta_graph(ckpt)
-        saver.restore(sess, latest_ckpt)
-
-        latest_ckpt = latest_ckpt.replace(training_dir + '\\model-', '')
-        ckpt_step = int(latest_ckpt)
-
-        print('Model restored at', ckpt_step)
-    else:
-        tf.global_variables_initializer().run()
-        ckpt_step = 0
+    tf.global_variables_initializer().run()
     
     time_i = time.time()
 
     print('Starting train...')
-    for epoch in range(ckpt_step, config.EPOCHS + 1):
+    for epoch in range(config.EPOCHS + 1):
         delta_time = time.time() - time_i
         time_i = time.time()
 

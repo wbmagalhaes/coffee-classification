@@ -5,6 +5,7 @@ from utils import model as cnn
 
 model_id = 'CoffeeNet12'
 
+
 def model(x, is_training):
     with tf.name_scope('INPUT'):
         x = tf.truediv(tf.cast(x, tf.float32), 255.0)
@@ -30,10 +31,10 @@ def model(x, is_training):
     x = tf.layers.flatten(x)
 
     x = cnn.dense(x, w=1024)
-    x = tf.layers.dropout(inputs=x, rate=0.25, training=is_training)
+    x = tf.layers.dropout(inputs=x, rate=0.50, training=is_training)
 
     x = cnn.dense(x, w=1024)
-    x = tf.layers.dropout(inputs=x, rate=0.25, training=is_training)
+    x = tf.layers.dropout(inputs=x, rate=0.50, training=is_training)
 
     x = cnn.dense(x, w=labelmap.count, activation=None)
 

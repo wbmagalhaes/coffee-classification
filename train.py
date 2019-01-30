@@ -80,7 +80,7 @@ with tf.Session() as sess:
     test_writer = tf.summary.FileWriter(training_dir + '/test')
 
     tf.global_variables_initializer().run()
-    
+
     time_i = time.time()
 
     print('Starting train...')

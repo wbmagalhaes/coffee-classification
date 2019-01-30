@@ -17,7 +17,7 @@ def show_images_compare(imgs, pred_labels, pred_confs, correct_labels, num, name
     n_row = math.ceil(num / image_per_row)
 
     imagelist = []
-    for i in range(0, n_row):
+    for i in range(n_row):
         img_row = imgs[i *
                        image_per_row:min((i + 1) * image_per_row, len(imgs))]
         pred_row = pred_labels[i *
@@ -45,7 +45,7 @@ def show_images(imgs, pred_labels, pred_confs, num, name):
     n_row = math.ceil(num / image_per_row)
 
     imagelist = []
-    for i in range(0, n_row):
+    for i in range(n_row):
         img_row = imgs[i *
                        image_per_row:min((i + 1) * image_per_row, len(imgs))]
         pred_row = pred_labels[i *
@@ -65,7 +65,7 @@ def show_images(imgs, pred_labels, pred_confs, num, name):
 
 def image_row_compare(imgs, pred_labels, pred_confs, correct_labels, num):
     row = []
-    for i in range(0, num):
+    for i in range(num):
         if i < len(imgs):
             img = imgs[i]
             pred_label = pred_labels[i]
@@ -82,7 +82,7 @@ def image_row_compare(imgs, pred_labels, pred_confs, correct_labels, num):
 
 def image_row(imgs, pred_labels, pred_confs, num):
     row = []
-    for i in range(0, num):
+    for i in range(num):
         if i < len(imgs):
             img = imgs[i]
             pred_label = pred_labels[i]

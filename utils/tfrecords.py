@@ -42,7 +42,6 @@ def write_tfrecords(filepath, imgs_data):
         # Read the image data
         img = img_data['image']
         label = img_data['label']
-
         # Create an example protocol buffer
         example = tf.train.Example(features=tf.train.Features(feature={
             'image': bytes_feature(tf.compat.as_bytes(img.tostring())),

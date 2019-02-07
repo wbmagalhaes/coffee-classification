@@ -33,15 +33,15 @@ with tf.name_scope('inputs'):
         name='label_input'
     )
     is_training = tf.placeholder(tf.bool, name='is_training')
-
+    
     augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
     y_pred = cnn.model(x, is_training)
 
 with tf.name_scope('result'):
-    label = tf.argmax(y_pred, 1, name='label')
     probs = tf.nn.softmax(y_pred, name='probs')
+    label = tf.argmax(probs, 1, name='label')
 
 with tf.name_scope('score'):
     y_true = tf.argmax(y, 1)
@@ -56,8 +56,8 @@ global_step = tf.train.get_or_create_global_step()
 learning_rate = tf.train.exponential_decay(
     learning_rate=config.LEARNING_RATE,
     global_step=global_step,
-    decay_steps=1000,
-    decay_rate=0.94,
+    decay_steps=3000,
+    decay_rate=0.96,
     staircase=False
 )
 

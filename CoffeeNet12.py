@@ -11,11 +11,11 @@ def model(x, is_training):
         x = tf.truediv(tf.cast(x, tf.float32), 255.0)
         print("INPUT " + str(x.shape))
 
-    x = cnn.conv2d(x, w=64, k=5, s=1)
+    x = cnn.conv2d(x, w=64, k=3, s=1)
     x = cnn.conv2d(x, w=64, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
-    x = cnn.conv2d(x, w=128, k=5, s=1)
+    x = cnn.conv2d(x, w=128, k=3, s=1)
     x = cnn.conv2d(x, w=128, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 

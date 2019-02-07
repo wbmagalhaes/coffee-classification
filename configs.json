@@ -6,8 +6,8 @@
         "validation path": "data/val_data.tfrecord",
         "image resize": 64,
         "train percentage": 0.80,
-        "learning rate": 1E-4,
-        "max epochs": 50000,
+        "learning rate": 2E-5,
+        "max epochs": 30000,
         "batch size": 64,
         "checkpoint interval": 500,
         "checkpoint dir": "training/"

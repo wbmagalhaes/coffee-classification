@@ -43,12 +43,8 @@ with tf.Session(graph=tf.Graph()) as sess:
 
         print('==================')
         for i in range(labelmap.count):
-            if (i == 4):
-                print('{}\t{}'.format(labelmap.labels[i]['name'], count[i]))
-            else:
-                print('{}\t\t{}'.format(labelmap.labels[i]['name'], count[i]))
-
-        print('Defects:\t{:.2f}'.format(defects))
+            print('%s: %i' % (labelmap.labels[i]['name'], count[i]))
+        print('Defects:%.2f' % defects)
         print('==================')
         print(' ')
 

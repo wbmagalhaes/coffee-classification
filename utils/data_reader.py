@@ -33,6 +33,7 @@ def read_xml(img_dir, addr):
     labels = []
     for obj in root.findall('object'):
         name = obj.find('name').text
+
         bndbox = obj.find('bndbox')
 
         xmin = int(bndbox.find('xmin').text)

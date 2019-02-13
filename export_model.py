@@ -5,7 +5,7 @@ from tensorflow.python.saved_model.signature_def_utils_impl import predict_signa
 from utils import config
 
 model_id = 'CoffeeNet6'
-checkpoint = 23000
+checkpoint = 21000
 
 print('Using model', model_id)
 

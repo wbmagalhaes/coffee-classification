@@ -8,8 +8,7 @@ from utils import labelmap
 from utils.tfrecords import get_data
 from utils.data_augment import aug_data
 
-from utils.model import loss_function
-from utils.model import accuracy_function
+from utils.model import loss_function, accuracy_function
 
 import CoffeeNet6 as cnn
 
@@ -33,20 +32,21 @@ with tf.name_scope('inputs'):
         name='label_input'
     )
     is_training = tf.placeholder(tf.bool, name='is_training')
-    
+
     augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
-    y_pred = cnn.model(x, is_training)
+    model_result = cnn.model(x, is_training)
 
 with tf.name_scope('result'):
-    probs = tf.nn.softmax(y_pred, name='probs')
+    logits = tf.identity(model_result, name='logits')
+    probs = tf.nn.softmax(logits, name='probs')
     label = tf.argmax(probs, 1, name='label')
 
 with tf.name_scope('score'):
     y_true = tf.argmax(y, 1)
-    loss_op = loss_function(y_pred, y_true)
-    accuracy_op = accuracy_function(label, y_true)
+    loss_op = loss_function(y_pred=model_result, y_true=y_true)
+    accuracy_op = accuracy_function(y_pred=model_result, y_true=y_true)
 
 tf.summary.scalar('score/loss', loss_op)
 tf.summary.scalar('score/accuracy', accuracy_op)
@@ -56,8 +56,8 @@ global_step = tf.train.get_or_create_global_step()
 learning_rate = tf.train.exponential_decay(
     learning_rate=config.LEARNING_RATE,
     global_step=global_step,
-    decay_steps=3000,
-    decay_rate=0.96,
+    decay_steps=2000,
+    decay_rate=0.94,
     staircase=False
 )
 

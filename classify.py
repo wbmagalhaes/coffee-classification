@@ -44,7 +44,7 @@ with tf.Session(graph=tf.Graph()) as sess:
         print('==================')
         for i in range(labelmap.count):
             print('%s: %i' % (labelmap.labels[i]['name'], count[i]))
-        print('Defects:%.2f' % defects)
+        print('Defects: %.2f' % defects)
         print('==================')
         print(' ')
 

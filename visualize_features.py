@@ -13,7 +13,7 @@ print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
 
-data_x, data_y = get_data([config.VALIDATION_PATH], shuffle=True)
+data_x, data_y = get_data([config.VALIDATION_PATH], shuffle=False)
 print(len(data_x))
 print('Data loaded.')
 
@@ -51,7 +51,6 @@ def plotNNFilter(units, title, im_name):
     #plt.title(title)
     #im = plt.imshow(image, cmap='jet')
     #plt.colorbar(im)
-
     #plt.show()
 
     image = (image * 255).astype(np.uint8)

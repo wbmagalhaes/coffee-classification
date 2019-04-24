@@ -3,7 +3,10 @@ import tensorflow as tf
 from utils import labelmap
 
 n_layer = 0
-initializer = tf.initializers.he_normal()
+
+kernel_initializer = tf.initializers.he_uniform()
+bias_initializer = tf.initializers.zeros()
+
 
 def conv2d(x, w, k, s, activation=tf.nn.relu):
     global n_layer
@@ -16,8 +19,8 @@ def conv2d(x, w, k, s, activation=tf.nn.relu):
         kernel_size=k,
         strides=s,
         activation=activation,
-        kernel_initializer=initializer,
-        bias_initializer=initializer,
+        kernel_initializer=kernel_initializer,
+        bias_initializer=bias_initializer,
         padding='SAME',
         name=name)
 
@@ -37,8 +40,8 @@ def conv2d_t(x, w, k, s, activation=tf.nn.relu):
             kernel_size=k,
             strides=s,
             activation=activation,
-            kernel_initializer=initializer,
-            bias_initializer=initializer,
+            kernel_initializer=kernel_initializer,
+            bias_initializer=bias_initializer,
             padding='SAME',
             name=name)
 
@@ -70,8 +73,8 @@ def dense(x, w, activation=tf.nn.relu):
         inputs=x,
         units=w,
         activation=activation,
-        kernel_initializer=initializer,
-        bias_initializer=initializer,
+        kernel_initializer=kernel_initializer,
+        bias_initializer=bias_initializer,
         name=name)
 
     print(name, out.shape)

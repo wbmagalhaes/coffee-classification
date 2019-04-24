@@ -4,8 +4,8 @@ from tensorflow.python.saved_model.signature_def_utils_impl import predict_signa
 
 from utils import config
 
-model_id = 'CoffeeNet6'
-checkpoint = 21000
+model_id = 'CoffeeNet6_new_images'
+checkpoint = 8000
 
 print('Using model', model_id)
 
@@ -38,7 +38,7 @@ with tf.Session(graph=tf.Graph()) as sess:
 
     for op in graph.get_operations():
         print(op.name)
-
+6
     print('Saving model.')
 
     image = graph.get_tensor_by_name('inputs/image_input:0')

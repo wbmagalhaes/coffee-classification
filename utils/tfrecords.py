@@ -42,6 +42,7 @@ def write_tfrecords(filepath, imgs_data):
         # Read the image data
         img = img_data['image']
         label = img_data['label']
+
         # Create an example protocol buffer
         example = tf.train.Example(features=tf.train.Features(feature={
             'image': bytes_feature(tf.compat.as_bytes(img.tostring())),
@@ -55,7 +56,7 @@ def write_tfrecords(filepath, imgs_data):
     sys.stdout.flush()
 
 
-def get_dataset(filenames, batch_size=config.BATCH_SIZE, shuffle=True):
+def get_dataset(filenames, batch_size, shuffle=True):
     print('Config dataset.')
     dataset = tf.data.TFRecordDataset(filenames)
 
@@ -85,7 +86,7 @@ def get_dataset(filenames, batch_size=config.BATCH_SIZE, shuffle=True):
 
 
 def get_data(filenames, shuffle):
-    dataset = get_dataset(filenames, batch_size=10000, shuffle=shuffle)
+    dataset = get_dataset(filenames, batch_size=1000000, shuffle=shuffle)
 
     iterator = dataset.make_initializable_iterator()
     next_element = iterator.get_next()

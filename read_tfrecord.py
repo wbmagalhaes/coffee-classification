@@ -7,7 +7,7 @@ from utils import labelmap
 from utils.tfrecords import get_data
 from collections import defaultdict
 
-imgs, labels = get_data(filenames=[config.TRAINING_PATH], shuffle=True)
+imgs, labels = get_data(filenames=[config.VALIDATION_PATH], shuffle=True)
 
 print(len(imgs))
 
@@ -17,13 +17,13 @@ for label in labels:
 
 print('============')
 for l in label_counter:
-    print(labelmap.name_of_idx(l),':', label_counter[l])
+    label = labelmap.name_of_idx(l)
+    print(label, ':', label_counter[l])
 print('============')
 
+for img, l in zip(imgs, labels):
+    label = labelmap.name_of_idx(np.argmax(l))
 
-for img, label in zip(imgs, labels):
     plt.imshow(img)
-    label_id = np.argmax(label)
-    label = labelmap.labels[label_id]
     plt.title(label)
     plt.show()

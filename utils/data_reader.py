@@ -12,7 +12,7 @@ def read_xml(img_dir, addr):
     """Abre o arquivo xml, carrega a imagem e retorna as imagens cortadas e as labels
         Args:
             img_dir: diretório onde estão as imagens.
-            addr: endereco do arquivo xml.
+            addr: endereço do arquivo xml.
 
         Returns:
             string com o nome do arquivo da imagem
@@ -41,8 +41,6 @@ def read_xml(img_dir, addr):
         ymin = int(bndbox.find('ymin').text)
         ymax = int(bndbox.find('ymax').text)
 
-        croped = image[ymin:ymax, xmin:xmax]
-
         sx = xmax - xmin
         sy = ymax - ymin
 
@@ -50,10 +48,15 @@ def read_xml(img_dir, addr):
         bx = int((s - sx) / 2)
         by = int((s - sy) / 2)
 
-        croped = cv.copyMakeBorder(
-            croped, by, by, bx, bx, cv.BORDER_CONSTANT, value=(255, 255, 255))
+        xmin -= bx
+        ymin -= by
+        xmax += bx
+        ymax += by
+
+        croped = image[ymin:ymax, xmin:xmax]
         croped = cv.resize(
             croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
+
         imgs.append(croped)
 
         label = labelmap.index_of_label(name)

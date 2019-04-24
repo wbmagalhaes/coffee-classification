@@ -5,9 +5,9 @@ import math
 
 from utils import labelmap
 
-rect_h = 120
-bordersize = 3
-img_resized = 180
+rect_h = 250
+bordersize = 2
+img_resized = 200
 
 
 def show_images_compare(imgs, pred_labels, pred_confs, correct_labels, num, name):

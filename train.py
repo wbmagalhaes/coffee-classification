@@ -3,18 +3,17 @@ import numpy as np
 import time
 import glob
 
-from utils import config
-from utils import labelmap
+from utils import config, labelmap
 from utils.tfrecords import get_data
 from utils.data_augment import aug_data
 
 from utils.model import loss_function, accuracy_function
 
-import CoffeeNet6 as cnn
+import CoffeeNet6 as CoffeeNet
 
-training_dir = config.CHECKPOINT_DIR + cnn.model_id
+training_dir = config.CHECKPOINT_DIR + CoffeeNet.model_id
 
-print('Using model', cnn.model_id)
+print('Using model', CoffeeNet.model_id)
 
 with tf.name_scope('dataset_load'):
     train_x, train_y = get_data(filenames=[config.TRAINING_PATH], shuffle=True)
@@ -36,7 +35,7 @@ with tf.name_scope('inputs'):
     augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
-    model_result = cnn.model(x, is_training)
+    model_result = CoffeeNet.model(x, is_training)
 
 with tf.name_scope('result'):
     logits = tf.identity(model_result, name='logits')
@@ -46,7 +45,7 @@ with tf.name_scope('result'):
 with tf.name_scope('score'):
     y_true = tf.argmax(y, 1)
     loss_op = loss_function(y_pred=model_result, y_true=y_true)
-    accuracy_op = accuracy_function(y_pred=model_result, y_true=y_true)
+    accuracy_op = accuracy_function(y_pred=label, y_true=y_true)
 
 tf.summary.scalar('score/loss', loss_op)
 tf.summary.scalar('score/accuracy', accuracy_op)
@@ -56,8 +55,8 @@ global_step = tf.train.get_or_create_global_step()
 learning_rate = tf.train.exponential_decay(
     learning_rate=config.LEARNING_RATE,
     global_step=global_step,
-    decay_steps=2000,
-    decay_rate=0.94,
+    decay_steps=config.DECAY_STEPS,
+    decay_rate=config.DECAY_RATE,
     staircase=False
 )
 
@@ -111,9 +110,8 @@ with tf.Session() as sess:
 
             test_writer.add_summary(summary, epoch)
 
-            print(
-                'epoch: {} loss: {:.3f} accuracy: {:.3f} s/step: {:.3f}'.format(
-                    epoch, loss, acc, delta_time))
+            print('epoch: {} loss: {:.3f} accuracy: {:.3f} s/step: {:.3f}'.format(epoch,
+                                                                                  loss, acc, delta_time))
 
         if epoch % config.CHECKPOINT_INTERVAL == 0:
             saver.save(sess, training_dir + '/model', global_step=epoch)

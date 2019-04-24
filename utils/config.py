@@ -26,6 +26,9 @@ TRAIN_PERCENTAGE = configs["train percentage"]
 
 # optimization variables
 LEARNING_RATE = configs["learning rate"]
+DECAY_STEPS = configs["decay steps"]
+DECAY_RATE = configs["decay rate"]
+
 EPOCHS = configs["max epochs"]
 BATCH_SIZE = configs["batch size"]
 

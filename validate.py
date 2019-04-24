@@ -11,13 +11,12 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-model_id = 'CoffeeNet6'
+model_id = 'CoffeeNet6_new_images'
 print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
 
-val_x, val_y = get_data(
-    [config.VALIDATION_PATH], shuffle=False)
+val_x, val_y = get_data([config.VALIDATION_PATH], shuffle=False)
 print(len(val_x))
 print('Validation data loaded.')
 
@@ -75,7 +74,7 @@ with tf.Session(graph=tf.Graph()) as sess:
     matrix = sess.run([confusion_matrix], feed_dict={
                       real_labels: val_list, predictions: labels})
 
-    #print(dict(error_counter))
+    # print(dict(error_counter))
     df_cm = pd.DataFrame(matrix[0],
                          index=[i['name'] for i in labelmap.labels],
                          columns=[i['name'] for i in labelmap.labels])

@@ -103,12 +103,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+*.jpg
+*.png
+*.xml
+
 data/*.tfrecord
-imgs/*.jpg
-imgs/*.xml
 js_models
-result/*.jpg
-result/*.xml
 saved_models
 training
 export_model_to_js.txt

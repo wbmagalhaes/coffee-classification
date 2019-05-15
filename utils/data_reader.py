@@ -4,6 +4,8 @@ import numpy as np
 import cv2 as cv
 import xml.etree.ElementTree as ET
 
+import matplotlib.pyplot as plt
+
 from utils import config
 from utils import labelmap
 
@@ -45,6 +47,10 @@ def read_xml(img_dir, addr):
         sy = ymax - ymin
 
         s = max(sx, sy)
+
+        h, w, _ = image.shape
+        s = min(s, h, w)
+
         bx = int((s - sx) / 2)
         by = int((s - sy) / 2)
 
@@ -56,6 +62,9 @@ def read_xml(img_dir, addr):
         croped = image[ymin:ymax, xmin:xmax]
         croped = cv.resize(
             croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
+
+        plt.imshow(croped)
+        plt.show()
 
         imgs.append(croped)
 

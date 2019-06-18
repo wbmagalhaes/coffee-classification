@@ -8,7 +8,7 @@ from utils import labelmap
 from utils.data_reader import read_xml
 from utils import visualize
 
-model_id = 'CoffeeNet6_new_images'
+model_id = 'CoffeeNet6'
 print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
@@ -33,40 +33,38 @@ def update_xml(addr, labels):
 
 with tf.Session(graph=tf.Graph()) as sess:
     tf.global_variables_initializer().run()
-
     tf.saved_model.loader.load(sess, ["serve"], export_dir)
+
     graph = tf.get_default_graph()
     print('Graph restored.')
 
-    predictions = tf.placeholder(tf.int32, [None])
-    real_labels = tf.placeholder(tf.int32, [None])
-    confusion_matrix = tf.confusion_matrix(
-        labels=real_labels, predictions=predictions)
-
     print('Starting predictions.')
+    print('==================')
 
     erros = 0
     total = 0
     for addr in glob.glob(imgs_dir + '/*.xml'):
-        print('==================')
         filename, imgs, real_ys = read_xml(imgs_dir, addr)
+
         feed_dict = {
             'inputs/image_input:0': imgs,
             'inputs/is_training:0': False
         }
-
         labels, probs = sess.run(
             ['result/label:0', 'result/probs:0'],
-            feed_dict=feed_dict)
+            feed_dict=feed_dict
+        )
 
-        visualize.show_images(imgs, labels, probs, len(
-            imgs), imgs_dir + '/out_{}'.format(filename))
+        visualize.show_images(imgs, labels, probs, len(imgs), imgs_dir + '/out_{}'.format(filename))
 
         pred_defects = 0
         real_defects = 0
         pred_count = [0] * labelmap.count
         real_count = [0] * labelmap.count
         for pred_label, real_label in zip(labels, real_ys):
+            if real_label == -1:
+                continue
+
             if pred_label != real_label:
                 erros += 1
 
@@ -78,17 +76,15 @@ with tf.Session(graph=tf.Graph()) as sess:
 
         total += len(real_ys)
 
-        for pred_c, real_c in zip(pred_count, real_count):
-            print(pred_c)
-            # print('%i / %i' % (pred_c, real_c))
+        for label, pred_c, real_c in zip(labelmap.labels, pred_count, real_count):
+            print('{:<12s} {:>5} / {:}'.format(label['name'], pred_c, real_c))
 
-        #print('%.1f' % pred_defects)
-        print('defects: %.1f /  %.1f' % (pred_defects, real_defects))
+        # update_xml(addr, labels)
+
+        print('{:<12s} {:>5.1f} / {:.1f}'.format('defeitos', pred_defects, real_defects))
         print('==================')
 
-    print(erros, total)
-
-    acc = 100 - (erros / total) * 100
-    print('Accuracy: {:.2f} %'.format(acc))
-
     print('Predictions completed!')
+
+    acc = (total - erros) / total
+    print('Accuracy: {:.2f}%'.format(acc * 100))

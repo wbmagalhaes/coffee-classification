@@ -3,15 +3,11 @@ import tensorflow as tf
 from utils import labelmap
 from utils import model as cnn
 
-model_id = 'CoffeeNet6_new_images'
+model_id = 'CoffeeNet6'
 
 
 def model(x, is_training):
-    with tf.name_scope('INPUT'):
-        x = tf.truediv(tf.cast(x, tf.float32), 255.0)
-        x = tf.map_fn(lambda i: tf.image.per_image_standardization(i), x)
-        # x = tf.image.rgb_to_yuv(x)
-        print("INPUT " + str(x.shape))
+    print("INPUT " + str(x.shape))
 
     x = cnn.conv2d(x, w=64, k=5, s=1)
     x = cnn.maxpool(x, k=3, s=2)

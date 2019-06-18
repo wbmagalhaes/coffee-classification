@@ -20,19 +20,17 @@ with tf.name_scope('dataset_load'):
     test_x, test_y = get_data(filenames=[config.TESTING_PATH], shuffle=True)
 
 with tf.name_scope('inputs'):
-    x = tf.placeholder(
-        tf.uint8,
-        [None, config.IMG_SIZE, config.IMG_SIZE, 3],
-        name='image_input'
-    )
-    y = tf.placeholder(
-        tf.float32,
-        [None, labelmap.count],
-        name='label_input'
-    )
+    raw_x = tf.placeholder(tf.uint8, [None, config.IMG_SIZE, config.IMG_SIZE, 3], name='image_input')
+    raw_y = tf.placeholder(tf.float32, [None, labelmap.count], name='label_input')
     is_training = tf.placeholder(tf.bool, name='is_training')
 
-    augument_op = aug_data(x)
+    x = tf.truediv(tf.cast(raw_x, tf.float32), 255.0)
+    x = tf.map_fn(lambda i: tf.image.per_image_standardization(i), x)
+    # x = tf.image.rgb_to_yuv(x)
+
+    y = tf.identity(raw_y)
+
+augument_op = aug_data(raw_x)
 
 with tf.name_scope('neural_net'):
     model_result = CoffeeNet.model(x, is_training)
@@ -66,10 +64,8 @@ step_per_sec = tf.placeholder(tf.float32)
 tf.summary.scalar('step_per_sec', step_per_sec)
 
 with tf.name_scope('optimizer'):
-    optimizer = tf.train.AdamOptimizer(
-        learning_rate=learning_rate, name='AdamOpt')
-    train_op = optimizer.minimize(
-        loss_op, global_step=global_step, name='TrainOp')
+    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate, name='AdamOpt')
+    train_op = optimizer.minimize(loss_op, global_step=global_step, name='TrainOp')
 
 merged = tf.summary.merge_all()
 saver = tf.train.Saver()
@@ -95,32 +91,26 @@ with tf.Session() as sess:
         batch_x = train_x[p]
         batch_y = train_y[p]
 
-        aug_x = sess.run(augument_op, feed_dict={x: batch_x})
+        aug_x = sess.run(augument_op, feed_dict={raw_x: batch_x})
 
-        feed_dict = {x: aug_x, y: batch_y,
-                     step_per_sec: s_per_sec, is_training: True}
+        feed_dict = {raw_x: aug_x, raw_y: batch_y, step_per_sec: s_per_sec, is_training: True}
         summary, _ = sess.run([merged, train_op], feed_dict=feed_dict)
         train_writer.add_summary(summary, epoch)
 
         if epoch % 10 == 0:
-            feed_dict = {x: test_x, y: test_y,
-                         step_per_sec: s_per_sec, is_training: False}
-            summary, loss, acc = sess.run(
-                [merged, loss_op, accuracy_op], feed_dict=feed_dict)
+            feed_dict = {raw_x: test_x, raw_y: test_y, step_per_sec: s_per_sec, is_training: False}
+            summary, loss, acc = sess.run([merged, loss_op, accuracy_op], feed_dict=feed_dict)
 
             test_writer.add_summary(summary, epoch)
 
-            print('epoch: {} loss: {:.3f} accuracy: {:.3f} s/step: {:.3f}'.format(epoch,
-                                                                                  loss, acc, delta_time))
+            print('epoch: %i loss: %.3f accuracy: %.3f s/step: %.3f' % (epoch, loss, acc, delta_time))
 
         if epoch % config.CHECKPOINT_INTERVAL == 0:
             saver.save(sess, training_dir + '/model', global_step=epoch)
-            saver.export_meta_graph(
-                training_dir + '/model-{}.meta'.format(epoch))
+            saver.export_meta_graph(training_dir + '/model-{}.meta'.format(epoch))
 
     saver.save(sess, training_dir + '/model', global_step=config.EPOCHS)
-    saver.export_meta_graph(
-        training_dir + '/model-{}.meta'.format(config.EPOCHS))
+    saver.export_meta_graph(training_dir + '/model-{}.meta'.format(config.EPOCHS))
 
     train_writer.close()
     test_writer.close()

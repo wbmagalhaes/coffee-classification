@@ -26,7 +26,7 @@ def read_xml(img_dir, addr):
     root = tree.getroot()
 
     filename = root.find('filename').text
-    print(filename)
+    print('Lendo imagem: ' + filename)
 
     image = cv.imread(os.path.join(img_dir, filename))
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB).astype(np.uint8)
@@ -60,11 +60,10 @@ def read_xml(img_dir, addr):
         ymax += by
 
         croped = image[ymin:ymax, xmin:xmax]
-        croped = cv.resize(
-            croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
+        croped = cv.resize(croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
 
-        plt.imshow(croped)
-        plt.show()
+        # plt.imshow(croped)
+        # plt.show()
 
         imgs.append(croped)
 

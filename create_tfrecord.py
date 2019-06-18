@@ -23,6 +23,7 @@ for l in range(len(imgs_data)):
     print(labelmap.name_of_idx(l), ':', len(imgs_data[l]))
 print('============')
 
+
 def select_train_data(data_arr):
     n = len(data_arr)
 

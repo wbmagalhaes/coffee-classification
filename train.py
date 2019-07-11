@@ -20,20 +20,13 @@ with tf.name_scope('dataset_load'):
     test_x, test_y = get_data(filenames=[config.TESTING_PATH], shuffle=True)
 
 with tf.name_scope('inputs'):
-    raw_x = tf.placeholder(tf.uint8, [None, config.IMG_SIZE, config.IMG_SIZE, 3], name='image_input')
-    raw_y = tf.placeholder(tf.float32, [None, labelmap.count], name='label_input')
-    is_training = tf.placeholder(tf.bool, name='is_training')
+    x = tf.placeholder(tf.float32, [None, config.IMG_SIZE, config.IMG_SIZE, 3], name='img_input')
+    y = tf.placeholder(tf.float32, [None, labelmap.count], name='label_input')
 
-    x = tf.truediv(tf.cast(raw_x, tf.float32), 255.0)
-    x = tf.map_fn(lambda i: tf.image.per_image_standardization(i), x)
-    # x = tf.image.rgb_to_yuv(x)
-
-    y = tf.identity(raw_y)
-
-augument_op = aug_data(raw_x)
+augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
-    model_result = CoffeeNet.model(x, is_training)
+    model_result = CoffeeNet.model(x)
 
 with tf.name_scope('result'):
     logits = tf.identity(model_result, name='logits')
@@ -60,14 +53,14 @@ learning_rate = tf.train.exponential_decay(
 
 tf.summary.scalar('learning_rate', learning_rate)
 
-step_per_sec = tf.placeholder(tf.float32)
+step_per_sec = tf.placeholder(tf.float32, name='step_per_sec_op')
 tf.summary.scalar('step_per_sec', step_per_sec)
 
 with tf.name_scope('optimizer'):
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate, name='AdamOpt')
     train_op = optimizer.minimize(loss_op, global_step=global_step, name='TrainOp')
 
-merged = tf.summary.merge_all()
+merged = tf.identity(tf.summary.merge_all(), name='merged_op')
 saver = tf.train.Saver()
 
 with tf.Session() as sess:
@@ -91,14 +84,14 @@ with tf.Session() as sess:
         batch_x = train_x[p]
         batch_y = train_y[p]
 
-        aug_x = sess.run(augument_op, feed_dict={raw_x: batch_x})
+        aug_x = sess.run(augument_op, feed_dict={x: batch_x})
 
-        feed_dict = {raw_x: aug_x, raw_y: batch_y, step_per_sec: s_per_sec, is_training: True}
+        feed_dict = {x: aug_x, y: batch_y, step_per_sec: s_per_sec}
         summary, _ = sess.run([merged, train_op], feed_dict=feed_dict)
         train_writer.add_summary(summary, epoch)
 
         if epoch % 10 == 0:
-            feed_dict = {raw_x: test_x, raw_y: test_y, step_per_sec: s_per_sec, is_training: False}
+            feed_dict = {x: test_x, y: test_y, step_per_sec: s_per_sec}
             summary, loss, acc = sess.run([merged, loss_op, accuracy_op], feed_dict=feed_dict)
 
             test_writer.add_summary(summary, epoch)

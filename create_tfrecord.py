@@ -42,7 +42,7 @@ test_data = []
 val_data = []
 
 num = min([len(imgs) for imgs in imgs_data])
-num = 200
+num = 800
 
 for i in range(len(imgs_data)):
     shuffle(imgs_data[i])

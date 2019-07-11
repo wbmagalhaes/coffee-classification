@@ -66,11 +66,10 @@ def get_dataset(filenames, batch_size, shuffle=True):
             'label': tf.FixedLenFeature([], tf.int64)
         })
 
-        image = tf.decode_raw(features['image'], tf.uint8)
+        image = tf.decode_raw(features['image'], tf.float32)
         label = tf.cast(features['label'], tf.int64)
 
-        image = tf.reshape(
-            image, [config.IMG_SIZE, config.IMG_SIZE, 3], name="image")
+        image = tf.reshape(image, [config.IMG_SIZE, config.IMG_SIZE, 3], name="image")
         label = tf.one_hot(label, labelmap.count, name="label")
 
         return image, label

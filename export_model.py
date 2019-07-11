@@ -5,7 +5,7 @@ from tensorflow.python.saved_model.signature_def_utils_impl import predict_signa
 from utils import config
 
 model_id = 'CoffeeNet6'
-checkpoint = 9000
+checkpoint = 13000
 
 print('Using model', model_id)
 
@@ -15,20 +15,22 @@ training_dir = config.CHECKPOINT_DIR + model_id
 clean_graph_def = None
 
 with tf.Session(graph=tf.Graph()) as sess:
-    ckpt = '{}/model-{}.meta'.format(training_dir, checkpoint)
+    ckpt = f'{training_dir}/model-{checkpoint}.meta'
     saver = tf.train.import_meta_graph(ckpt, clear_devices=True)
     saver.restore(sess, tf.train.latest_checkpoint(training_dir))
     print('Model loaded.')
 
     graph_def = tf.get_default_graph().as_graph_def()
 
-    print("%d ops in the graph." % len(graph_def.node))
+    print(f"{len(graph_def.node)} ops in the graph.")
+
     clean_graph_def = tf.graph_util.convert_variables_to_constants(
         sess=sess,
         input_graph_def=graph_def,
         output_node_names=['result/label', 'result/probs']
     )
-    print("%d ops in the final graph." % len(clean_graph_def.node))
+
+    print(f"{len(clean_graph_def.node)} ops in the final graph.")
 
 with tf.Session(graph=tf.Graph()) as sess:
     tf.import_graph_def(clean_graph_def, name='')
@@ -41,15 +43,13 @@ with tf.Session(graph=tf.Graph()) as sess:
 
     print('Saving model.')
 
-    image = graph.get_tensor_by_name('inputs/image_input:0')
-    is_training = graph.get_tensor_by_name('inputs/is_training:0')
+    image = graph.get_tensor_by_name('inputs/img_input:0')
 
     label = graph.get_tensor_by_name('result/label:0')
     probs = graph.get_tensor_by_name('result/probs:0')
 
     inputs = {
-        'image_input': image,
-        'is_training': is_training
+        'img_input': image
     }
 
     outputs = {

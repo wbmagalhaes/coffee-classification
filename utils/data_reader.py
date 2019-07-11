@@ -29,7 +29,10 @@ def read_xml(img_dir, addr):
     print('Lendo imagem: ' + filename)
 
     image = cv.imread(os.path.join(img_dir, filename))
-    image = cv.cvtColor(image, cv.COLOR_BGR2RGB).astype(np.uint8)
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB).astype(np.float32)
+    image /= 255.0
+    
+    height, width, _ = image.shape
 
     imgs = []
     labels = []
@@ -43,31 +46,31 @@ def read_xml(img_dir, addr):
         ymin = int(bndbox.find('ymin').text)
         ymax = int(bndbox.find('ymax').text)
 
-        sx = xmax - xmin
-        sy = ymax - ymin
+        size_x = abs(xmax - xmin)
+        size_y = abs(ymax - ymin)
+        size = int(max(size_x, size_y) / 2)
 
-        s = max(sx, sy)
+        center_x = int(size_x / 2) + xmin
+        center_y = int(size_y / 2) + ymin
 
-        h, w, _ = image.shape
-        s = min(s, h, w)
+        xmin = max(center_x - size, 0)
+        ymin = max(center_y - size, 0)
 
-        bx = int((s - sx) / 2)
-        by = int((s - sy) / 2)
-
-        xmin -= bx
-        ymin -= by
-        xmax += bx
-        ymax += by
+        xmax = min(center_x + size, width - 1)
+        ymax = min(center_y + size, height -1 )
 
         croped = image[ymin:ymax, xmin:xmax]
         croped = cv.resize(croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
-
-        # plt.imshow(croped)
-        # plt.show()
+        # cv.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 3)
 
         imgs.append(croped)
 
         label = labelmap.index_of_label(name)
         labels.append(label)
+
+    # plt.xticks([])
+    # plt.yticks([])
+    # plt.imshow(image)
+    # plt.show()
 
     return filename, imgs, labels

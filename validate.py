@@ -2,10 +2,11 @@ import tensorflow as tf
 import numpy as np
 
 from utils import config
-from utils.tfrecords import get_data
-from utils import visualize
-from collections import defaultdict
 from utils import labelmap
+from utils.tfrecords import get_data
+from collections import defaultdict
+
+from utils import visualize
 
 import seaborn as sn
 import pandas as pd
@@ -16,7 +17,7 @@ print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
 
-val_x, val_y = get_data([config.VALIDATION_PATH, config.TESTING_PATH], shuffle=False)
+val_x, val_y = get_data(filenames=[config.VALIDATION_PATH], shuffle=True)
 print(len(val_x))
 print('Validation data loaded.')
 
@@ -33,8 +34,7 @@ with tf.Session(graph=tf.Graph()) as sess:
 
     print('Starting predictions.')
     feed_dict = {
-        'inputs/image_input:0': val_x,
-        'inputs/is_training:0': False
+        'inputs/img_input:0': val_x
     }
 
     labels, probs = sess.run(['result/label:0', 'result/probs:0'], feed_dict=feed_dict)

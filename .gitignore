@@ -103,17 +103,14 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+*.tfrecord
 *.jpg
 *.png
 *.xml
+*.json
+*.txt
+*.tflite
 
-data/*.tfrecord
 js_models
 saved_models
 training
-export_model_to_js.txt
-validate_result.jpg
-testes.txt
-dream.py
-label_map_todos.json
-features

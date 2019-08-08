@@ -18,12 +18,6 @@ for addr in glob.glob(config.IMGS_DIR + '*.xml'):
         imgs_data[label].append(data)
 
 
-print('============')
-for l in range(len(imgs_data)):
-    print(labelmap.name_of_idx(l), ':', len(imgs_data[l]))
-print('============')
-
-
 def select_train_data(data_arr):
     n = len(data_arr)
 
@@ -42,9 +36,18 @@ test_data = []
 val_data = []
 
 num = min([len(imgs) for imgs in imgs_data])
-num = 800
+num = 2300
 
+count = 0
+for imgs in imgs_data:
+    count += len(imgs)
+
+print('============')
+print(f"{count} imagens carregadas.")
+print('============')
 for i in range(len(imgs_data)):
+    print(f"{labelmap.name_of_idx(i)}: {len(imgs_data[i])}")
+
     shuffle(imgs_data[i])
 
     train_arr, test_arr, val_arr = select_train_data(imgs_data[i][:num])
@@ -52,6 +55,7 @@ for i in range(len(imgs_data)):
     test_data.extend(test_arr)
     val_data.extend(val_arr)
 
+print('============')
 
 write_tfrecords(config.TRAINING_PATH, train_data)
 print('Finished Training Data: %i Images.' % len(train_data))

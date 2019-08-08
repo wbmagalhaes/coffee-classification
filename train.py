@@ -6,7 +6,6 @@ import glob
 from utils import config, labelmap
 from utils.tfrecords import get_data
 from utils.data_augment import aug_data
-
 from utils.model import loss_function, accuracy_function
 
 import CoffeeNet6 as CoffeeNet
@@ -26,6 +25,9 @@ with tf.name_scope('inputs'):
 augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
+    # x_input = tf.image.rgb_to_hsv(x)
+    # x_input = tf.image.rgb_to_yiq(x)
+    # x_input = tf.image.rgb_to_yuv(x)
     model_result = CoffeeNet.model(x)
 
 with tf.name_scope('result'):
@@ -79,10 +81,11 @@ with tf.Session() as sess:
         if delta_time <= 0:
             delta_time = 1
         s_per_sec = 1.0 / delta_time
-
-        p = np.random.permutation(len(train_x))[:config.BATCH_SIZE]
-        batch_x = train_x[p]
-        batch_y = train_y[p]
+        
+        lower_bound = (epoch * config.BATCH_SIZE) % len(train_x)
+        upper_bound = lower_bound + config.BATCH_SIZE
+        batch_x = train_x[lower_bound:upper_bound]
+        batch_y = train_y[lower_bound:upper_bound]
 
         aug_x = sess.run(augument_op, feed_dict={x: batch_x})
 
@@ -96,14 +99,14 @@ with tf.Session() as sess:
 
             test_writer.add_summary(summary, epoch)
 
-            print('epoch: %i loss: %.3f accuracy: %.3f s/step: %.3f' % (epoch, loss, acc, delta_time))
+            print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f} s/step: {delta_time:.3f}')
 
-        if epoch % config.CHECKPOINT_INTERVAL == 0:
-            saver.save(sess, training_dir + '/model', global_step=epoch)
-            saver.export_meta_graph(training_dir + '/model-{}.meta'.format(epoch))
+            if epoch % config.CHECKPOINT_INTERVAL == 0:
+                saver.save(sess, training_dir + '/model', global_step=epoch)
+                saver.export_meta_graph(training_dir + f'/model-{epoch}.meta')
 
     saver.save(sess, training_dir + '/model', global_step=config.EPOCHS)
-    saver.export_meta_graph(training_dir + '/model-{}.meta'.format(config.EPOCHS))
+    saver.export_meta_graph(training_dir + f'/model-{config.EPOCHS}.meta')
 
     train_writer.close()
     test_writer.close()

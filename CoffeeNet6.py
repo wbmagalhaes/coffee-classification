@@ -3,14 +3,12 @@ import tensorflow as tf
 from utils import labelmap
 from utils import model as cnn
 
-model_id = 'CoffeeNet6'
+model_id = 'CoffeeNet6_even_more_images'
 
 
 def model(x):
     print("INPUT " + str(x.shape))
 
-    # x = tf.image.rgb_to_yuv(x)
-    
     x = cnn.conv2d(x, w=64, k=5, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
@@ -26,8 +24,6 @@ def model(x):
     x = tf.layers.flatten(x)
 
     x = cnn.dense(x, w=1024)
-    # x = tf.layers.dropout(inputs=x, rate=0.5, training=is_training)
-
     x = cnn.dense(x, w=labelmap.count, activation=None)
 
     return x

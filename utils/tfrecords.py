@@ -77,7 +77,7 @@ def get_dataset(filenames, batch_size, shuffle=True):
     dataset = dataset.map(parser)
 
     if shuffle:
-        dataset = dataset.shuffle(buffer_size=10000)
+        dataset = dataset.shuffle(buffer_size=100000)
 
     dataset = dataset.batch(batch_size)
 

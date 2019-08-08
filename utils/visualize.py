@@ -4,6 +4,8 @@ import cv2
 import math
 
 from utils import labelmap
+import matplotlib.pyplot as plt
+import itertools
 
 rect_h = 250
 bordersize = 2
@@ -191,24 +193,18 @@ def image_with_label(img, pred_label, pred_conf):
     return result
 
 
-def show_accuracy(pred_labels, correct_labels):
-    total_preds = len(pred_labels)
+def show_accuracy(pred_labels, correct_labels, ignore_label=-1):
+    total_preds = 0
     total_errors = 0
+    label_counter = [0] * labelmap.count
+    correct_counter = [0] * labelmap.count
+    false_pos_counter = [0] * labelmap.count
 
-    label_counter = []
+    for p_label, c_label in zip(pred_labels, correct_labels):
+        if c_label == ignore_label:
+            continue
 
-    correct_counter = []
-    false_pos_counter = []
-
-    for i in range(labelmap.count):
-        label_counter.append(0)
-        correct_counter.append(0)
-        false_pos_counter.append(0)
-
-    for i in range(total_preds):
-        p_label = pred_labels[i]
-        c_label = np.argmax(correct_labels[i])
-
+        total_preds += 1
         label_counter[c_label] += 1
 
         if c_label == p_label:
@@ -240,3 +236,47 @@ def show_accuracy(pred_labels, correct_labels):
             false_pos = false_pos_counter[i] * 100 / total_errors
         print('Falso positivo: {:.2f}% ({} de {})'.format(
             false_pos, false_pos_counter[i], total_errors))
+
+
+def plot_confusion_matrix(cm,
+                          classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap='Blues'):
+    """
+    This function modified to plots the ConfusionMatrix object.
+    Normalization can be applied by setting `normalize=True`.
+
+    Code Reference : 
+    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
+
+    """
+
+    plt_cm = []
+    for i in cm.classes:
+        row = []
+        for j in cm.classes:
+            row.append(cm.table[i][j])
+        plt_cm.append(row)
+    plt_cm = np.array(plt_cm)
+    if normalize:
+        plt_cm = plt_cm.astype('float') / plt_cm.sum(axis=1)[:, np.newaxis]
+
+    plt.imshow(plt_cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(cm.classes))
+    plt.xticks(tick_marks, classes, rotation=90)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = plt_cm.max() / 2.
+    for i, j in itertools.product(range(plt_cm.shape[0]), range(plt_cm.shape[1])):
+        plt.text(j, i, format(plt_cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if plt_cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('Actual')
+    plt.xlabel('Predict')
+    plt.show()

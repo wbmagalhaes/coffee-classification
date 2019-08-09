@@ -45,6 +45,7 @@ for imgs in imgs_data:
 print('============')
 print(f"{count} imagens carregadas.")
 print('============')
+
 for i in range(len(imgs_data)):
     print(f"{labelmap.name_of_idx(i)}: {len(imgs_data[i])}")
 

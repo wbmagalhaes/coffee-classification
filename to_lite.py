@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-model_id = 'CoffeeNet6_all_images'
+model_id = 'CoffeeNet6_even_more_images'
 model_dir = 'saved_models/' + model_id
 
 input_arrays = ["inputs/img_input"]
@@ -23,4 +23,4 @@ with tf.Session() as sess:
     print(converter._input_tensors)
     print(converter._output_tensors)
 
-    open("coffeenet6_v1_1.3.tflite", "wb").write(tflite_model)
+    open("coffeenet6_v1_0.4.tflite", "wb").write(tflite_model)

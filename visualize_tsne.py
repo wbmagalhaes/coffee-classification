@@ -11,7 +11,7 @@ from tensorflow.contrib.tensorboard.plugins import projector
 
 import cv2
 
-model_id = 'CoffeeNet6_all_images'
+model_id = 'CoffeeNet6_even_more_images'
 print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'

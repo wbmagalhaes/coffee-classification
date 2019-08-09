@@ -14,7 +14,7 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-model_id = 'CoffeeNet6_all_images'
+model_id = 'CoffeeNet6_even_more_images'
 print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
@@ -88,7 +88,11 @@ with tf.Session(graph=tf.Graph()) as sess:
 
     print('')
 
-    print(f'RCI: {cm.RCI:.3f}')
+    print(f'Overall ACC: {cm.Overall_ACC * 100:.2f}%')
+
+    print('')
+
+    print(f'RCI: {cm.RCI:.2f}')
     print(f'SOA1: {cm.SOA1}')
     print(f'SOA2: {cm.SOA2}')
     print(f'SOA3: {cm.SOA3}')

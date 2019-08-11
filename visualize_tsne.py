@@ -11,13 +11,16 @@ from tensorflow.contrib.tensorboard.plugins import projector
 
 import cv2
 
-model_id = 'CoffeeNet6_even_more_images'
+model_id = 'CoffeeNet6_18k'
 print('Using model', model_id)
 
 export_dir = 'saved_models/' + model_id + '/'
 pca_dir = 'pca_visualizer/' + model_id + '/'
 
 val_x, val_y = get_data(filenames=[config.VALIDATION_PATH], shuffle=True)
+val_x = val_x[:2000]
+val_y = val_y[:2000]
+
 print(f'Validation data loaded: {len(val_x)}')
 
 with tf.Session(graph=tf.Graph()) as sess:

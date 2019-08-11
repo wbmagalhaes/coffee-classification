@@ -51,7 +51,7 @@ for i in range(len(imgs_data)):
 
     shuffle(imgs_data[i])
 
-    train_arr, test_arr, val_arr = select_train_data(imgs_data[i][:num])
+    train_arr, test_arr, val_arr = select_train_data(imgs_data[i]) # [:num]
     train_data.extend(train_arr)
     test_data.extend(test_arr)
     val_data.extend(val_arr)

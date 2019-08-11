@@ -3,7 +3,7 @@ import tensorflow as tf
 from utils import labelmap
 from utils import model as cnn
 
-model_id = 'CoffeeNet6_even_more_images'
+model_id = 'CoffeeNet6_18k'
 
 
 def model(x):

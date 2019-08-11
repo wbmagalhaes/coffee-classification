@@ -17,17 +17,19 @@ print('Using model', CoffeeNet.model_id)
 with tf.name_scope('dataset_load'):
     train_x, train_y = get_data(filenames=[config.TRAINING_PATH], shuffle=True)
     test_x, test_y = get_data(filenames=[config.TESTING_PATH], shuffle=True)
+    test_x = test_x[:1500]
+    test_y = test_y[:1500]
 
 with tf.name_scope('inputs'):
     x = tf.placeholder(tf.float32, [None, config.IMG_SIZE, config.IMG_SIZE, 3], name='img_input')
     y = tf.placeholder(tf.float32, [None, labelmap.count], name='label_input')
 
+# x_input = tf.image.rgb_to_hsv(x)
+# x_input = tf.image.rgb_to_yiq(x)
+# x_input = tf.image.rgb_to_yuv(x)
 augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
-    # x_input = tf.image.rgb_to_hsv(x)
-    # x_input = tf.image.rgb_to_yiq(x)
-    # x_input = tf.image.rgb_to_yuv(x)
     model_result = CoffeeNet.model(x)
 
 with tf.name_scope('result'):
@@ -81,7 +83,7 @@ with tf.Session() as sess:
         if delta_time <= 0:
             delta_time = 1
         s_per_sec = 1.0 / delta_time
-        
+
         lower_bound = (epoch * config.BATCH_SIZE) % len(train_x)
         upper_bound = lower_bound + config.BATCH_SIZE
         batch_x = train_x[lower_bound:upper_bound]

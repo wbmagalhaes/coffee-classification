@@ -24,6 +24,8 @@ IMG_SIZE = configs["image resize"]
 # testing percentage
 TRAIN_PERCENTAGE = configs["train percentage"]
 
+NORMAL_WEIGHT = configs["normal weight"]
+
 # optimization variables
 LEARNING_RATE = configs["learning rate"]
 DECAY_STEPS = configs["decay steps"]

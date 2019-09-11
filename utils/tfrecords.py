@@ -38,7 +38,7 @@ def bytes_list_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=value))
 
 
-def write_tfrecords(filepath, imgs_data, normal_weight=10):
+def write_tfrecords(filepath, imgs_data, normal_weight=config.NORMAL_WEIGHT):
     # Initiating the writer and creating the tfrecords file.
     writer = tf.python_io.TFRecordWriter(filepath)
 

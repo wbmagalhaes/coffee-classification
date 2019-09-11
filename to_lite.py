@@ -1,13 +1,11 @@
 import tensorflow as tf
 
-model_id = 'CoffeeNet6_18k'
+model_id = 'CoffeeNet6'
 model_dir = 'saved_models/' + model_id
 
 input_arrays = ["inputs/img_input"]
 output_arrays = ["result/label", 'result/probs']
-input_shapes = {
-    "inputs/img_input": [None, 64, 64, 3]
-}
+input_shapes = {"inputs/img_input": [None, 64, 64, 3]}
 
 with tf.Session() as sess:
     converter = tf.lite.TFLiteConverter.from_saved_model(
@@ -23,4 +21,4 @@ with tf.Session() as sess:
     print(converter._input_tensors)
     print(converter._output_tensors)
 
-    open("coffeenet6_v0.5.tflite", "wb").write(tflite_model)
+    open("coffeenet6_v0.1.tflite", "wb").write(tflite_model)

@@ -5,36 +5,50 @@ import matplotlib.pyplot as plt
 
 from utils import config
 from utils import labelmap
-from utils.tfrecords import get_data
+from utils.tfrecords import get_iterator
 
 from tensorflow.contrib.tensorboard.plugins import projector
 
 import cv2
 
-model_id = 'CoffeeNet6_18k'
-print('Using model', model_id)
-
+model_id = 'CoffeeNet6'
 export_dir = 'saved_models/' + model_id + '/'
 pca_dir = 'pca_visualizer/' + model_id + '/'
 
-val_x, val_y = get_data(filenames=[config.VALIDATION_PATH], shuffle=True)
-val_x = val_x[:2000]
-val_y = val_y[:2000]
-
-print(f'Validation data loaded: {len(val_x)}')
+print(f'Using model {model_id}')
 
 with tf.Session(graph=tf.Graph()) as sess:
-    tf.saved_model.loader.load(sess, ["serve"], export_dir)
+    sess.run(tf.global_variables_initializer())
 
+    tf.saved_model.loader.load(sess, ["serve"], export_dir)
     graph = tf.get_default_graph()
     print('Graph restored.')
 
+    data_iter, data_next_element = get_iterator([config.VALIDATION_PATH, config.TESTING_PATH], batch_size=1000)
+    sess.run(data_iter.initializer)
+
     print('Starting predictions...')
 
-    _, logits = sess.run(['result/label:0', 'result/logits:0'], {'inputs/img_input:0': val_x})
+    true_labels = []
+    pred_logits = []
+
+    while True:
+        try:
+            images, true, _ = sess.run(data_next_element)
+
+            feed_dict = {'inputs/img_input:0': images}
+            logits = sess.run('result/logits:0', feed_dict=feed_dict)
+
+            true_labels.extend(true)
+
+            for logit in logits:
+                pred_logits.append(logit)
+
+        except tf.errors.OutOfRangeError:
+            break
 
     summary_writer = tf.summary.FileWriter(pca_dir)
-    embedding_var = tf.Variable(logits, name='logits_embedding')
+    embedding_var = tf.Variable(np.array(pred_logits), name='logits_embedding')
 
     p_config = projector.ProjectorConfig()
     embedding = p_config.embeddings.add()
@@ -56,7 +70,7 @@ with tf.Session(graph=tf.Graph()) as sess:
     # save labels
     with open(pca_dir + embedding.metadata_path, 'w') as meta:
         meta.write('Index\tLabel\n')
-        for index, label in enumerate(val_y):
+        for index, label in enumerate(true_labels):
             name = labelmap.name_of_idx(np.argmax(label))
             meta.write(f'{index}\t{name}\n')
 

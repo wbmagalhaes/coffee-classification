@@ -83,8 +83,8 @@ def dense(x, w, activation=tf.nn.leaky_relu):
     return out
 
 
-def loss_function(y_pred, y_true):
-    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y_true, logits=y_pred)
+def loss_function(y_pred, y_true, weights=1, label_smoothing=0.2):
+    cross_entropy = tf.losses.softmax_cross_entropy(onehot_labels=y_true, logits=y_pred, label_smoothing=label_smoothing, weights=weights)
     return tf.reduce_mean(cross_entropy)
 
 

@@ -4,13 +4,13 @@ from tensorflow.python.saved_model.signature_def_utils_impl import predict_signa
 
 from utils import config
 
-model_id = 'CoffeeNet6_18k'
-checkpoint = 18000
-
-print('Using model', model_id)
+model_id = 'CoffeeNet6'
+checkpoint = 42000
 
 export_dir = 'saved_models/' + model_id + '/'
 training_dir = config.CHECKPOINT_DIR + model_id
+
+print(f'Using model {model_id}')
 
 clean_graph_def = None
 

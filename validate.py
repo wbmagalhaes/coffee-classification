@@ -3,7 +3,7 @@ import numpy as np
 
 from utils import config
 from utils import labelmap
-from utils.tfrecords import get_data
+from utils.tfrecords import get_iterator
 from collections import defaultdict
 
 from utils import visualize
@@ -14,93 +14,66 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-model_id = 'CoffeeNet6_18k'
-print('Using model', model_id)
-
+model_id = 'CoffeeNet6'
 export_dir = 'saved_models/' + model_id + '/'
-
-val_x, val_y = get_data(filenames=[config.VALIDATION_PATH], shuffle=True)
-val_x = val_x[:2000]
-val_y = val_y[:2000]
-
-print(f'Validation data loaded: {len(val_x)}')
-
+print(f'Using model {model_id}')
 
 with tf.Session(graph=tf.Graph()) as sess:
-    tf.global_variables_initializer().run()
+    sess.run(tf.global_variables_initializer())
 
     tf.saved_model.loader.load(sess, ["serve"], export_dir)
-
     graph = tf.get_default_graph()
     print('Graph restored.')
 
-    print('Starting predictions...')
-    feed_dict = {
-        'inputs/img_input:0': val_x
-    }
+    val_iter, val_next_element = get_iterator([config.VALIDATION_PATH], batch_size=1000)
+    sess.run(val_iter.initializer)
 
-    labels, probs = sess.run(['result/label:0', 'result/probs:0'], feed_dict=feed_dict)
+    print('Starting predictions...')
+
+    true_labels = []
+    pred_labels = []
+
+    while True:
+        try:
+            images, true, _ = sess.run(val_next_element)
+
+            feed_dict = {'inputs/img_input:0': images}
+            pred = sess.run('result/label:0', feed_dict=feed_dict)
+
+            true_labels.extend(true)
+            pred_labels.extend(pred)
+
+        except tf.errors.OutOfRangeError:
+            break
 
     print('Predictions completed!')
 
-    y_actu = [np.argmax(y) for y in val_y]
+    true_labels = [np.argmax(y) for y in true_labels]
     names = [label['name'] for label in labelmap.labels]
-    cm = ConfusionMatrix(actual_vector=y_actu, predict_vector=labels)
+    cm = ConfusionMatrix(actual_vector=true_labels, predict_vector=pred_labels)
 
     print('')
 
-    print('===Discriminant power===')
-    dpi = cm.DPI
+    print(f'Overall Accuracy: {cm.Overall_ACC * 100:.2f}%')
+
+    print('===Accuracy===')
+    f1 = cm.ACC
     for i, label in enumerate(names):
-        print(f'{dpi[i]}')
+        print(f'{label}: {f1[i]:.3f}')
 
-    print('')
-
-    print('===Sensitivity (TPR)===')
-    tpr = cm.TPR
+    print('===Precision (Positive predictive value)===')
+    f1 = cm.PPV
     for i, label in enumerate(names):
-        print(f'{tpr[i] * 100:.2f}%')
+        print(f'{label}: {f1[i]:.3f}')
 
-    print('')
-
-    print('===Specificity (TNR)===')
-    tnr = cm.TNR
+    print('===Recall (True Positives)===')
+    f1 = cm.TPR
     for i, label in enumerate(names):
-        print(f'{tnr[i] * 100:.2f}%')
-
-    print('')
-
-    print('===Positive likelihood ratio===')
-    plri = cm.PLRI
-    for i, label in enumerate(names):
-        print(f'{plri[i]}')
-
-    print('')
-
-    print('===Negative likelihood ratio===')
-    nlri = cm.NLRI
-    for i, label in enumerate(names):
-        print(f'{nlri[i]}')
-
-    print('')
+        print(f'{label}: {f1[i]:.3f}')
 
     print('===F1===')
     f1 = cm.F1
     for i, label in enumerate(names):
         print(f'{label}: {f1[i]:.3f}')
 
-    print('')
-
-    print(f'Overall ACC: {cm.Overall_ACC * 100:.2f}%')
-
-    print('')
-
-    print(f'RCI: {cm.RCI:.2f}')
-    print(f'SOA1: {cm.SOA1}')
-    print(f'SOA2: {cm.SOA2}')
-    print(f'SOA3: {cm.SOA3}')
-    print(f'SOA4: {cm.SOA4}')
-    print(f'SOA5: {cm.SOA5}')
-    print(f'SOA6: {cm.SOA6}')
-
-    visualize.plot_confusion_matrix(cm, names)
+    visualize.plot_confusion_matrix(cm, names, normalize=True)

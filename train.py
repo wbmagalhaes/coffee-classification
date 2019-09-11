@@ -4,7 +4,7 @@ import time
 import glob
 
 from utils import config, labelmap
-from utils.tfrecords import get_data
+from utils.tfrecords import get_data, get_iterator
 from utils.data_augment import aug_data
 from utils.model import loss_function, accuracy_function
 
@@ -12,22 +12,21 @@ import CoffeeNet6 as CoffeeNet
 
 training_dir = config.CHECKPOINT_DIR + CoffeeNet.model_id
 
-print('Using model', CoffeeNet.model_id)
+print(f'Using model {CoffeeNet.model_id}')
 
 with tf.name_scope('dataset_load'):
-    train_x, train_y = get_data(filenames=[config.TRAINING_PATH], shuffle=True)
-    test_x, test_y = get_data(filenames=[config.TESTING_PATH], shuffle=True)
-    test_x = test_x[:1500]
-    test_y = test_y[:1500]
+    train_x, train_y, train_w = get_data(filenames=[config.TRAINING_PATH], shuffle=True)
+    test_x, test_y, test_w = get_data(filenames=[config.TESTING_PATH], shuffle=True)
+
+    # train_iter, train_next_element = get_iterator([config.TRAINING_PATH], repeat=True)
+    # test_iter, test_next_element = get_iterator([config.TESTING_PATH], batch_size=2000, repeat=True)
 
 with tf.name_scope('inputs'):
     x = tf.placeholder(tf.float32, [None, config.IMG_SIZE, config.IMG_SIZE, 3], name='img_input')
     y = tf.placeholder(tf.float32, [None, labelmap.count], name='label_input')
+    w = tf.placeholder(tf.float32, [None], name='loss_weights')
 
-# x_input = tf.image.rgb_to_hsv(x)
-# x_input = tf.image.rgb_to_yiq(x)
-# x_input = tf.image.rgb_to_yuv(x)
-augument_op = aug_data(x)
+    augument_op = aug_data(x)
 
 with tf.name_scope('neural_net'):
     model_result = CoffeeNet.model(x)
@@ -39,7 +38,7 @@ with tf.name_scope('result'):
 
 with tf.name_scope('score'):
     y_true = tf.argmax(y, 1)
-    loss_op = loss_function(y_pred=model_result, y_true=y_true)
+    loss_op = loss_function(y_pred=model_result, y_true=y, weights=w)
     accuracy_op = accuracy_function(y_pred=label, y_true=y_true)
 
 tf.summary.scalar('score/loss', loss_op)
@@ -59,7 +58,6 @@ tf.summary.scalar('learning_rate', learning_rate)
 
 step_per_sec = tf.placeholder(tf.float32, name='step_per_sec_op')
 tf.summary.scalar('step_per_sec', step_per_sec)
-
 with tf.name_scope('optimizer'):
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate, name='AdamOpt')
     train_op = optimizer.minimize(loss_op, global_step=global_step, name='TrainOp')
@@ -68,14 +66,18 @@ merged = tf.identity(tf.summary.merge_all(), name='merged_op')
 saver = tf.train.Saver()
 
 with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+
     train_writer = tf.summary.FileWriter(training_dir + '/train', sess.graph)
     test_writer = tf.summary.FileWriter(training_dir + '/test')
 
-    tf.global_variables_initializer().run()
+    print('Starting train...')
 
     time_i = time.time()
 
-    print('Starting train...')
+    # sess.run(train_iter.initializer)
+    # sess.run(test_iter.initializer)
+
     for epoch in range(config.EPOCHS + 1):
         delta_time = time.time() - time_i
         time_i = time.time()
@@ -86,31 +88,38 @@ with tf.Session() as sess:
 
         lower_bound = (epoch * config.BATCH_SIZE) % len(train_x)
         upper_bound = lower_bound + config.BATCH_SIZE
-        batch_x = train_x[lower_bound:upper_bound]
-        batch_y = train_y[lower_bound:upper_bound]
+        images = train_x[lower_bound:upper_bound]
+        labels = train_y[lower_bound:upper_bound]
+        weight = train_w[lower_bound:upper_bound]
 
-        aug_x = sess.run(augument_op, feed_dict={x: batch_x})
+        # images, labels, weight = sess.run(train_next_element)
+        images = sess.run(augument_op, feed_dict={x: images})
 
-        feed_dict = {x: aug_x, y: batch_y, step_per_sec: s_per_sec}
+        feed_dict = {x: images, y: labels, w: weight, step_per_sec: s_per_sec}
         summary, _ = sess.run([merged, train_op], feed_dict=feed_dict)
         train_writer.add_summary(summary, epoch)
 
         if epoch % 10 == 0:
-            feed_dict = {x: test_x, y: test_y, step_per_sec: s_per_sec}
+            # images, labels, weight = sess.run(test_next_element)
+
+            p = np.random.permutation(len(test_x))[:1500]
+            images = test_x[p]
+            labels = test_y[p]
+            weight = test_w[p]
+
+            feed_dict = {x: images, y: labels, w: weight, step_per_sec: s_per_sec}
             summary, loss, acc = sess.run([merged, loss_op, accuracy_op], feed_dict=feed_dict)
-
             test_writer.add_summary(summary, epoch)
+            print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f}')
 
-            print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f} s/step: {delta_time:.3f}')
+        if epoch % config.CHECKPOINT_INTERVAL == 0:
+            saver.save(sess, training_dir + '/model', global_step=epoch)
+            saver.export_meta_graph(training_dir + f'/model-{epoch}.meta')
 
-            if epoch % config.CHECKPOINT_INTERVAL == 0:
-                saver.save(sess, training_dir + '/model', global_step=epoch)
-                saver.export_meta_graph(training_dir + f'/model-{epoch}.meta')
+    print('Training Finished!')
 
     saver.save(sess, training_dir + '/model', global_step=config.EPOCHS)
     saver.export_meta_graph(training_dir + f'/model-{config.EPOCHS}.meta')
 
     train_writer.close()
     test_writer.close()
-
-print('Training Finished!')

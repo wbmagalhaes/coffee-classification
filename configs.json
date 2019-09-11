@@ -6,7 +6,7 @@
         "validation path": "data/val_data.tfrecord",
         "image resize": 64,
         "train percentage": 0.80,
-        "learning rate": 5E-5,
+        "learning rate": 1E-4,
         "decay steps": 10000,
         "decay rate": 1,
         "max epochs": 50000,

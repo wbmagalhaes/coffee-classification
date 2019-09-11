@@ -10,8 +10,11 @@ imgs_data = []
 for _ in range(labelmap.count):
     imgs_data.append([])
 
-for addr in glob.glob(config.IMGS_DIR + '*.xml'):
-    _, imgs, labels = read_xml(config.IMGS_DIR, addr)
+addrs = glob.glob(config.IMGS_DIR + '*.xml')
+images_count = len(addrs)
+for i, addr in enumerate(addrs):
+    filename, imgs, labels = read_xml(config.IMGS_DIR, addr)
+    print(f'Lendo imagem {i + 1} de {images_count}: {filename}')
 
     for img, label in zip(imgs, labels):
         data = {'image': img, 'label': label}
@@ -36,7 +39,7 @@ test_data = []
 val_data = []
 
 num = min([len(imgs) for imgs in imgs_data])
-num = 2300
+num = 2500
 
 count = 0
 for imgs in imgs_data:
@@ -51,7 +54,7 @@ for i in range(len(imgs_data)):
 
     shuffle(imgs_data[i])
 
-    train_arr, test_arr, val_arr = select_train_data(imgs_data[i]) # [:num]
+    train_arr, test_arr, val_arr = select_train_data(imgs_data[i][:num])
     train_data.extend(train_arr)
     test_data.extend(test_arr)
     val_data.extend(val_arr)

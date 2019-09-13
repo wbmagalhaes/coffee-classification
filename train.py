@@ -116,7 +116,7 @@ with tf.Session() as sess:
             summary, loss, acc = sess.run([merged_test, loss_op, accuracy_op], feed_dict=feed_dict)
             test_writer.add_summary(summary, epoch)
 
-            print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f}')
+            print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f} s/step: {delta_time:.3f}')
 
         if epoch % config.CHECKPOINT_INTERVAL == 0:
             saver.save(sess, training_dir + '/model', global_step=epoch)

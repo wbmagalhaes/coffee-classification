@@ -11,7 +11,7 @@ from tensorflow.contrib.tensorboard.plugins import projector
 
 import cv2
 
-model_id = 'CoffeeNet6'
+model_id = 'CoffeeNet6_gap_dense_64'
 export_dir = 'saved_models/' + model_id + '/'
 pca_dir = 'pca_visualizer/' + model_id + '/'
 

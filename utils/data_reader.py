@@ -29,8 +29,8 @@ def read_xml(img_dir, addr):
 
     image = cv.imread(os.path.join(img_dir, filename))
 
-    # image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    image = cv.cvtColor(image, cv.COLOR_BGR2Lab)
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    # image = cv.cvtColor(image, cv.COLOR_BGR2Lab)
     image = image.astype(np.float32)
     image /= 255.0
 

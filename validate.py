@@ -14,7 +14,7 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-model_id = 'CoffeeNet6'
+model_id = 'CoffeeNet5_gap_dense'
 export_dir = 'saved_models/' + model_id + '/'
 print(f'Using model {model_id}')
 
@@ -57,23 +57,23 @@ with tf.Session(graph=tf.Graph()) as sess:
     print(f'Overall Accuracy: {cm.Overall_ACC * 100:.2f}%')
 
     print('===Accuracy===')
-    f1 = cm.ACC
+    acc = cm.ACC
     for i, label in enumerate(names):
-        print(f'{label}: {f1[i]:.3f}')
+        print(f'{acc[i]:.3f}')
 
     print('===Precision (Positive predictive value)===')
-    f1 = cm.PPV
+    pvv = cm.PPV
     for i, label in enumerate(names):
-        print(f'{label}: {f1[i]:.3f}')
+        print(f'{pvv[i]:.3f}')
 
     print('===Recall (True Positives)===')
-    f1 = cm.TPR
+    tpr = cm.TPR
     for i, label in enumerate(names):
-        print(f'{label}: {f1[i]:.3f}')
+        print(f'{tpr[i]:.3f}')
 
     print('===F1===')
     f1 = cm.F1
     for i, label in enumerate(names):
-        print(f'{label}: {f1[i]:.3f}')
+        print(f'{f1[i]:.3f}')
 
-    visualize.plot_confusion_matrix(cm, names, normalize=True)
+    visualize.plot_confusion_matrix(cm, names, normalize=False)

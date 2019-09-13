@@ -62,7 +62,12 @@ with tf.name_scope('optimizer'):
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate, name='AdamOpt')
     train_op = optimizer.minimize(loss_op, global_step=global_step, name='TrainOp')
 
-merged = tf.identity(tf.summary.merge_all(), name='merged_op')
+merged_train = tf.identity(tf.summary.merge_all(), name='merged_train_op')
+
+for var in tf.trainable_variables():
+    tf.summary.histogram(var.name, var)
+
+merged_test = tf.identity(tf.summary.merge_all(), name='merged_test_op')
 saver = tf.train.Saver()
 
 with tf.Session() as sess:
@@ -96,10 +101,10 @@ with tf.Session() as sess:
         images = sess.run(augument_op, feed_dict={x: images})
 
         feed_dict = {x: images, y: labels, w: weight, step_per_sec: s_per_sec}
-        summary, _ = sess.run([merged, train_op], feed_dict=feed_dict)
+        summary, _ = sess.run([merged_train, train_op], feed_dict=feed_dict)
         train_writer.add_summary(summary, epoch)
 
-        if epoch % 10 == 0:
+        if epoch % 100 == 0:
             # images, labels, weight = sess.run(test_next_element)
 
             p = np.random.permutation(len(test_x))[:1500]
@@ -108,8 +113,9 @@ with tf.Session() as sess:
             weight = test_w[p]
 
             feed_dict = {x: images, y: labels, w: weight, step_per_sec: s_per_sec}
-            summary, loss, acc = sess.run([merged, loss_op, accuracy_op], feed_dict=feed_dict)
+            summary, loss, acc = sess.run([merged_test, loss_op, accuracy_op], feed_dict=feed_dict)
             test_writer.add_summary(summary, epoch)
+
             print(f'epoch: {epoch} loss: {loss:.3f} accuracy: {acc:.3f}')
 
         if epoch % config.CHECKPOINT_INTERVAL == 0:

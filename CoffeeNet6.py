@@ -22,10 +22,9 @@ def model(x):
     x = cnn.conv2d(x, w=512, k=3, s=1)
     x = cnn.maxpool(x, k=3, s=2)
 
-    x = tf.layers.flatten(x)
+    x = cnn.conv2d(x, w=1024, k=3, s=1)
+    x = cnn.maxpool(x, k=3, s=2)
 
-    x = cnn.dense(x, w=1024)
-
-    x = cnn.dense(x, w=labelmap.count, activation=None)
+    x = cnn.gap(x, w=labelmap.count, k=3, s=1, p=4, activation=None)
 
     return x

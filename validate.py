@@ -1,79 +1,87 @@
-import tensorflow as tf
+
+import itertools
+from sklearn.metrics import classification_report, confusion_matrix
+
+import matplotlib.pyplot as plt
 import numpy as np
 
-from utils import config
-from utils import labelmap
-from utils.tfrecords import get_iterator
-from collections import defaultdict
+from CoffeeNet6 import create_model
 
-from utils import visualize
+from utils.labelmap import label_names
 
-from pycm import ConfusionMatrix
+x_test, y_test = [], []
 
-import seaborn as sn
-import pandas as pd
-import matplotlib.pyplot as plt
+model = create_model()
+model.load_weights('./results/coffeenet6.h5')
 
-model_id = 'CoffeeNet5_gap_dense'
-export_dir = 'saved_models/' + model_id + '/'
-print(f'Using model {model_id}')
+y_pred = model.predict(x_test/255.)
 
-with tf.Session(graph=tf.Graph()) as sess:
-    sess.run(tf.global_variables_initializer())
 
-    tf.saved_model.loader.load(sess, ["serve"], export_dir)
-    graph = tf.get_default_graph()
-    print('Graph restored.')
+def plot_predictions(images, predictions):
+    n = images.shape[0]
+    nc = int(np.ceil(n / 4))
+    _, axes = plt.subplots(nc, 4)
+    for i in range(nc * 4):
+        y = i // 4
+        x = i % 4
+        axes[x, y].axis('off')
 
-    val_iter, val_next_element = get_iterator([config.VALIDATION_PATH], batch_size=1000)
-    sess.run(val_iter.initializer)
+        label = label_names[np.argmax(predictions[i])]
+        confidence = np.max(predictions[i]) * 100
+        if i > n:
+            continue
 
-    print('Starting predictions...')
+        axes[x, y].imshow(images[i] / 255.)
+        axes[x, y].text(0, -3, f'{label} {confidence:.1f}', fontsize=12)
 
-    true_labels = []
-    pred_labels = []
+    plt.gcf().set_size_inches(8, 8)
 
-    while True:
-        try:
-            images, true, _ = sess.run(val_next_element)
 
-            feed_dict = {'inputs/img_input:0': images}
-            pred = sess.run('result/label:0', feed_dict=feed_dict)
+plot_predictions(x_test[:16], y_pred[:16])
 
-            true_labels.extend(true)
-            pred_labels.extend(pred)
 
-        except tf.errors.OutOfRangeError:
-            break
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
 
-    print('Predictions completed!')
+    print(cm)
 
-    true_labels = [np.argmax(y) for y in true_labels]
-    names = [label['name'] for label in labelmap.labels]
-    cm = ConfusionMatrix(actual_vector=true_labels, predict_vector=pred_labels)
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
 
-    print('')
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
 
-    print(f'Overall Accuracy: {cm.Overall_ACC * 100:.2f}%')
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
 
-    print('===Accuracy===')
-    acc = cm.ACC
-    for i, label in enumerate(names):
-        print(f'{acc[i]:.3f}')
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
 
-    print('===Precision (Positive predictive value)===')
-    pvv = cm.PPV
-    for i, label in enumerate(names):
-        print(f'{pvv[i]:.3f}')
 
-    print('===Recall (True Positives)===')
-    tpr = cm.TPR
-    for i, label in enumerate(names):
-        print(f'{tpr[i]:.3f}')
+# Generate the confusion matrix
+pred = np.argmax(y_pred, axis=1)
+cm = confusion_matrix(y_test, pred)
 
-    print('===F1===')
-    f1 = cm.F1
-    for i, label in enumerate(names):
-        print(f'{f1[i]:.3f}')
+# Plot non-normalized confusion matrix
+plt.figure()
+plot_confusion_matrix(cm, classes=label_names)
 
-    visualize.plot_confusion_matrix(cm, names, normalize=False)
+plt.show()

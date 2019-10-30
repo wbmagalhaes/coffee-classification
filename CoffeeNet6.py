@@ -1,30 +1,84 @@
 import tensorflow as tf
 
-from utils import labelmap
-from utils import model as cnn
 
-model_id = 'CoffeeNet6'
+def create_model():
+    model = tf.keras.models.Sequential()
+    # Layer 1
+    model.add(tf.keras.layers.BatchNormalization(input_shape=(64, 64, 3)))
+    model.add(tf.keras.layers.Conv2D(
+        filters=64,
+        kernel_size=(5, 5),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(tf.keras.layers.Dropout(rate=0.25))
 
+    # Layer 2
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.Conv2D(
+        filters=128,
+        kernel_size=(5, 5),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(tf.keras.layers.Dropout(rate=0.25))
 
-def model(x):
-    print("INPUT " + str(x.shape))
-    x = tf.image.per_image_standardization(x)
+    # Layer 3
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.Conv2D(
+        filters=256,
+        kernel_size=(3, 3),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(tf.keras.layers.Dropout(rate=0.25))
 
-    x = cnn.conv2d(x, w=64, k=5, s=1)
-    x = cnn.maxpool(x, k=3, s=2)
+    # Layer 4
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.Conv2D(
+        filters=512,
+        kernel_size=(3, 3),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(tf.keras.layers.Dropout(rate=0.25))
 
-    x = cnn.conv2d(x, w=128, k=5, s=1)
-    x = cnn.maxpool(x, k=3, s=2)
+    # Layer 5
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.Conv2D(
+        filters=1024,
+        kernel_size=(3, 3),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(tf.keras.layers.Dropout(rate=0.25))
 
-    x = cnn.conv2d(x, w=256, k=3, s=1)
-    x = cnn.maxpool(x, k=3, s=2)
+    # Layer 6
+    model.add(tf.keras.layers.Conv2D(
+        filters=10,
+        kernel_size=(3, 3),
+        kernel_initializer='he_normal',
+        kernel_regularizer=tf.keras.regularizers.l2(0.01),
+        bias_initializer='zeros',
+        padding='same'))
+    model.add(tf.keras.layers.LeakyReLU(alpha=0.05))
 
-    x = cnn.conv2d(x, w=512, k=3, s=1)
-    x = cnn.maxpool(x, k=3, s=2)
+    model.add(tf.keras.layers.GlobalAveragePooling2D())
+    model.add(tf.keras.layers.Activation('softmax'))
 
-    x = cnn.conv2d(x, w=1024, k=3, s=1)
-    x = cnn.maxpool(x, k=3, s=2)
-
-    x = cnn.gap(x, w=labelmap.count, k=3, s=1, p=4, activation=None)
-
-    return x
+    return model

@@ -1,24 +1,11 @@
 import tensorflow as tf
 
-model_id = 'CoffeeNet5_gap_dense_64'
-model_dir = 'saved_models/' + model_id
+from CoffeeNet6 import create_model
 
-input_arrays = ["inputs/img_input"]
-output_arrays = ["result/label", 'result/probs']
-input_shapes = {"inputs/img_input": [None, 64, 64, 3]}
+model = create_model()
+model.load_weights('./results/coffeenet6.h5')
 
-with tf.Session() as sess:
-    converter = tf.lite.TFLiteConverter.from_saved_model(
-        model_dir,
-        input_arrays=input_arrays,
-        input_shapes=input_shapes,
-        output_arrays=output_arrays,
-        signature_key="predict"
-    )
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tfmodel = converter.convert()
 
-    tflite_model = converter.convert()
-
-    print(converter._input_tensors)
-    print(converter._output_tensors)
-
-    open("coffeenet5d_v0.1.tflite", "wb").write(tflite_model)
+open('./results/coffeenet6_v0.1.tflite', 'wb').write(tfmodel)

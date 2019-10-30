@@ -1,78 +1,69 @@
 import os
+import csv
+import cv2
 
 import numpy as np
-import cv2 as cv
-import xml.etree.ElementTree as ET
 
-import matplotlib.pyplot as plt
+from random import shuffle
 
-from utils import config
-from utils import labelmap
+from utils.labelmap import label_names
 
 
-def read_xml(img_dir, addr):
-    """Abre o arquivo xml, carrega a imagem e retorna as imagens cortadas e as labels
-        Args:
-            img_dir: diretório onde estão as imagens.
-            addr: endereço do arquivo xml.
+def read_csv(data_dir, csv_name):
+    csv_path = os.path.join(data_dir, csv_name)
+    with open(csv_path, 'r') as readfile:
+        reader = csv.reader(readfile)
+        lines = list(reader)[1:]
 
-        Returns:
-            string com o nome do arquivo da imagem
-            lista de numpy arrays no formato (config.IMG_SIZE, config.IMG_SIZE, 3) com as imagens
-            lista de inteiros com a label de cada imagem
+    return lines
 
-    """
-    tree = ET.parse(addr)
-    root = tree.getroot()
 
-    filename = root.find('filename').text
+def open_img(data_dir, img_data):
+    img_name = img_data[1]
+    img_label = img_data[2]
 
-    image = cv.imread(os.path.join(img_dir, filename))
+    img_path = os.path.join(data_dir, img_name)
+    img = cv2.imread(img_path)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    # image = cv.cvtColor(image, cv.COLOR_BGR2Lab)
-    image = image.astype(np.float32)
-    image /= 255.0
+    label = label_names.index(img_label)
+    return img, label
 
-    height, width, _ = image.shape
 
-    imgs = []
-    labels = []
-    for obj in root.findall('object'):
-        name = obj.find('name').text
+def load(dirs, csv_name='coffee_data.csv'):
+    data = []
+    for data_dir in dirs:
+        print(f'Loading data from: {data_dir}')
+        lines = read_csv(data_dir, csv_name)
+        csv_data = [open_img(data_dir, line) for line in lines]
+        data.extend(csv_data)
 
-        bndbox = obj.find('bndbox')
+    print(f'Data loaded. {len(data)} images.')
+    return data
 
-        xmin = int(bndbox.find('xmin').text)
-        xmax = int(bndbox.find('xmax').text)
-        ymin = int(bndbox.find('ymin').text)
-        ymax = int(bndbox.find('ymax').text)
 
-        size_x = abs(xmax - xmin)
-        size_y = abs(ymax - ymin)
-        size = int(max(size_x, size_y) / 2)
+def split_train(data, percentage=0.8):
+    shuffle(data)
+    x, y = zip(*data)
 
-        center_x = int(size_x / 2) + xmin
-        center_y = int(size_y / 2) + ymin
+    print(x[0])
+    print(y[0])
 
-        xmin = max(center_x - size, 0)
-        ymin = max(center_y - size, 0)
+    # x = np.array(x)
+    # y = np.array(y)
 
-        xmax = min(center_x + size, width - 1)
-        ymax = min(center_y + size, height - 1)
+    #x = x.astype(np.float32)
+    y = y.astype(np.float32)
 
-        croped = image[ymin:ymax, xmin:xmax]
-        croped = cv.resize(croped, (config.IMG_SIZE, config.IMG_SIZE), interpolation=cv.INTER_AREA)
-        # cv.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 3)
+    train_num = int(len(data) * percentage)
 
-        imgs.append(croped)
+    x_train = x[:train_num]
+    y_train = y[:train_num]
 
-        label = labelmap.index_of_label(name)
-        labels.append(label)
+    x_test = x[train_num:]
+    y_test = y[train_num:]
 
-    # plt.xticks([])
-    # plt.yticks([])
-    # plt.imshow(image)
-    # plt.show()
+    print(f'{len(x_train)} train images.')
+    print(f'{len(x_test)} test images.')
 
-    return filename, imgs, labels
+    return (x_train, y_train), (x_test, y_test)

@@ -8,8 +8,6 @@ from utils.labelmap import label_names
 def plot_dataset(dataset):
     for data in dataset:
         imgs, labels = data
-        print(imgs.shape)
-        print(labels.shape)
 
         rows = 8
         columns = 8

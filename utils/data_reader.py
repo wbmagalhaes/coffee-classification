@@ -2,10 +2,6 @@ import os
 import csv
 import cv2
 
-import numpy as np
-
-from random import shuffle
-
 from utils.labelmap import label_names
 
 
@@ -40,30 +36,3 @@ def load(dirs, csv_name='coffee_data.csv'):
 
     print(f'Data loaded. {len(data)} images.')
     return data
-
-
-def split_train(data, percentage=0.8):
-    shuffle(data)
-    x, y = zip(*data)
-
-    print(x[0])
-    print(y[0])
-
-    # x = np.array(x)
-    # y = np.array(y)
-
-    #x = x.astype(np.float32)
-    y = y.astype(np.float32)
-
-    train_num = int(len(data) * percentage)
-
-    x_train = x[:train_num]
-    y_train = y[:train_num]
-
-    x_test = x[train_num:]
-    y_test = y[train_num:]
-
-    print(f'{len(x_train)} train images.')
-    print(f'{len(x_test)} test images.')
-
-    return (x_train, y_train), (x_test, y_test)

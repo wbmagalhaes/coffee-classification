@@ -10,21 +10,28 @@ from CoffeeNet6 import create_model
 
 tf.enable_eager_execution()
 
-# Load dataset
-dataset = tfrecords.read_tfrecord(['./data/coffee_data.tfrecord'])
+# Load train data
+train_dataset = tfrecords.read_tfrecord(['./data/data_train.tfrecord'])
+train_dataset = train_dataset.map(utils.normalize, num_parallel_calls=4)
 
-dataset = dataset.map(utils.normalize, num_parallel_calls=4)
-dataset = augmentation.apply(dataset)
+# Load test data
+test_dataset = tfrecords.read_tfrecord(['./data/data_test.tfrecord'])
+test_dataset = test_dataset.map(utils.normalize, num_parallel_calls=4)
 
-dataset = dataset.repeat().shuffle(buffer_size=10000).batch(64)
+# Apply augmentations
+train_dataset = augmentation.apply(train_dataset)
 
 # Plot some images
-utils.plot_dataset(dataset)
+# utils.plot_dataset(train_dataset)
+
+# Set batchs
+train_dataset = train_dataset.repeat().shuffle(buffer_size=10000).batch(64)
+test_dataset = test_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 
 # Define model
 model = create_model()
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(lr=1e-4),
+    optimizer=tf.keras.optimizers.Adam(lr=1e-3),
     loss='sparse_categorical_crossentropy',
     metrics=['sparse_categorical_accuracy'])
 
@@ -39,10 +46,12 @@ tb_callback = tf.keras.callbacks.TensorBoard(
 
 # Training
 model.fit(
-    dataset,
+    train_dataset,
     steps_per_epoch=400,
     epochs=5,
     verbose=1,
+    validation_data=test_dataset,
+    validation_steps=32,
     callbacks=[tb_callback]
 )
 

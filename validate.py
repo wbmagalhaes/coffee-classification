@@ -7,14 +7,23 @@ import numpy as np
 
 from CoffeeNet6 import create_model
 
+from utils import data_reader
 from utils.labelmap import label_names
 
-x_test, y_test = [], []
+validation_paths = [
+    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
+    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/248A'
+]
+data = data_reader.load(validation_paths)
+
+x_test, y_test = zip(*data)
+x_test = np.array(x_test).astype(np.float32) / 255.
+y_test = np.array(y_test).astype(np.float32)
 
 model = create_model()
 model.load_weights('./results/coffeenet6.h5')
 
-y_pred = model.predict(x_test/255.)
+y_pred = model.predict(x_test)
 
 
 def plot_predictions(images, predictions):
@@ -31,10 +40,11 @@ def plot_predictions(images, predictions):
         if i > n:
             continue
 
-        axes[x, y].imshow(images[i] / 255.)
+        axes[x, y].imshow(images[i])
         axes[x, y].text(0, -3, f'{label} {confidence:.1f}', fontsize=12)
 
     plt.gcf().set_size_inches(8, 8)
+    plt.show()
 
 
 plot_predictions(x_test[:16], y_pred[:16])
@@ -43,18 +53,9 @@ plot_predictions(x_test[:16], y_pred[:16])
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
                           title='Confusion matrix',
-                          cmap=plt.cm.Blues):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
+                          cmap='Blues'):
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
 
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
@@ -74,14 +75,16 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.tight_layout()
+    plt.show()
 
 
 # Generate the confusion matrix
-pred = np.argmax(y_pred, axis=1)
-cm = confusion_matrix(y_test, pred)
+y_pred = np.argmax(y_pred, axis=1)
 
-# Plot non-normalized confusion matrix
-plt.figure()
+y_pred = np.append(y_pred, [3])
+y_test = np.append(y_test, [3])
+
+cm = confusion_matrix(y_test, y_pred)
+
+# Plot confusion matrix
 plot_confusion_matrix(cm, classes=label_names)
-
-plt.show()

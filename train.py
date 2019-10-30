@@ -30,10 +30,16 @@ test_dataset = test_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 
 # Define model
 model = create_model()
+
+opt = tf.keras.optimizers.Adam(lr=1e-4),
+loss = tf.keras.losses.CategoricalCrossentropy(
+    from_logits=True,
+    label_smoothing=0.2)
+
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(lr=1e-3),
-    loss='sparse_categorical_crossentropy',
-    metrics=['sparse_categorical_accuracy'])
+    optimizer=opt,
+    loss=loss,
+    metrics=['categorical_accuracy'])
 
 model.summary()
 
@@ -48,7 +54,7 @@ tb_callback = tf.keras.callbacks.TensorBoard(
 model.fit(
     train_dataset,
     steps_per_epoch=400,
-    epochs=5,
+    epochs=100,
     verbose=1,
     validation_data=test_dataset,
     validation_steps=32,

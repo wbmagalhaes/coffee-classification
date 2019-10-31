@@ -7,8 +7,8 @@ import numpy as np
 
 from CoffeeNet6 import create_model
 
-import data_reader
-from labelmap import label_names
+from utils import data_reader
+from utils.labelmap import label_names
 
 validation_paths = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',

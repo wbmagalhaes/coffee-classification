@@ -1,9 +1,8 @@
-import tensorflow as tf
 import numpy as np
 
 import matplotlib.pyplot as plt
 
-from labelmap import label_names
+from utils.labelmap import label_names
 
 
 def plot_dataset(dataset):
@@ -27,13 +26,3 @@ def plot_dataset(dataset):
 
         plt.show()
         break
-
-
-def normalize(x, y):
-    x = tf.divide(x, 255.)
-    return x, y
-
-
-def clip01(x, y):
-    x = tf.clip_by_value(x, 0, 1)
-    return x, y

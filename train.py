@@ -7,19 +7,16 @@ import numpy as np
 
 from datetime import datetime
 
-import tfrecords
-import augmentation
-import utils
-
+from utils import tfrecords, augmentation, other, visualize
 from CoffeeNet6 import create_model
 
 # Load train data
 train_dataset = tfrecords.read(['./data/data_train.tfrecord'])
-train_dataset = train_dataset.map(utils.normalize, num_parallel_calls=4)
+train_dataset = train_dataset.map(other.normalize, num_parallel_calls=4)
 
 # Load test data
 test_dataset = tfrecords.read(['./data/data_test.tfrecord'])
-test_dataset = test_dataset.map(utils.normalize, num_parallel_calls=4)
+test_dataset = test_dataset.map(other.normalize, num_parallel_calls=4)
 
 # Apply augmentations
 train_dataset = augmentation.apply(train_dataset)
@@ -29,7 +26,7 @@ train_dataset = train_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 test_dataset = test_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 
 # Plot some images
-# utils.plot_dataset(train_dataset)
+# visualize.plot_dataset(train_dataset)
 
 # Define model
 model = create_model()

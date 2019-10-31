@@ -2,7 +2,7 @@ import os
 import csv
 import cv2
 
-from .labelmap import label_names
+from utils.labelmap import label_names
 
 
 def read_csv(data_dir, csv_name):

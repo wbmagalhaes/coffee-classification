@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-import utils
+from utils import other
 
 
 def apply(dataset, im_size=64):
@@ -43,5 +43,5 @@ def apply(dataset, im_size=64):
     for f in augmentations:
         dataset = dataset.map(f, num_parallel_calls=4)
 
-    dataset = dataset.map(utils.clip01, num_parallel_calls=4)
+    dataset = dataset.map(other.clip01, num_parallel_calls=4)
     return dataset

@@ -1,14 +1,14 @@
 
-import itertools
 from sklearn.metrics import classification_report, confusion_matrix
+import itertools
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from CoffeeNet6 import create_model
 
-from utils import data_reader
-from utils.labelmap import label_names
+import data_reader
+from labelmap import label_names
 
 validation_paths = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
@@ -23,7 +23,7 @@ y_test = np.array(y_test).astype(np.float32)
 model = create_model()
 model.load_weights('./results/coffeenet6.h5')
 
-y_pred = model.predict(x_test)
+_, classes = model.predict(x_test)
 
 
 def plot_predictions(images, predictions):
@@ -35,19 +35,22 @@ def plot_predictions(images, predictions):
         x = i % 4
         axes[x, y].axis('off')
 
-        label = label_names[np.argmax(predictions[i])]
+        pred = predictions[i]
+        pred = np.argmax(pred)
+
+        name = label_names[pred]
         confidence = np.max(predictions[i]) * 100
         if i > n:
             continue
 
         axes[x, y].imshow(images[i])
-        axes[x, y].text(0, -3, f'{label} {confidence:.1f}', fontsize=12)
+        axes[x, y].text(0, -3, f'{name} {confidence:.1f}', fontsize=12)
 
     plt.gcf().set_size_inches(8, 8)
     plt.show()
 
 
-plot_predictions(x_test[:16], y_pred[:16])
+plot_predictions(x_test[:16], classes[:16])
 
 
 def plot_confusion_matrix(cm, classes,
@@ -79,12 +82,12 @@ def plot_confusion_matrix(cm, classes,
 
 
 # Generate the confusion matrix
-y_pred = np.argmax(y_pred, axis=1)
+classes = np.argmax(classes, axis=1)
 
-y_pred = np.append(y_pred, [3])
+classes = np.append(classes, [3])
 y_test = np.append(y_test, [3])
 
-cm = confusion_matrix(y_test, y_pred)
+cm = confusion_matrix(y_test, classes)
 
 # Plot confusion matrix
 plot_confusion_matrix(cm, classes=label_names)

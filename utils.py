@@ -1,8 +1,9 @@
 import tensorflow as tf
+import numpy as np
 
 import matplotlib.pyplot as plt
 
-from utils.labelmap import label_names
+from labelmap import label_names
 
 
 def plot_dataset(dataset):
@@ -13,9 +14,15 @@ def plot_dataset(dataset):
         columns = 8
         fig = plt.figure(figsize=(8, 8))
         for i in range(0, columns * rows):
+            img = imgs[i]
+            label = labels[i]
+
+            pred = np.argmax(label)
+            name = label_names[pred]
+
             ax = fig.add_subplot(rows, columns, i + 1)
-            ax.text(0, -3, label_names[labels[i]], fontsize=8)
-            ax.imshow(imgs[i])
+            ax.text(0, -3, name, fontsize=8)
+            ax.imshow(img)
             ax.axis('off')
 
         plt.show()
@@ -23,7 +30,7 @@ def plot_dataset(dataset):
 
 
 def normalize(x, y):
-    x = tf.div(x, 255.)
+    x = tf.divide(x, 255.)
     return x, y
 
 

@@ -1,10 +1,10 @@
 import tensorflow as tf
 
-from utils import data_reader, tfrecords
+import os
+import data_reader
+import tfrecords
 
 from random import shuffle
-
-tf.enable_eager_execution()
 
 img_dirs = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs0',
@@ -14,13 +14,19 @@ img_dirs = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs4'
 ]
 
-train_path = './data/data_train.tfrecord'
-test_path = './data/data_test.tfrecord'
+training_percentage = 0.8
+
+data_dir = './data'
+if not os.path.isdir(data_dir):
+    os.mkdir(data_dir)
+
+train_path = os.path.join(data_dir, 'data_train.tfrecord')
+test_path = os.path.join(data_dir, 'data_test.tfrecord')
 
 data = data_reader.load(img_dirs)
 shuffle(data)
 
-train_num = int(len(data) * 0.8)
+train_num = int(len(data) * training_percentage)
 
 train_data = data[:train_num]
 test_data = data[train_num:]
@@ -29,6 +35,6 @@ print(f'{len(train_data)} train images.')
 print(f'{len(test_data)} test images.')
 
 print('Writing tfrecords...')
-tfrecords.write_tfrecord(train_path, train_data)
-tfrecords.write_tfrecord(test_path, test_data)
+tfrecords.write(train_path, train_data)
+tfrecords.write(test_path, test_data)
 print('Finished.')

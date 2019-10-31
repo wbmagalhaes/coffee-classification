@@ -1,12 +1,12 @@
 import tensorflow as tf
 import numpy as np
 
-from utils import utils
+import utils
 
 
 def apply(dataset, im_size=64):
     def rotate(x, y):
-        coin = tf.random_uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
+        coin = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
         x = tf.image.rot90(x, coin)
         return x, y
 
@@ -23,7 +23,7 @@ def apply(dataset, im_size=64):
         return x, y
 
     def zoom(x, y):
-        scales = list(np.arange(0.9, 1.0, 0.01))
+        scales = list(np.arange(0.8, 1.0, 0.05))
         boxes = np.zeros((len(scales), 4))
 
         for i, scale in enumerate(scales):
@@ -32,10 +32,10 @@ def apply(dataset, im_size=64):
             boxes[i] = [x1, y1, x2, y2]
 
         def random_crop(img):
-            crops = tf.image.crop_and_resize([img], boxes=boxes, box_ind=np.zeros(len(scales)), crop_size=(im_size, im_size))
-            return crops[tf.random_uniform(shape=[], minval=0, maxval=len(scales), dtype=tf.int32)]
+            crops = tf.image.crop_and_resize([img], boxes=boxes, box_indices=np.zeros(len(scales)), crop_size=(im_size, im_size))
+            return crops[tf.random.uniform(shape=[], minval=0, maxval=len(scales), dtype=tf.int32)]
 
-        choice = tf.random_uniform(shape=[], minval=0., maxval=1., dtype=tf.float32)
+        choice = tf.random.uniform(shape=[], minval=0., maxval=1., dtype=tf.float32)
         x = tf.cond(choice < 0.5, lambda: x, lambda: random_crop(x))
         return x, y
 

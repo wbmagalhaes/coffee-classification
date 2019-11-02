@@ -16,10 +16,10 @@ def apply(dataset, im_size=64):
         return x, y
 
     def color(x, y):
-        x = tf.image.random_hue(x, 0.02)
-        x = tf.image.random_saturation(x, 0.95, 1.05)
-        x = tf.image.random_brightness(x, 0.02)
-        x = tf.image.random_contrast(x, 0.95, 1.05)
+        x = tf.image.random_hue(x, 0.08)
+        x = tf.image.random_saturation(x, 0.8, 1.05)
+        x = tf.image.random_brightness(x, 0.08)
+        x = tf.image.random_contrast(x, 0.8, 1.05)
         return x, y
 
     def zoom(x, y):

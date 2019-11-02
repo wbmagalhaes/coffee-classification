@@ -1,6 +1,7 @@
 import tensorflow as tf
 
 import os
+import json
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,6 +10,8 @@ from datetime import datetime
 
 from utils import tfrecords, augmentation, other, visualize
 from CoffeeNet6 import create_model
+
+model_name = 'CoffeeNet6'
 
 # Load train data
 train_dataset = tfrecords.read(['./data/data_train.tfrecord'])
@@ -30,34 +33,35 @@ test_dataset = test_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 
 # Define model
 model = create_model()
-
-opt = tf.keras.optimizers.Adam(lr=1e-4)
-loss = {
-    'logits': tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.2, name='loss')
-}
-metrics = {
-    'logits': tf.keras.metrics.CategoricalAccuracy(name='logits_acc'),
-    'classes': tf.keras.metrics.CategoricalAccuracy(name='classes_acc')
-}
-
-model.compile(optimizer=opt, loss=loss, metrics=metrics)
-model.summary()
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(lr=1e-4),
+    loss={
+        'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2),
+    },
+    metrics={
+        'logits': tf.keras.metrics.CategoricalAccuracy(name='acc')
+    }
+)
+# model.summary()
 
 # Tensorboard visualization
-model_name = datetime.now().strftime("%Y%m%d-%H%M%S")
 logdir = os.path.join('logs', model_name)
 tb_callback = tf.keras.callbacks.TensorBoard(
     log_dir=logdir,
-    histogram_freq=10,
-    write_graph=True)
+    histogram_freq=1,
+    write_graph=True,
+    profile_batch=0,
+    update_freq='epoch'
+)
 
 # Training
-model.fit(
+history = model.fit(
     train_dataset,
     steps_per_epoch=400,
-    epochs=100,
+    epochs=30,
     verbose=1,
     validation_data=test_dataset,
+    validation_freq=1,
     validation_steps=40,
     callbacks=[tb_callback]
 )

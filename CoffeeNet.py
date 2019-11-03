@@ -17,8 +17,8 @@ def conv2d_block(x, filters):
         bias_initializer=bias_initializer,
         padding='same')(x)
     x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
     x = tf.keras.layers.MaxPooling2D((2, 2))(x)
+    # x = tf.keras.layers.Dropout(rate=drop_rate)(x)
     return x
 
 
@@ -31,6 +31,8 @@ def create_model(
 
     image_input = tf.keras.Input(shape=input_shape, name='img_input')
     x = image_input
+
+    x = tf.keras.layers.BatchNormalization()(x)
 
     for _ in range(num_layers):
         x = conv2d_block(x, filters=filters)

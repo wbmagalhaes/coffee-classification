@@ -1,4 +1,4 @@
-from CoffeeNet6 import create_model
+from CoffeeNet import create_model
 
 from utils import tfrecords, other, visualize
 

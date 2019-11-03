@@ -1,6 +1,6 @@
 import numpy as np
 
-from CoffeeNet6 import create_model
+from CoffeeNet import create_model
 
 from utils import data_reader, visualize
 

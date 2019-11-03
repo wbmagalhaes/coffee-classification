@@ -23,7 +23,7 @@ def conv2d_block(x, filters):
 
 
 def create_model(
-        input_shape=(64, 64, 1),
+        input_shape=(64, 64, 3),
         num_layers=5,
         filters=64,
         num_classes=10,

@@ -3,9 +3,7 @@ import tensorflow as tf
 import os
 
 from utils import tfrecords, augmentation, other, visualize
-from CoffeeNet6 import create_model
-
-model_name = 'CoffeeNet6'
+from CoffeeNet import create_model
 
 # Load train data
 train_dataset = tfrecords.read(['./data/data_train.tfrecord'])
@@ -26,6 +24,7 @@ test_dataset = test_dataset.repeat().shuffle(buffer_size=10000).batch(64)
 # visualize.plot_dataset(train_dataset)
 
 # Define model
+model_name = 'CoffeeNet6'
 model = create_model()
 model.compile(
     optimizer=tf.keras.optimizers.Adam(lr=1e-4),

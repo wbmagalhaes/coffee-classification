@@ -1,12 +1,6 @@
 import tensorflow as tf
 
 import os
-import json
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-from datetime import datetime
 
 from utils import tfrecords, augmentation, other, visualize
 from CoffeeNet6 import create_model
@@ -58,7 +52,7 @@ tb_callback = tf.keras.callbacks.TensorBoard(
 history = model.fit(
     train_dataset,
     steps_per_epoch=400,
-    epochs=30,
+    epochs=60,
     verbose=1,
     validation_data=test_dataset,
     validation_freq=1,

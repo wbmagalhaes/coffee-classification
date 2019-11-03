@@ -5,8 +5,7 @@ import cv2
 from utils.labelmap import label_names
 
 
-def read_csv(data_dir, csv_name):
-    csv_path = os.path.join(data_dir, csv_name)
+def read_csv(csv_path):
     with open(csv_path, 'r') as readfile:
         reader = csv.reader(readfile)
         lines = list(reader)[1:]
@@ -30,7 +29,10 @@ def load(dirs, csv_name='coffee_data.csv'):
     data = []
     for data_dir in dirs:
         print(f'Loading data from: {data_dir}')
-        lines = read_csv(data_dir, csv_name)
+
+        csv_path = os.path.join(data_dir, csv_name)
+        lines = read_csv(csv_path)
+
         csv_data = [open_img(data_dir, line) for line in lines]
         data.extend(csv_data)
 

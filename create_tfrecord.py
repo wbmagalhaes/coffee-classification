@@ -1,8 +1,6 @@
-import tensorflow as tf
-
 import os
-from utils import data_reader, tfrecords
 
+from utils import data_reader, tfrecords
 from random import shuffle
 
 img_dirs = [

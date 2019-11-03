@@ -11,15 +11,15 @@ label_names = [
     'verde'
 ]
 
-label_defects = [
-    0.5,
-    0.333,
-    0.2,
-    1,
-    0.333,
-    0.5,
-    0,
-    1,
-    0.2,
-    0.2
-]
+defect_values = {
+    'ardido': 0.5,
+    'brocado': 0.333,
+    'chocho': 0.2,
+    'coco': 1,
+    'concha': 0.333,
+    'marinheiro': 0.5,
+    'normal': 0,
+    'preto': 1,
+    'quebrado': 0.2,
+    'verde': 0.2
+}

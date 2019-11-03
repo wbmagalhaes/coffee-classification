@@ -3,7 +3,6 @@ import numpy as np
 from CoffeeNet6 import create_model
 
 from utils import data_reader, visualize
-from utils.labelmap import label_names
 
 sample_paths = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
@@ -21,9 +20,30 @@ model.load_weights('./results/coffeenet6.h5')
 
 _, y_pred = model.predict(x_data)
 
-visualize.plot_images(x_data[:16], y_true[:16], y_pred[:16])
 
-y_pred = np.argmax(y_pred, axis=1)
+def decide(preds, threshold=0.5):
+    conf = np.max(preds)
+    if conf > threshold:
+        return int(np.argmax(preds))
+    else:
+        return 6
+
+
+y_pred = [decide(pred, threshold=0.48) for pred in y_pred]
+
+defects_pred = visualize.count_defects(y_pred)
+defects_true = visualize.count_defects(y_true)
+print('pred', defects_pred)
+print('true', defects_true)
+
+total_pred = visualize.sum_defects(defects_pred)
+total_true = visualize.sum_defects(defects_true)
+print('pred', total_pred)
+print('true', total_true)
+
+visualize.plot_images(x_data[:100], y_true[:100], y_pred[:100])
+
+# y_pred = np.argmax(y_pred, axis=1)
 y_pred = np.append(y_pred, [3])
 y_true = np.append(y_true, [3])
 

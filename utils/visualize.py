@@ -3,28 +3,32 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils.labelmap import label_names
+from utils.labelmap import label_names, defect_values
 
 from sklearn.metrics import classification_report, confusion_matrix
 import itertools
 
 
-def plot_dataset(dataset):
+def plot_dataset(dataset, figsize=8, fontsize=10):
     for data in dataset:
         imgs, labels = data
 
-        rows = 8
-        columns = 8
-        fig = plt.figure(figsize=(8, 8))
-        for i in range(columns * rows):
+        n = len(imgs)
+        rows = int(math.ceil(math.sqrt(n)))
+
+        fig = plt.figure(figsize=(figsize, figsize))
+        for i in range(rows * rows):
+            if i >= n:
+                break
+
             img = imgs[i]
             label = labels[i]
 
             pred = np.argmax(label)
             name = label_names[pred]
 
-            ax = fig.add_subplot(rows, columns, i + 1)
-            ax.text(0, -3, name, fontsize=8)
+            ax = fig.add_subplot(rows, rows, i + 1)
+            ax.text(0, -3, name, fontsize=fontsize)
             ax.imshow(img)
             ax.axis('off')
 
@@ -71,16 +75,20 @@ def plot_images(x_data, y_true, y_pred=None, figsize=8, fontsize=10):
     plt.show()
 
 
-def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):
-    def get_label_list(ys):
-        try:
-            len(ys[0])
-            ys = np.argmax(ys, axis=1)
-        finally:
-            return ys
+def get_label_list(ys):
+    try:
+        len(ys[0])
+        ys = np.argmax(ys, axis=1)
+    finally:
+        return ys
 
+
+def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):
     y_true = get_label_list(y_true)
     y_pred = get_label_list(y_pred)
+
+    report = classification_report(y_true, y_pred, label_names)
+    print(report)
 
     cm = confusion_matrix(y_true, y_pred)
 
@@ -105,3 +113,25 @@ def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):
     plt.xlabel('Predicted label')
     plt.tight_layout()
     plt.show()
+
+
+def count_defects(ys):
+    ys = get_label_list(ys)
+
+    defects = {}
+    for label in label_names:
+        defects[label] = 0
+
+    for y in ys:
+        defects[label_names[int(y)]] += 1
+
+    return defects
+
+
+def sum_defects(defects):
+    total = 0
+
+    for label in label_names:
+        total += defects[label] * defect_values[label]
+
+    return total

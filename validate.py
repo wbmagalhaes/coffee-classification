@@ -1,7 +1,6 @@
 from CoffeeNet6 import create_model
 
 from utils import tfrecords, other, visualize
-from utils.labelmap import label_names
 
 dataset = tfrecords.read(['./data/data_test.tfrecord'])
 dataset = dataset.map(other.normalize)

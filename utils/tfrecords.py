@@ -56,7 +56,7 @@ def read(filenames, img_size=64, num_labels=10):
 
     feature_description = {
         'image': tf.io.FixedLenFeature([], tf.string),
-        'label': tf.io.FixedLenFeature([], tf.int64),
+        'label': tf.io.FixedLenFeature([], tf.int64)
     }
 
     def parser(example_proto):

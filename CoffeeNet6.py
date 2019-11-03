@@ -7,86 +7,46 @@ leaky_relu_alpha = 0.2
 drop_rate = 0.25
 
 
-def create_model():
-    image_input = tf.keras.Input(shape=(64, 64, 3), name='img_input')
-
-    # Layer 1
-    x = tf.keras.layers.BatchNormalization()(image_input)
+def conv2d_block(x, filters):
     x = tf.keras.layers.Conv2D(
+        filters=filters,
+        kernel_size=(3, 3),
+        activation=tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha),
+        kernel_initializer=kernel_initializer,
+        kernel_regularizer=kernel_regularizer,
+        bias_initializer=bias_initializer,
+        padding='same')(x)
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
+    x = tf.keras.layers.MaxPooling2D((2, 2))(x)
+    return x
+
+
+def create_model(
+        input_shape=(64, 64, 1),
+        num_layers=5,
         filters=64,
-        kernel_size=(5, 5),
-        kernel_initializer=kernel_initializer,
-        kernel_regularizer=kernel_regularizer,
-        bias_initializer=bias_initializer,
-        padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
-    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
+        num_classes=10,
+        output_activation='softmax'):
 
-    # Layer 2
-    x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Conv2D(
-        filters=128,
-        kernel_size=(5, 5),
-        kernel_initializer=kernel_initializer,
-        kernel_regularizer=kernel_regularizer,
-        bias_initializer=bias_initializer,
-        padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
-    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
+    image_input = tf.keras.Input(shape=input_shape, name='img_input')
+    x = image_input
 
-    # Layer 3
-    x = tf.keras.layers.BatchNormalization()(x)
+    for _ in range(num_layers):
+        x = conv2d_block(x, filters=filters)
+        filters *= 2
+
     x = tf.keras.layers.Conv2D(
-        filters=256,
+        filters=num_classes,
         kernel_size=(3, 3),
+        activation=tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha),
         kernel_initializer=kernel_initializer,
         kernel_regularizer=kernel_regularizer,
         bias_initializer=bias_initializer,
         padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
-    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
-
-    # Layer 4
-    x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Conv2D(
-        filters=512,
-        kernel_size=(3, 3),
-        kernel_initializer=kernel_initializer,
-        kernel_regularizer=kernel_regularizer,
-        bias_initializer=bias_initializer,
-        padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
-    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
-
-    # # Layer 5
-    x = tf.keras.layers.BatchNormalization()(x)
-    x = tf.keras.layers.Conv2D(
-        filters=1024,
-        kernel_size=(3, 3),
-        kernel_initializer=kernel_initializer,
-        kernel_regularizer=kernel_regularizer,
-        bias_initializer=bias_initializer,
-        padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
-    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(x)
-    x = tf.keras.layers.Dropout(rate=drop_rate)(x)
-
-    # Layer 6
-    x = tf.keras.layers.Conv2D(
-        filters=10,
-        kernel_size=(3, 3),
-        kernel_initializer=kernel_initializer,
-        kernel_regularizer=kernel_regularizer,
-        bias_initializer=bias_initializer,
-        padding='same')(x)
-    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
 
     logits = tf.keras.layers.GlobalAveragePooling2D(name='logits')(x)
-    classes = tf.keras.layers.Activation('softmax', name='classes')(logits)
+    classes = tf.keras.layers.Activation(output_activation, name='classes')(logits)
 
     model = tf.keras.Model(inputs=[image_input], outputs=[logits, classes])
     return model

@@ -36,7 +36,7 @@ model.compile(
         'logits': tf.keras.metrics.CategoricalAccuracy(name='acc')
     }
 )
-# model.summary()
+model.summary()
 
 # Tensorboard visualization
 logdir = os.path.join('logs', model_name)

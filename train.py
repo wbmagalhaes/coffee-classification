@@ -29,10 +29,10 @@ model = create_model()
 model.compile(
     optimizer=tf.keras.optimizers.Adam(lr=1e-4),
     loss={
-        'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2),
+        'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)
     },
     metrics={
-        'logits': tf.keras.metrics.CategoricalAccuracy(name='acc')
+        'logits': [tf.keras.metrics.CategoricalAccuracy(name='acc')]
     }
 )
 model.summary()

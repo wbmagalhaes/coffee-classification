@@ -30,9 +30,7 @@ def create_model(
         output_activation='softmax'):
 
     image_input = tf.keras.Input(shape=input_shape, name='img_input')
-    x = image_input
-
-    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.BatchNormalization()(image_input)
 
     for _ in range(num_layers):
         x = conv2d_block(x, filters=filters)

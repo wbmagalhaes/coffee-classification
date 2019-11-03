@@ -87,7 +87,7 @@ def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):
     y_true = get_label_list(y_true)
     y_pred = get_label_list(y_pred)
 
-    report = classification_report(y_true, y_pred, label_names)
+    report = classification_report(y_true, y_pred)
     print(report)
 
     cm = confusion_matrix(y_true, y_pred)

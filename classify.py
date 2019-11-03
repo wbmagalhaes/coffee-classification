@@ -29,7 +29,7 @@ def decide(preds, threshold=0.5):
         return 6
 
 
-y_pred = [decide(pred, threshold=0.48) for pred in y_pred]
+y_pred = [decide(pred, threshold=0) for pred in y_pred]
 
 defects_pred = visualize.count_defects(y_pred)
 defects_true = visualize.count_defects(y_true)

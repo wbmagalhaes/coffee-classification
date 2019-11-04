@@ -32,7 +32,7 @@ model.compile(
         'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)
     },
     metrics={
-        'logits': [tf.keras.metrics.CategoricalAccuracy(name='acc')]
+        'logits': [tf.keras.metrics.CategoricalAccuracy()]
     }
 )
 model.summary()

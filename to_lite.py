@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from CoffeeNet6 import create_model
+from CoffeeNet import create_model
 
 weights_path = './results/coffeenet6.h5'
 out_path = './results/coffeenet6_v0.1.tflite'

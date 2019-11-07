@@ -1,8 +1,20 @@
 from utils import tfrecords, augmentation, other, visualize
 
-dataset = tfrecords.read(['./data/data_train.tfrecord']).shuffle(buffer_size=10000)
-dataset = dataset.map(other.normalize, num_parallel_calls=4)
-visualize.plot_dataset(dataset.batch(64))
 
-dataset = augmentation.apply(dataset)
-visualize.plot_dataset(dataset.batch(64))
+def show(filenames, batch=64, augment=True):
+    dataset = tfrecords.read(filenames).shuffle(buffer_size=10000)
+    dataset = dataset.map(other.normalize)
+    visualize.plot_dataset(dataset.batch(batch))
+
+    if augment:
+        dataset = augmentation.apply(dataset)
+        visualize.plot_dataset(dataset.batch(batch))
+
+
+def main():
+    filenames = ['./data/data_train.tfrecord']
+    show(filenames)
+
+
+if __name__ == "__main__":
+    main()

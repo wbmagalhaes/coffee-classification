@@ -3,36 +3,43 @@ import os
 from utils import data_reader, tfrecords
 from random import shuffle
 
-img_dirs = [
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs0',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs1',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs2',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs3',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs4'
-]
 
-data_dir = './data'
+def create(img_dirs, out_dir, training_percentage=0.8):
+    if not os.path.isdir(out_dir):
+        os.mkdir(out_dir)
 
-training_percentage = 0.8
+    train_path = os.path.join(out_dir, 'data_train.tfrecord')
+    test_path = os.path.join(out_dir, 'data_test.tfrecord')
 
-if not os.path.isdir(data_dir):
-    os.mkdir(data_dir)
+    data = data_reader.load(img_dirs)
+    shuffle(data)
 
-train_path = os.path.join(data_dir, 'data_train.tfrecord')
-test_path = os.path.join(data_dir, 'data_test.tfrecord')
+    train_num = int(len(data) * training_percentage)
 
-data = data_reader.load(img_dirs)
-shuffle(data)
+    train_data = data[:train_num]
+    test_data = data[train_num:]
 
-train_num = int(len(data) * training_percentage)
+    print(f'{len(train_data)} train images.')
+    print(f'{len(test_data)} test images.')
 
-train_data = data[:train_num]
-test_data = data[train_num:]
+    print('Writing tfrecords...')
+    tfrecords.write(train_path, train_data)
+    tfrecords.write(test_path, test_data)
+    print('Finished.')
 
-print(f'{len(train_data)} train images.')
-print(f'{len(test_data)} test images.')
 
-print('Writing tfrecords...')
-tfrecords.write(train_path, train_data)
-tfrecords.write(test_path, test_data)
-print('Finished.')
+def main():
+    img_dirs = [
+        'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs0',
+        'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs1',
+        'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs2',
+        'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs3',
+        'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs4'
+    ]
+
+    out_dir = './data'
+    create(img_dirs, out_dir)
+
+
+if __name__ == "__main__":
+    main()

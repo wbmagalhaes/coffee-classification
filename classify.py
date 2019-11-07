@@ -2,47 +2,49 @@ import numpy as np
 
 from utils import data_reader, visualize, reload_model
 
+model_name = 'CoffeeNet6'
+epoch = 0
 
-def start(sample_paths, model_name, epoch, plot_num=64, fontsize=8, normalize_cm=False):
-    data = data_reader.load(sample_paths)
+sample_paths = [
+    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
+    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/248A'
+]
 
-    x_data, y_true = zip(*data)
-    x_data = np.array(x_data).astype(np.float32) / 255.
-    y_true = np.array(y_true).astype(np.float32)
+data = data_reader.load(sample_paths)
 
-    model = reload_model.from_json(model_name, epoch)
+x_data, y_true = zip(*data)
+x_data = np.array(x_data).astype(np.float32) / 255.
+y_true = np.array(y_true).astype(np.float32)
 
-    _, y_pred = model.predict(x_data)
+model = reload_model.from_json(model_name, epoch)
 
-    defects_pred = visualize.count_defects(y_pred)
-    defects_true = visualize.count_defects(y_true)
-    print('pred', defects_pred)
-    print('true', defects_true)
-
-    total_pred = visualize.sum_defects(defects_pred)
-    total_true = visualize.sum_defects(defects_true)
-    print('pred', total_pred)
-    print('true', total_true)
-
-    visualize.plot_images(x_data[:plot_num], y_true[:plot_num], y_pred[:plot_num], fontsize=fontsize)
-
-    y_pred = np.argmax(y_pred, axis=1)
-    y_pred = np.append(y_pred, [3])
-    y_true = np.append(y_true, [3])
-
-    visualize.plot_confusion_matrix(y_true, y_pred, normalize=normalize_cm)
+_, y_pred = model.predict(x_data)
 
 
-def main():
-    sample_paths = [
-        'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
-        'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/248A'
-    ]
-    model_name = 'CoffeeNet6'
-    epoch = 0
-
-    start(sample_paths, model_name, epoch)
+def decide(preds, threshold=0.5):
+    conf = np.max(preds)
+    if conf > threshold:
+        return int(np.argmax(preds))
+    else:
+        return 6
 
 
-if __name__ == "__main__":
-    main()
+y_pred = [decide(pred, threshold=0) for pred in y_pred]
+
+defects_pred = visualize.count_defects(y_pred)
+defects_true = visualize.count_defects(y_true)
+print('pred', defects_pred)
+print('true', defects_true)
+
+total_pred = visualize.sum_defects(defects_pred)
+total_true = visualize.sum_defects(defects_true)
+print('pred', total_pred)
+print('true', total_true)
+
+visualize.plot_images(x_data[:100], y_true[:100], y_pred[:100])
+
+# y_pred = np.argmax(y_pred, axis=1)
+y_pred = np.append(y_pred, [3])
+y_true = np.append(y_true, [3])
+
+visualize.plot_confusion_matrix(y_true, y_pred, normalize=True)

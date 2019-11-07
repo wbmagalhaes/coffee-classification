@@ -1,12 +1,11 @@
 import tensorflow as tf
 
-from CoffeeNet import create_model
+from utils import reload_model
 
-weights_path = './results/coffeenet6.h5'
-out_path = './results/coffeenet6_v0.1.tflite'
+model_name = 'CoffeeNet6'
+epoch = 0
 
-model = create_model()
-model.load_weights(weights_path)
+model = reload_model.from_json(model_name, epoch)
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
@@ -20,4 +19,4 @@ output_details = interpreter.get_output_details()
 print(input_details)
 print(output_details)
 
-open(out_path, 'wb').write(tflite_model)
+open('./results/coffeenet6_v0.1.tflite', 'wb').write(tflite_model)

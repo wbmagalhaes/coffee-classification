@@ -11,13 +11,14 @@ def conv2d_block(x, filters):
     x = tf.keras.layers.Conv2D(
         filters=filters,
         kernel_size=(3, 3),
-        activation=tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha),
         kernel_initializer=kernel_initializer,
         kernel_regularizer=kernel_regularizer,
         bias_initializer=bias_initializer,
         padding='same')(x)
+    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.MaxPooling2D((2, 2))(x)
+
     # x = tf.keras.layers.Dropout(rate=drop_rate)(x)
     return x
 
@@ -39,11 +40,11 @@ def create_model(
     x = tf.keras.layers.Conv2D(
         filters=num_classes,
         kernel_size=(3, 3),
-        activation=tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha),
         kernel_initializer=kernel_initializer,
         kernel_regularizer=kernel_regularizer,
         bias_initializer=bias_initializer,
         padding='same')(x)
+    x = tf.keras.layers.LeakyReLU(alpha=leaky_relu_alpha)(x)
 
     logits = tf.keras.layers.GlobalAveragePooling2D(name='logits')(x)
     classes = tf.keras.layers.Activation(output_activation, name='classes')(logits)

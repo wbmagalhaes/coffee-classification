@@ -1,8 +1,9 @@
 import numpy as np
 
-from CoffeeNet import create_model
+from utils import data_reader, visualize, reload_model
 
-from utils import data_reader, visualize
+model_name = 'CoffeeNet6'
+epoch = 0
 
 sample_paths = [
     'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
@@ -15,8 +16,7 @@ x_data, y_true = zip(*data)
 x_data = np.array(x_data).astype(np.float32) / 255.
 y_true = np.array(y_true).astype(np.float32)
 
-model = create_model()
-model.load_weights('./results/coffeenet6.h5')
+model = reload_model.from_json(model_name, epoch)
 
 _, y_pred = model.predict(x_data)
 

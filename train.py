@@ -1,6 +1,6 @@
 import tensorflow as tf
-
 import os
+import json
 
 from utils import tfrecords, augmentation, other, visualize
 from CoffeeNet import create_model
@@ -28,14 +28,24 @@ model_name = 'CoffeeNet6'
 model = create_model()
 model.compile(
     optimizer=tf.keras.optimizers.Adam(lr=1e-4),
-    loss={
-        'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)
-    },
-    metrics={
-        'logits': [tf.keras.metrics.CategoricalAccuracy()]
-    }
+    loss={'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)},
+    metrics={'logits': [tf.keras.metrics.CategoricalAccuracy()]}
 )
 model.summary()
+
+# Save model
+savedir = os.path.join('results', model_name)
+if not os.path.isdir(savedir):
+    os.mkdir(savedir)
+
+json_config = model.to_json()
+with open(savedir + '/model.json', 'w') as f:
+    json.dump(json_config, f)
+
+# Save weights
+model.save_weights(savedir + '/epoch-000.ckpt')
+filepath = savedir + '/epoch-{epoch:03d}.ckpt'
+checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, save_weights_only=True, verbose=1, period=50)
 
 # Tensorboard visualization
 logdir = os.path.join('logs', model_name)
@@ -56,15 +66,5 @@ history = model.fit(
     validation_data=test_dataset,
     validation_freq=1,
     validation_steps=40,
-    callbacks=[tb_callback]
+    callbacks=[checkpoint, tb_callback]
 )
-
-# Save model
-model.save(
-    model,
-    filepath='./results/coffeenet6.h5',
-    overwrite=True
-)
-
-# Save weights
-# model.save_weights('./results/coffeenet6.h5', overwrite=True)

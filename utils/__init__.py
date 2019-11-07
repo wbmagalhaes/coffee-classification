@@ -1,1 +1,1 @@
-__all__ = ['augmentation', 'data_reader', 'tfrecords', 'visualize', 'other', 'labelmap']
+__all__ = ['augmentation', 'data_reader', 'tfrecords', 'visualize', 'other', 'labelmap', 'reload_model']

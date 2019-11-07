@@ -45,7 +45,7 @@ with open(savedir + '/model.json', 'w') as f:
 # Save weights
 model.save_weights(savedir + '/epoch-000.ckpt')
 filepath = savedir + '/epoch-{epoch:03d}.ckpt'
-checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, save_weights_only=True, verbose=1, period=50)
+checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, save_weights_only=True, verbose=1, period=10)
 
 # Tensorboard visualization
 logdir = os.path.join('logs', model_name)

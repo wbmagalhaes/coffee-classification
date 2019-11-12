@@ -30,7 +30,7 @@ def create_model(
         num_classes=10,
         output_activation='softmax'):
 
-    image_input = tf.keras.Input(shape=input_shape, name='img_input')
+    image_input = tf.keras.Input(shape=input_shape, name='img_input', dtype=tf.float32)
     x = tf.keras.layers.BatchNormalization()(image_input)
 
     for _ in range(num_layers):

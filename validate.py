@@ -3,7 +3,7 @@ from utils import tfrecords, other, visualize, reload_model
 model_name = 'CoffeeNet6'
 epoch = 0
 
-dataset = tfrecords.read(['./data/data_test.tfrecord'])
+dataset = tfrecords.read(['./data/classification_test.tfrecord'])
 dataset = dataset.map(other.normalize)
 
 x_data, y_true = zip(*[data for data in dataset])

@@ -18,8 +18,8 @@ training_percentage = 0.8
 if not os.path.isdir(data_dir):
     os.mkdir(data_dir)
 
-train_path = os.path.join(data_dir, 'data_train.tfrecord')
-test_path = os.path.join(data_dir, 'data_test.tfrecord')
+train_path = os.path.join(data_dir, 'classification_train.tfrecord')
+test_path = os.path.join(data_dir, 'classification_test.tfrecord')
 
 data = data_reader.load(img_dirs)
 shuffle(data)

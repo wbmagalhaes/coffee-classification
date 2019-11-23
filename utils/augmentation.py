@@ -4,7 +4,7 @@ import numpy as np
 from utils import other
 
 
-def apply(dataset, im_size=64):
+def apply(dataset, im_size=64, types=['flip', 'color', 'zoom', 'rotate']):
     def rotate(x, y):
         coin = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
         x = tf.image.rot90(x, coin)
@@ -39,9 +39,17 @@ def apply(dataset, im_size=64):
         x = tf.cond(choice < 0.5, lambda: x, lambda: random_crop(x))
         return x, y
 
-    augmentations = [flip, color, zoom, rotate]
-    for f in augmentations:
-        dataset = dataset.map(f, num_parallel_calls=4)
+    for t in types:
+        if t == 'flip':
+            dataset = dataset.map(flip, num_parallel_calls=4)
+        elif t == 'color':
+            dataset = dataset.map(color, num_parallel_calls=4)
+        elif t == 'zoom':
+            dataset = dataset.map(zoom, num_parallel_calls=4)
+        elif t == 'rotate':
+            dataset = dataset.map(rotate, num_parallel_calls=4)
+        else:
+            continue
 
     dataset = dataset.map(other.clip01, num_parallel_calls=4)
     return dataset

@@ -1,8 +1,19 @@
-from utils import tfrecords, augmentation, other, visualize
+from utils import tfrecords, visualize
+from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
-dataset = tfrecords.read(['./data/classification_test.tfrecord']).shuffle(buffer_size=10000)
-dataset = dataset.map(other.normalize, num_parallel_calls=4)
-visualize.plot_dataset(dataset.batch(64))
+ds = tfrecords.read(['./data/classification_test.tfrecord']).shuffle(buffer_size=10000)
+visualize.plot_dataset(ds.batch(64))
 
-dataset = augmentation.apply(dataset)
-visualize.plot_dataset(dataset.batch(64))
+ds = color(
+    ds,
+    hue=0.05,
+    saturation=(0.9, 1.05),
+    brightness=0.1,
+    contrast=(0.9, 1.05))
+ds = zoom(ds, im_size=64)
+ds = gaussian(ds, stddev=0.01)
+ds = rotate(ds)
+ds = flip(ds)
+ds = clip01(ds)
+
+visualize.plot_dataset(ds.batch(64))

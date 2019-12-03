@@ -1,28 +1,26 @@
 import tensorflow as tf
 import numpy as np
 
-from utils import other
 
+def color(
+        dataset,
+        hue=0.05,
+        saturation=(0.9, 1.05),
+        brightness=0.1,
+        contrast=(0.9, 1.05)):
 
-def apply(dataset, im_size=64, stddev=0.02):
-    def rotate(x, y):
-        coin = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
-        x = tf.image.rot90(x, coin)
+    def apply(x, y):
+        x = tf.image.random_hue(x, hue)
+        x = tf.image.random_saturation(x, saturation[0], saturation[1])
+        x = tf.image.random_brightness(x, brightness)
+        x = tf.image.random_contrast(x, contrast[0], contrast[0])
         return x, y
 
-    def flip(x, y):
-        x = tf.image.random_flip_left_right(x)
-        x = tf.image.random_flip_up_down(x)
-        return x, y
+    return dataset.map(apply, num_parallel_calls=4)
 
-    def color(x, y):
-        x = tf.image.random_hue(x, 0.05)
-        x = tf.image.random_saturation(x, 0.9, 1.05)
-        x = tf.image.random_brightness(x, 0.1)
-        x = tf.image.random_contrast(x, 0.9, 1.05)
-        return x, y
 
-    def zoom(x, y):
+def zoom(dataset, im_size=64):
+    def apply(x, y):
         scales = list(np.arange(0.8, 1.0, 0.05))
         boxes = np.zeros((len(scales), 4))
 
@@ -39,14 +37,39 @@ def apply(dataset, im_size=64, stddev=0.02):
         x = tf.cond(choice < 0.5, lambda: x, lambda: random_crop(x))
         return x, y
 
-    def gaussian(x, y):
+    return dataset.map(apply, num_parallel_calls=4)
+
+
+def rotate(dataset):
+    def apply(x, y):
+        coin = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
+        x = tf.image.rot90(x, coin)
+        return x, y
+
+    return dataset.map(apply, num_parallel_calls=4)
+
+
+def flip(dataset):
+    def apply(x, y):
+        x = tf.image.random_flip_left_right(x)
+        x = tf.image.random_flip_up_down(x)
+        return x, y
+
+    return dataset.map(apply, num_parallel_calls=4)
+
+
+def gaussian(dataset, stddev=1/255):
+    def apply(x, y):
         noise = tf.random.normal(shape=tf.shape(x), mean=0.0, stddev=stddev, dtype=tf.float32)
         x = x + noise
         return x, y
 
-    types = [rotate, flip, color, zoom, gaussian]
-    for t in types:
-        dataset = dataset.map(t, num_parallel_calls=4)
+    return dataset.map(apply, num_parallel_calls=4)
 
-    dataset = dataset.map(other.clip01, num_parallel_calls=4)
-    return dataset
+
+def clip01(dataset):
+    def apply(x, y):
+        x = tf.clip_by_value(x, 0, 1)
+        return x, y
+
+    return dataset.map(apply, num_parallel_calls=4)

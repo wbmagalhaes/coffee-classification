@@ -1,10 +1,9 @@
-from utils import tfrecords, other, visualize, reload_model
+from utils import tfrecords, visualize, reload_model
 
 model_name = 'CoffeeNet6'
 epoch = 0
 
 dataset = tfrecords.read(['./data/classification_test.tfrecord'])
-dataset = dataset.map(other.normalize)
 
 x_data, y_true = zip(*[data for data in dataset])
 

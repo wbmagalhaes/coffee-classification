@@ -4,7 +4,7 @@ import numpy as np
 from utils import other
 
 
-def apply(dataset, im_size=64, types=['flip', 'color', 'zoom', 'rotate']):
+def apply(dataset, im_size=64, stddev=0.02):
     def rotate(x, y):
         coin = tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
         x = tf.image.rot90(x, coin)
@@ -16,10 +16,10 @@ def apply(dataset, im_size=64, types=['flip', 'color', 'zoom', 'rotate']):
         return x, y
 
     def color(x, y):
-        x = tf.image.random_hue(x, 0.1)
-        x = tf.image.random_saturation(x, 0.8, 1.05)
+        x = tf.image.random_hue(x, 0.05)
+        x = tf.image.random_saturation(x, 0.9, 1.05)
         x = tf.image.random_brightness(x, 0.1)
-        x = tf.image.random_contrast(x, 0.8, 1.05)
+        x = tf.image.random_contrast(x, 0.9, 1.05)
         return x, y
 
     def zoom(x, y):
@@ -39,17 +39,14 @@ def apply(dataset, im_size=64, types=['flip', 'color', 'zoom', 'rotate']):
         x = tf.cond(choice < 0.5, lambda: x, lambda: random_crop(x))
         return x, y
 
+    def gaussian(x, y):
+        noise = tf.random.normal(shape=tf.shape(x), mean=0.0, stddev=stddev, dtype=tf.float32)
+        x = x + noise
+        return x, y
+
+    types = [rotate, flip, color, zoom, gaussian]
     for t in types:
-        if t == 'flip':
-            dataset = dataset.map(flip, num_parallel_calls=4)
-        elif t == 'color':
-            dataset = dataset.map(color, num_parallel_calls=4)
-        elif t == 'zoom':
-            dataset = dataset.map(zoom, num_parallel_calls=4)
-        elif t == 'rotate':
-            dataset = dataset.map(rotate, num_parallel_calls=4)
-        else:
-            continue
+        dataset = dataset.map(t, num_parallel_calls=4)
 
     dataset = dataset.map(other.clip01, num_parallel_calls=4)
     return dataset

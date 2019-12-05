@@ -13,7 +13,7 @@ def color(
         x = tf.image.random_hue(x, hue)
         x = tf.image.random_saturation(x, saturation[0], saturation[1])
         x = tf.image.random_brightness(x, brightness)
-        x = tf.image.random_contrast(x, contrast[0], contrast[0])
+        x = tf.image.random_contrast(x, contrast[0], contrast[1])
         return x, y
 
     return dataset.map(apply, num_parallel_calls=4)

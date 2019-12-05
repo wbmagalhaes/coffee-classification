@@ -67,6 +67,7 @@ def read(filenames, img_size=64, num_labels=10):
 
         image = tf.cast(raw_image, tf.float32) / 255.
         image = tf.reshape(image, [img_size, img_size, 3])
+
         label = tf.one_hot(label, num_labels)
 
         return image, label

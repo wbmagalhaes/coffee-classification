@@ -4,11 +4,16 @@ from utils import data_reader, tfrecords
 from random import shuffle
 
 img_dirs = [
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs0',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs1',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs2',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs3',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_imgs4'
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/ardido',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/brocado',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/chocho',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/coco',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/concha',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/marinheiro',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/normal',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/preto',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/quebrado',
+    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/verde'
 ]
 
 data_dir = './data'
@@ -21,7 +26,7 @@ if not os.path.isdir(data_dir):
 train_path = os.path.join(data_dir, 'classification_train.tfrecord')
 test_path = os.path.join(data_dir, 'classification_test.tfrecord')
 
-data = data_reader.load(img_dirs)
+data = data_reader.load(img_dirs, cut_size=64, bg_color=(0, 0, 0))
 shuffle(data)
 
 train_num = int(len(data) * training_percentage)

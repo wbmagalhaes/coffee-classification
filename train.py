@@ -8,8 +8,8 @@ from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 from CoffeeNet import create_model
 
 # Load train/test data
-train_ds = tfrecords.read(['./data/classification_train.tfrecord'])
-test_ds = tfrecords.read(['./data/classification_test.tfrecord'])
+train_ds = tfrecords.read(['./data/classification_train.tfrecord'], num_labels=7)
+test_ds = tfrecords.read(['./data/classification_test.tfrecord'], num_labels=7)
 
 # Apply augmentations
 train_ds = color(

@@ -1,7 +1,7 @@
 from utils import tfrecords, visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
-ds = tfrecords.read(['./data/classification_test.tfrecord']).shuffle(buffer_size=10000)
+ds = tfrecords.read(['./data/classification_test.tfrecord'], num_labels=7).shuffle(buffer_size=10000)
 visualize.plot_dataset(ds.batch(64))
 
 ds = color(

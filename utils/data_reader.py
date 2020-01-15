@@ -25,6 +25,7 @@ def read_json(addr, cut_size, bg_color):
 
 
 def cut_shape(image, shape, cut_size, bg_color):
+    image = image.copy()
     im_h, im_w, _ = image.shape
 
     img_label = shape['label']
@@ -50,7 +51,9 @@ def cut_shape(image, shape, cut_size, bg_color):
     xmax = int(min(center_x + size, im_w - 1))
     ymax = int(min(center_y + size, im_h - 1))
 
-    mask = np.zeros_like(image, dtype=np.float32)
+    mask = image.copy()
+    mask *= 0
+
     points = np.array(points, dtype=np.int32)
 
     cv2.fillPoly(mask, [points], (1., 1., 1.))
@@ -59,7 +62,7 @@ def cut_shape(image, shape, cut_size, bg_color):
     cropped = image[ymin:ymax, xmin:xmax].astype(np.float32)
     cropped = cropped * mask
 
-    bg = np.ones_like(mask, dtype=np.float32) * 255
+    bg = mask.copy()
     bg[:, :, :] = bg_color
     bg = bg * (1 - mask)
 

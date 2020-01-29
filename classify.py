@@ -6,8 +6,7 @@ model_name = 'CoffeeNet6'
 epoch = 0
 
 sample_paths = [
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/84A',
-    'C:/Users/Usuario/Desktop/cafe_imgs/cut_samples/248A'
+
 ]
 
 data = data_reader.load(sample_paths)

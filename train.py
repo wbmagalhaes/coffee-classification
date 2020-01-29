@@ -32,6 +32,7 @@ test_ds = test_ds.repeat().shuffle(buffer_size=10000).batch(64)
 # visualize.plot_dataset(train_dataset)
 
 # Define model
+
 model_name = 'CoffeeNet6'
 model = create_model()
 model.compile(

@@ -3,17 +3,19 @@ import os
 from utils import data_reader, tfrecords
 from random import shuffle
 
+base_dir = 'E:/William/Documents/Mestrado/cafe_imgs/segmentation_imgs/classificados/'
+
 img_dirs = [
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/ardido',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/brocado',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/chocho',
-    # 'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/coco',
-    # 'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/concha',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/marinheiro',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/normal',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/preto',
-    # 'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/quebrado',
-    'C:/Users/Usuario/Desktop/cafe_imgs/segmentation_imgs/classificados/verde'
+    'ardido',
+    'brocado',
+    'chocho',
+    # 'coco',
+    # 'concha',
+    'marinheiro',
+    'normal',
+    'preto',
+    # 'quebrado',
+    'verde'
 ]
 
 data_dir = './data'
@@ -26,7 +28,7 @@ if not os.path.isdir(data_dir):
 train_path = os.path.join(data_dir, 'classification_train.tfrecord')
 test_path = os.path.join(data_dir, 'classification_test.tfrecord')
 
-data = data_reader.load(img_dirs, cut_size=64, bg_color=(0, 0, 0))
+data = data_reader.load(base_dir, img_dirs, cut_size=64, bg_color=(0, 0, 0))
 shuffle(data)
 
 train_num = int(len(data) * training_percentage)

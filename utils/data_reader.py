@@ -75,12 +75,12 @@ def cut_shape(image, shape, cut_size, bg_color):
     return cropped, label
 
 
-def load(dirs, cut_size=64, bg_color=(255, 0, 0)):
+def load(base_dir, dirs, cut_size=64, bg_color=(255, 0, 0)):
     data = []
     for data_dir in dirs:
         print(f'Loading data from: {data_dir}')
 
-        addrs = glob.glob(os.path.join(data_dir, '*.json'))
+        addrs = glob.glob(os.path.join(base_dir + data_dir, '*.json'))
         for addr in addrs:
             json_data = read_json(addr, cut_size, bg_color)
             data.extend(json_data)

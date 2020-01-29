@@ -30,10 +30,12 @@ def zoom(dataset, im_size=64):
             boxes[i] = [x1, y1, x2, y2]
 
         def random_crop(img):
-            crops = tf.image.crop_and_resize([img], boxes=boxes, box_indices=np.zeros(len(scales)), crop_size=(im_size, im_size))
+            crops = tf.image.crop_and_resize([img], boxes=boxes, box_indices=np.zeros(
+                len(scales)), crop_size=(im_size, im_size))
             return crops[tf.random.uniform(shape=[], minval=0, maxval=len(scales), dtype=tf.int32)]
 
-        choice = tf.random.uniform(shape=[], minval=0., maxval=1., dtype=tf.float32)
+        choice = tf.random.uniform(
+            shape=[], minval=0., maxval=1., dtype=tf.float32)
         x = tf.cond(choice < 0.5, lambda: x, lambda: random_crop(x))
         return x, y
 
@@ -60,7 +62,8 @@ def flip(dataset):
 
 def gaussian(dataset, stddev=1/255):
     def apply(x, y):
-        noise = tf.random.normal(shape=tf.shape(x), mean=0.0, stddev=stddev, dtype=tf.float32)
+        noise = tf.random.normal(shape=tf.shape(
+            x), mean=0.0, stddev=stddev, dtype=tf.float32)
         x = x + noise
         return x, y
 

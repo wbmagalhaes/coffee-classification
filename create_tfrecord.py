@@ -8,7 +8,7 @@ base_dir = 'E:/William/Documents/Mestrado/cafe_imgs/segmentation_imgs/classifica
 img_dirs = [
     'ardido',
     'brocado',
-    'chocho',
+    # 'chocho',
     # 'coco',
     # 'concha',
     'marinheiro',

@@ -29,12 +29,19 @@ train_ds = train_ds.repeat().shuffle(buffer_size=10000).batch(64)
 test_ds = test_ds.repeat().shuffle(buffer_size=10000).batch(64)
 
 # Plot some images
-# visualize.plot_dataset(train_dataset)
+visualize.plot_dataset(train_ds)
 
 # Define model
 
 model_name = 'CoffeeNet6'
-model = create_model()
+model = create_model(
+        input_shape=(64, 64, 3),
+        num_layers=5,
+        filters=64,
+        dropout=False,
+        num_classes=6,
+        output_activation='softmax')
+
 model.compile(
     optimizer=tf.keras.optimizers.Adam(lr=1e-4),
     loss={'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)},

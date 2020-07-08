@@ -1,3 +1,3 @@
 # Coffee Beans Classification
 
-![CoffeeNet6](CoffeeNet6.jpg)
+![CoffeeNet6](classi_net.jpg)

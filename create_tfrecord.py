@@ -36,6 +36,8 @@ train_num = int(len(data) * training_percentage)
 train_data = data[:train_num]
 test_data = data[train_num:]
 
+
+
 print(f'{len(train_data)} train images.')
 print(f'{len(test_data)} test images.')
 

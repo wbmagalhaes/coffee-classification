@@ -3,11 +3,10 @@ import tensorflow as tf
 kernel_initializer = 'he_normal'
 kernel_regularizer = tf.keras.regularizers.l2(0.01)
 bias_initializer = tf.keras.initializers.Constant(value=0.1)
-leaky_relu_alpha = 0.2
-drop_rate = 0.25
+leaky_relu_alpha = 0.02
 
 
-def conv2d_block(x, filters, dropout):
+def conv2d_block(x, filters):
     x = tf.keras.layers.Conv2D(
         filters=filters,
         kernel_size=(3, 3),
@@ -19,9 +18,6 @@ def conv2d_block(x, filters, dropout):
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.MaxPooling2D((2, 2))(x)
 
-    if dropout:
-        x = tf.keras.layers.Dropout(rate=drop_rate)(x)
-
     return x
 
 
@@ -29,7 +25,6 @@ def create_model(
         input_shape=(64, 64, 3),
         num_layers=5,
         filters=64,
-        dropout=False,
         num_classes=10,
         output_activation='softmax'):
 
@@ -37,7 +32,7 @@ def create_model(
     x = tf.keras.layers.BatchNormalization()(image_input)
 
     for _ in range(num_layers):
-        x = conv2d_block(x, filters=filters, dropout=dropout)
+        x = conv2d_block(x, filters=filters)
         filters *= 2
 
     x = tf.keras.layers.Conv2D(

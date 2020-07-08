@@ -12,21 +12,15 @@ train_ds = tfrecords.read(['./data/classification_train.tfrecord'], num_labels=7
 test_ds = tfrecords.read(['./data/classification_test.tfrecord'], num_labels=7)
 
 # Apply augmentations
-train_ds = color(
-    train_ds,
-    hue=0.05,
-    saturation=(0.9, 1.05),
-    brightness=0.1,
-    contrast=(0.9, 1.05))
 train_ds = zoom(train_ds, im_size=64)
-train_ds = gaussian(train_ds, stddev=0.01)
 train_ds = rotate(train_ds)
 train_ds = flip(train_ds)
 train_ds = clip01(train_ds)
 
 # Set batchs
-train_ds = train_ds.repeat().shuffle(buffer_size=10000).batch(64)
-test_ds = test_ds.repeat().shuffle(buffer_size=10000).batch(64)
+batch_size = 64
+train_ds = train_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
+test_ds = test_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
 
 # Plot some images
 visualize.plot_dataset(train_ds)
@@ -38,7 +32,6 @@ model = create_model(
         input_shape=(64, 64, 3),
         num_layers=5,
         filters=64,
-        dropout=False,
         num_classes=6,
         output_activation='softmax')
 

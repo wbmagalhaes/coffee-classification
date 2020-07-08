@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 
 from utils.labelmap import label_names
+import matplotlib.pyplot as plt
 
 
 def read_json(addr, cut_size, bg_color):

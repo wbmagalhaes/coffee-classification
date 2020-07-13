@@ -1,12 +1,7 @@
 import tensorflow as tf
 
-kernel_initializer = 'he_normal'
-kernel_regularizer = tf.keras.regularizers.l2(0.01)
-bias_initializer = tf.keras.initializers.Constant(value=0.1)
-leaky_relu_alpha = 0.02
 
-
-def conv2d_block(x, filters):
+def conv2d_block(x, filters, kernel_initializer, kernel_regularizer, bias_initializer, leaky_relu_alpha):
     x = tf.keras.layers.Conv2D(
         filters=filters,
         kernel_size=(3, 3),
@@ -26,13 +21,17 @@ def create_model(
         num_layers=5,
         filters=64,
         num_classes=10,
+        kernel_initializer = 'he_normal',
+        kernel_regularizer = tf.keras.regularizers.l2(0.01),
+        bias_initializer = tf.keras.initializers.Constant(value=0.1),
+        leaky_relu_alpha = 0.01,
         output_activation='softmax'):
 
     image_input = tf.keras.Input(shape=input_shape, name='img_input', dtype=tf.float32)
     x = tf.keras.layers.BatchNormalization()(image_input)
 
     for _ in range(num_layers):
-        x = conv2d_block(x, filters=filters)
+        x = conv2d_block(x, filters, , kernel_initializer, kernel_regularizer, bias_initializer, leaky_relu_alpha)
         filters *= 2
 
     x = tf.keras.layers.Conv2D(

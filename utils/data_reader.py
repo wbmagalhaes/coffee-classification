@@ -81,10 +81,13 @@ def load(base_dir, dirs, cut_size=64, bg_color=(255, 0, 0)):
     for data_dir in dirs:
         print(f'Loading data from: {data_dir}')
 
+        n_images = 0
         addrs = glob.glob(os.path.join(base_dir + data_dir, '*.json'))
         for addr in addrs:
             json_data = read_json(addr, cut_size, bg_color)
+            n_images += len(json_data)
             data.extend(json_data)
+        print(n_images)
 
     print(f'Data loaded. {len(data)} images.')
     return data

@@ -31,7 +31,7 @@ def create_model(
     x = tf.keras.layers.BatchNormalization()(image_input)
 
     for _ in range(num_layers):
-        x = conv2d_block(x, filters, , kernel_initializer, kernel_regularizer, bias_initializer, leaky_relu_alpha)
+        x = conv2d_block(x, filters, kernel_initializer, kernel_regularizer, bias_initializer, leaky_relu_alpha)
         filters *= 2
 
     x = tf.keras.layers.Conv2D(

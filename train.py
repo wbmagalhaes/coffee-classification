@@ -33,6 +33,10 @@ model = create_model(
         num_layers=5,
         filters=64,
         num_classes=6,
+        kernel_initializer = 'he_normal',
+        kernel_regularizer = tf.keras.regularizers.l2(0.01),
+        bias_initializer = tf.keras.initializers.Constant(value=0.1),
+        leaky_relu_alpha = 0.02,
         output_activation='softmax')
 
 model.compile(

@@ -3,7 +3,7 @@ import os
 from utils import data_reader, tfrecords
 from random import shuffle
 
-base_dir = 'E:/William/Documents/Mestrado/cafe_imgs/segmentation_imgs/classificados/'
+base_dir = './images/'
 
 img_dirs = [
     'ardido',
@@ -24,10 +24,6 @@ training_percentage = 0.8
 
 if not os.path.isdir(data_dir):
     os.mkdir(data_dir)
-
-train_path = os.path.join(data_dir, 'classification_train')
-teste_path = os.path.join(data_dir, 'classification_teste')
-valid_path = os.path.join(data_dir, 'classification_valid')
 
 data = data_reader.load(base_dir, img_dirs, cut_size=64, bg_color=(0, 0, 0))
 shuffle(data)
@@ -53,7 +49,11 @@ def split_data(path, data, num):
 
 
 print('Writing tfrecords...')
-split_data(train_path, train_data, 2)
+train_path = os.path.join(data_dir, 'classification_train')
+teste_path = os.path.join(data_dir, 'classification_teste')
+valid_path = os.path.join(data_dir, 'classification_valid')
+
+split_data(train_path, train_data, 1)
 split_data(teste_path, teste_data, 1)
 split_data(valid_path, valid_data, 1)
 print('Finished.')

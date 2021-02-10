@@ -1,12 +1,28 @@
-from utils import tfrecords, visualize
-from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+import sys
+import argparse
 
-ds = tfrecords.read(['./data/classification_teste_0.tfrecord'], num_labels=6)#.shuffle(buffer_size=100)
+from utils.tfrecords import show_dataset
 
-visualize.plot_dataset(ds.batch(36))
 
-ds = rotate(ds)
-ds = flip(ds)
-ds = clip01(ds)
+def main(args):
+    parser = argparse.ArgumentParser()
 
-visualize.plot_dataset(ds.batch(36))
+    parser.add_argument('-p', '--path', type=str, default='./data/teste_dataset_0.tfrecord')
+    parser.add_argument('--batch', type=int, default=36)
+
+    feature_parser = parser.add_mutually_exclusive_group(required=False)
+    feature_parser.add_argument('--augment', dest='augment', action='store_true')
+    feature_parser.add_argument('--no-augment', dest='augment', action='store_false')
+    parser.set_defaults(augment=True)
+
+    args = parser.parse_args()
+
+    show_dataset(
+        path=args.path,
+        batch=args.batch,
+        augment=args.augment,
+    )
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

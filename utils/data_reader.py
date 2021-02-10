@@ -70,24 +70,15 @@ def cut_shape(image, shape, cut_size, bg_color):
     cropped = (cropped + bg).astype(np.uint8)
     cropped = cv2.resize(cropped, dsize=(cut_size, cut_size))
 
-    # cv2.imshow('cropped', cropped)
-    # cv2.waitKey()
-
     return cropped, label
 
 
-def load(base_dir, dirs, cut_size=64, bg_color=(255, 0, 0)):
+def load(data_dir, cut_size=64, bg_color=(255, 0, 0)):
     data = []
-    for data_dir in dirs:
-        print(f'Loading data from: {data_dir}')
+    
+    addrs = glob.glob(data_dir + '/**/*.json', recursive=True)
+    for addr in addrs:
+        json_data = read_json(addr, cut_size, bg_color)
+        data.extend(json_data)
 
-        n_images = 0
-        addrs = glob.glob(os.path.join(base_dir + data_dir, '*.json'))
-        for addr in addrs:
-            json_data = read_json(addr, cut_size, bg_color)
-            n_images += len(json_data)
-            data.extend(json_data)
-        print(n_images)
-
-    print(f'Data loaded. {len(data)} images.')
     return data

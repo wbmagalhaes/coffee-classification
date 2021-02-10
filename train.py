@@ -1,83 +1,65 @@
-import tensorflow as tf
-import os
-import json
+import sys
+import argparse
 
-from utils import tfrecords, visualize
-from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from utils.CoffeeNet import load_datasets, create_model, train
 
-from CoffeeNet import create_model
 
-# Load train/test data
-train_ds = tfrecords.read(['./data/classification_train.tfrecord'], num_labels=7)
-test_ds = tfrecords.read(['./data/classification_test.tfrecord'], num_labels=7)
+def main(args):
+    parser = argparse.ArgumentParser()
 
-# Apply augmentations
-train_ds = zoom(train_ds, im_size=64)
-train_ds = rotate(train_ds)
-train_ds = flip(train_ds)
-train_ds = clip01(train_ds)
+    parser.add_argument('-t', '--traindir', type=str, default='./data/train_dataset0.tfrecord')
+    parser.add_argument('-v', '--validdir', type=str, default='./data/valid_dataset0.tfrecord')
 
-# Set batchs
-batch_size = 64
-train_ds = train_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
-test_ds = test_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
+    parser.add_argument('-o', '--outputdir', type=str, default='CoffeeNet6')
+    parser.add_argument('--imsize', type=int, default=64)
+    parser.add_argument('--nlayers', type=int, default=5)
+    parser.add_argument('--filters', type=int, default=64)
+    parser.add_argument('--kernelinit', type=str, default='he_normal')
+    parser.add_argument('--l2', type=float, default=0.01)
+    parser.add_argument('--biasinit', type=float, default=0.1)
+    parser.add_argument('--lrelualpha', type=float, default=0.02)
+    parser.add_argument('--outactivation', type=str, default='softmax')
+    parser.add_argument('--lr', type=float, default=1e-4)
+    parser.add_argument('--labelsmoothing', type=float, default=0.2)
 
-# Plot some images
-visualize.plot_dataset(train_ds)
+    parser.add_argument('--batchsize', type=int, default=64)
+    parser.add_argument('--epochs', type=int, default=60)
 
-# Define model
+    args = parser.parse_args()
 
-model_name = 'CoffeeNet6'
-model = create_model(
-        input_shape=(64, 64, 3),
-        num_layers=5,
-        filters=64,
-        num_classes=6,
-        kernel_initializer = 'he_normal',
-        kernel_regularizer = tf.keras.regularizers.l2(0.01),
-        bias_initializer = tf.keras.initializers.Constant(value=0.1),
-        leaky_relu_alpha = 0.02,
-        output_activation='softmax')
+    train_filenames = [args.traindir]
+    valid_filenames = [args.validdir]
 
-model.compile(
-    optimizer=tf.keras.optimizers.Adam(lr=1e-4),
-    loss={'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.2)},
-    metrics={'logits': [tf.keras.metrics.CategoricalAccuracy()]}
-)
-model.summary()
+    train_ds, valid_ds, train_steps, valid_steps = load_datasets(
+        train_filenames,
+        valid_filenames,
+        args.batchsize
+    )
 
-# Save model
-savedir = os.path.join('results', model_name)
-if not os.path.isdir(savedir):
-    os.mkdir(savedir)
+    model, cbs = create_model(
+        model_name=args.outputdir,
+        input_shape=(args.imsize, args.imsize, 3),
+        num_layers=args.nlayers,
+        filters=args.filters,
+        kernel_initializer=args.kernelinit,
+        l2=args.l2,
+        bias_value=args.biasinit,
+        leaky_relu_alpha=args.lrelualpha,
+        output_activation=args.outactivation,
+        lr=args.lr,
+        label_smoothing=args.labelsmoothing
+    )
 
-json_config = model.to_json()
-with open(savedir + '/model.json', 'w') as f:
-    json.dump(json_config, f)
+    history = train(
+        model,
+        train_ds,
+        valid_ds,
+        train_steps,
+        valid_steps,
+        epochs=args.epochs,
+        callbacks=cbs
+    )
 
-# Save weights
-model.save_weights(savedir + '/epoch-0000.h5')
-filepath = savedir + '/epoch-{epoch:04d}.h5'
-checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, save_weights_only=True, verbose=1, period=10)
 
-# Tensorboard visualization
-logdir = os.path.join('logs', model_name)
-tb_callback = tf.keras.callbacks.TensorBoard(
-    log_dir=logdir,
-    histogram_freq=1,
-    write_graph=True,
-    profile_batch=0,
-    update_freq='epoch'
-)
-
-# Training
-history = model.fit(
-    train_ds,
-    steps_per_epoch=400,
-    epochs=60,
-    verbose=1,
-    validation_data=test_ds,
-    validation_freq=1,
-    validation_steps=40,
-    callbacks=[checkpoint, tb_callback]
-)
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

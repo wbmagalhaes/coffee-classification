@@ -10,21 +10,7 @@ from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
 def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, splits=(1, 1, 1)):
-    dataset = load_data(input_dir, random=random)
-    train_dataset, valid_dataset, teste_dataset = split_data(dataset, training_percentage)
 
-    print(f'{len(train_dataset)} train images.')
-    print(f'{len(valid_dataset)} valid images.')
-    print(f'{len(teste_dataset)} teste images.')
-
-    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=splits[0])
-    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=splits[1])
-    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=splits[2])
-
-    print('Finished.')
-
-
-def load_data(input_dir, random=True):
     if not os.path.isdir(input_dir):
         print(f"Directory {input_dir} does not exists.")
         exit()
@@ -40,10 +26,6 @@ def load_data(input_dir, random=True):
     if random:
         shuffle(dataset)
 
-    return dataset
-
-
-def split_data(dataset, training_percentage):
     train_num = int(len(dataset) * training_percentage)
     teste_num = int(len(dataset) * (1 - training_percentage)) // 2
 
@@ -51,7 +33,15 @@ def split_data(dataset, training_percentage):
     valid_dataset = dataset[train_num:train_num + teste_num]
     teste_dataset = dataset[train_num + teste_num:]
 
-    return train_dataset, valid_dataset, teste_dataset
+    print(f'{len(train_dataset)} train images.')
+    print(f'{len(valid_dataset)} valid images.')
+    print(f'{len(teste_dataset)} teste images.')
+
+    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=splits[0])
+    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=splits[1])
+    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=splits[2])
+
+    print('Finished.')
 
 
 def save_tfrecords(data, name, output_dir, n=1):
@@ -78,14 +68,16 @@ def write_tfrecord(filename, data):
             'label': int64_feature(label)
         }
 
-        example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
+        example_proto = tf.train.Example(
+            features=tf.train.Features(feature=feature))
         return example_proto.SerializeToString()
 
     def generator():
         for features in data:
             yield serialize_example(*features)
 
-    dataset = tf.data.Dataset.from_generator(generator, output_types=tf.string, output_shapes=())
+    dataset = tf.data.Dataset.from_generator(
+        generator, output_types=tf.string, output_shapes=())
     writer.write(dataset)
 
 
@@ -98,7 +90,8 @@ def read_tfrecord(filenames, img_size=64):
     }
 
     def parser(example_proto):
-        features = tf.io.parse_single_example(example_proto, feature_description)
+        features = tf.io.parse_single_example(
+            example_proto, feature_description)
 
         raw_image = tf.io.decode_raw(features['image'], tf.uint8)
         label = tf.cast(features['label'], tf.int64)

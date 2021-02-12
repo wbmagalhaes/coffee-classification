@@ -7,7 +7,7 @@ from utils.tfrecords import show_dataset
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='./data/teste_dataset_0.tfrecord')
+    parser.add_argument('-p', '--path', type=str, default='./data/teste_dataset0.tfrecord')
     parser.add_argument('--batch', type=int, default=36)
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)

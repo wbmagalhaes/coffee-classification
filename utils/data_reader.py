@@ -14,25 +14,23 @@ def read_json(addr, cut_size, bg_color):
         data = json.load(json_file)
 
     dirname = os.path.dirname(addr)
-    filename = data['imagePath']
+    filename = os.path.basename(addr)[:-4] + "jpg"
 
     img_path = os.path.join(dirname, filename)
     image = cv2.imread(img_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    shapes = data['shapes']
-
-    return [cut_shape(image, shape, cut_size, bg_color) for shape in shapes]
+    return [cut_bean(image, bean, cut_size, bg_color) for bean in data]
 
 
-def cut_shape(image, shape, cut_size, bg_color):
+def cut_bean(image, bean, cut_size, bg_color):
     image = image.copy()
     im_h, im_w, _ = image.shape
 
-    img_label = shape['label']
+    img_label = bean['label']
     label = label_names.index(img_label)
 
-    points = shape['points']
+    points = bean['points']
     xs, ys = zip(*points)
 
     xmin = int(max(min(xs), 0))

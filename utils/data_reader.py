@@ -72,11 +72,37 @@ def cut_bean(image, bean, cut_size, bg_color):
 
 
 def load(data_dir, cut_size=64, bg_color=(255, 0, 0)):
+    count = {}
     data = []
-    
+
     addrs = glob.glob(data_dir + '/**/*.json', recursive=True)
     for addr in addrs:
-        json_data = read_json(addr, cut_size, bg_color)
-        data.extend(json_data)
+        print(os.path.basename(addr))
+
+        beans = read_json(addr, cut_size, bg_color)
+        data.extend(beans)
+
+        for bean in beans:
+            _, label = bean
+
+            if label not in count.keys():
+                count[label] = 0
+            count[label] += 1
+
+    for key in count.keys():
+        print(f'{label_names[key]}: {count[key]}')
 
     return data
+
+
+def count_beans_in_list(bean_list):
+    count = {}
+    for bean in bean_list:
+        _, label = bean
+
+        if label not in count.keys():
+            count[label] = 0
+        count[label] += 1
+
+    for key in count.keys():
+        print(f'{label_names[key]}: {count[key]}')

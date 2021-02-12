@@ -17,11 +17,6 @@ def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, 
 
     print(f'Loading data from: {input_dir}')
     dataset = data_reader.load(input_dir, cut_size=64, bg_color=(0, 0, 0))
-    print(f'Data loaded. {len(dataset)} images.')
-
-    if len(dataset) <= 0:
-        print("No image file found.")
-        exit()
 
     if random:
         shuffle(dataset)
@@ -34,8 +29,13 @@ def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, 
     teste_dataset = dataset[train_num + teste_num:]
 
     print(f'{len(train_dataset)} train images.')
+    data_reader.count_beans_in_list(train_dataset)
+
     print(f'{len(valid_dataset)} valid images.')
+    data_reader.count_beans_in_list(valid_dataset)
+
     print(f'{len(teste_dataset)} teste images.')
+    data_reader.count_beans_in_list(teste_dataset)
 
     save_tfrecords(train_dataset, 'train_dataset', output_dir, n=splits[0])
     save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=splits[1])

@@ -108,6 +108,6 @@ results
 
 .vscode
 
-/images
+# /images
 /old_data
-/data
+# /data

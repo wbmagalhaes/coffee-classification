@@ -29,41 +29,40 @@ def main(args):
         splits=args.splits
     )
     
-
     # ? ===== DATASET =====
-    # normal: 555
-    # ardido: 883
-    # brocado: 219
-    # marinheiro: 255
-    # preto: 459
-    # verde: 456
+    # normal: 1149
+    # ardido: 1139
+    # brocado: 404
+    # marinheiro: 307
+    # preto: 615
+    # verde: 661
 
     # ? ===== TREINAMENTO (80%) =====
-    # normal: 456
-    # ardido: 682
-    # brocado: 189
-    # marinheiro: 205
-    # preto: 359
-    # verde: 370
-    # TOTAL: 2261
+    # normal: 912
+    # ardido: 910
+    # brocado: 334
+    # marinheiro: 241
+    # preto: 500
+    # verde: 523
+    # TOTAL: 3420
 
     # ? ===== VALIDAÇÃO (10%) =====
-    # normal: 49
-    # ardido: 100
-    # brocado: 13
-    # marinheiro: 27
-    # preto: 54
-    # verde: 39
-    # TOTAL: 282
+    # normal: 114
+    # ardido: 114
+    # brocado: 39
+    # marinheiro: 31
+    # preto: 53
+    # verde: 76
+    # TOTAL: 427
 
     # ? ===== TESTE (10%) =====
-    # normal: 50
-    # ardido: 101
-    # brocado: 17
-    # marinheiro: 23
-    # preto: 46
-    # verde: 47
-    # TOTAL: 284
+    # normal: 123
+    # ardido: 115
+    # brocado: 31
+    # marinheiro: 35
+    # preto: 62
+    # verde: 62
+    # TOTAL: 428
 
 
 if __name__ == "__main__":

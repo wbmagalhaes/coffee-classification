@@ -13,10 +13,8 @@ def main(args):
     parser.add_argument('--splits', nargs='+', type=int, default=(1, 1, 1))
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)
-    feature_parser.add_argument(
-        '--shuffle', dest='random', action='store_true')
-    feature_parser.add_argument(
-        '--no-shuffle', dest='random', action='store_false')
+    feature_parser.add_argument('--shuffle', dest='random', action='store_true')
+    feature_parser.add_argument('--no-shuffle', dest='random', action='store_false')
     parser.set_defaults(random=True)
 
     args = parser.parse_args()
@@ -28,7 +26,7 @@ def main(args):
         random=args.random,
         splits=args.splits
     )
-    
+
     # ? ===== DATASET =====
     # normal: 1149
     # ardido: 1139

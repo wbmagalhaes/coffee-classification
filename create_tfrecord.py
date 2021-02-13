@@ -34,6 +34,7 @@ def main(args):
     # marinheiro: 307
     # preto: 615
     # verde: 661
+    # TOTAL: 4275
 
     # ? ===== TREINAMENTO (80%) =====
     # normal: 912

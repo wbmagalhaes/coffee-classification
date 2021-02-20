@@ -79,7 +79,10 @@ def create_model(
     model.summary()
 
     # Save model
-    savedir = os.path.join('results', model_name)
+    if not os.path.isdir('models'):
+        os.mkdir('models')
+
+    savedir = os.path.join('models', model_name)
     if not os.path.isdir(savedir):
         os.mkdir(savedir)
 

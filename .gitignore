@@ -104,6 +104,6 @@ venv.bak/
 .mypy_cache/
 
 logs
-results
+models
 
 .vscode

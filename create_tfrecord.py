@@ -9,7 +9,7 @@ def main(args):
 
     parser.add_argument('-i', '--inputdir', type=str, default='./images')
     parser.add_argument('-o', '--outputdir', type=str, default='./data')
-    parser.add_argument('--train', type=float, default=0.8)
+    parser.add_argument('--train_percent', type=float, default=0.8)
     parser.add_argument('--splits', nargs='+', type=int, default=(1, 1, 1))
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)

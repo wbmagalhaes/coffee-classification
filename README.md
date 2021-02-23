@@ -27,7 +27,7 @@ Segmentar e gerar os .json
 
 ## Criar TFRecords
 
-Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), em (/data) você pode encontrar os TFRecords das imagens em (/images).
+Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), em [/data](/data) você pode encontrar os TFRecords das imagens em [/images](/images).
 
 Você também pode criar outros TFRecords utilizando suas próprias imagens.
 
@@ -38,7 +38,7 @@ python create_tfrecords.py -i <images path> -o <tfrecords path>
 Exemplo:
 
 ```
-python create_tfrecords.py -i /images -o /data
+python create_tfrecords.py -i images -o data
 ```
 
 Parâmetros Requeridos:

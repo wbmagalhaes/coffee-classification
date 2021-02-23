@@ -2,11 +2,12 @@
 
 ![CoffeeNet6](classi_net.png)
 
-- [x] [Criar os TFRecords](#criar-os-tfrecords)
-- [x] [Ver TFRecords](#ver-tfrecords)
-- [x] [Treinamento da Rede](#treinamento-da-rede)
-- [x] [Teste](#teste)
-- [x] [Usar em Imagens](#usar-em-imagens)
+## Table of Contents
+* [Criar os TFRecords](#criar-os-tfrecords)
+* [Ver TFRecords](#ver-tfrecords)
+* [Treinamento da Rede](#treinamento-da-rede)
+* [Teste](#teste)
+* [Usar em Imagens](#usar-em-imagens)
 
 ## Criar os TFRecords
 

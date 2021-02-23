@@ -2,16 +2,20 @@
 
 ![CoffeeNet6](classi_net.png)
 
-## Table of Contents
+Resumo
+
+# Table of Contents
 * [Criar os TFRecords](#criar-os-tfrecords)
 * [Ver TFRecords](#ver-tfrecords)
 * [Treinamento da Rede](#treinamento-da-rede)
 * [Teste](#teste)
 * [Usar em Imagens](#usar-em-imagens)
 
-## Criar os TFRecords
+# Criar os TFRecords
 
-**create_tfrecords.py**
+```
+python create_tfrecords.py
+```
 
 Parâmetros Opcionais:
 

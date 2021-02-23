@@ -6,16 +6,19 @@ Resumo
 
 # Table of Contents
 
-* [U](#criar-os-tfrecords)
-  * [Criar os TFRecords](#criar-os-tfrecords)
-  * [Ver TFRecords](#ver-tfrecords)
-  * [Treinamento da Rede](#treinamento-da-rede)
+- [Coffee Beans Classification](#coffee-beans-classification)
+- [Table of Contents](#table-of-contents)
+- [Treinamento](#treinamento)
+  - [Criar tfrecords](#criar-tfrecords)
+  - [Ver tfrecords](#ver-tfrecords)
+  - [Treinamento da Rede](#treinamento-da-rede)
+- [Uso](#uso)
+  - [Teste em tfrecords](#teste-em-tfrecords)
+  - [Usar em Imagens](#usar-em-imagens)
 
-* [U](#criar-os-tfrecords)
-  * [Teste](#teste)
-  * [Usar em Imagens](#usar-em-imagens)
 
-# Criar os TFRecords
+# Treinamento
+## Criar tfrecords
 
 ```
 python create_tfrecords.py
@@ -49,3 +52,12 @@ Este parâmetro define a porcentagem de imagens que serão utilizadas no treinam
 **Parâmetro -n_files**
 
 Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
+
+## Ver tfrecords
+## Treinamento da Rede
+
+# Uso
+
+## Teste em tfrecords
+
+## Usar em Imagens

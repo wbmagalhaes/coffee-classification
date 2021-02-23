@@ -2,8 +2,11 @@
 
 ![CoffeeNet6](classi_net.png)
 
-
-[Criar os TFRecords](https://github.com/wbmagalhaes/coffee-classification#criar-os-tfrecords)
+[## Criar os TFRecords](#criar-os-tfrecords)
+[## Ver TFRecords](#ver-tfrecords)
+[## Treinamento da Rede](#treinamento-da-rede)
+[## Teste](#teste)
+[## Usar em Imagens](#usar-em-imagens)
 
 ## Criar os TFRecords
 

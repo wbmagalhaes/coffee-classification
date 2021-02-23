@@ -13,11 +13,12 @@ def main(args):
     parser.add_argument('--n_files', nargs='+', type=int, default=(1, 1, 1))
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)
-    feature_parser.add_argument('--shuffle', dest='random', action='store_true')
-    feature_parser.add_argument('--no-shuffle', dest='random', action='store_false')
-    parser.set_defaults(random=True)
+    feature_parser.add_argument('--no-shuffle', dest='random', action='store_false', default=True)
 
     args = parser.parse_args()
+
+    print(args)
+    exit()
 
     create_dataset(
         input_dir=args.inputdir,

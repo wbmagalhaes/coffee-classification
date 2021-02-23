@@ -4,34 +4,41 @@
 
 Resumo
 
-# Table of Contents
+# Tabela de Conteúdo
 
 - [Coffee Beans Classification](#coffee-beans-classification)
-- [Table of Contents](#table-of-contents)
+- [Tabela de Conteúdo](#tabela-de-conteúdo)
 - [Treinamento](#treinamento)
   - [Criar tfrecords](#criar-tfrecords)
   - [Ver tfrecords](#ver-tfrecords)
   - [Treinamento da Rede](#treinamento-da-rede)
 - [Uso](#uso)
-  - [Teste em tfrecords](#teste-em-tfrecords)
-  - [Usar em Imagens](#usar-em-imagens)
-
+  - [Com tfrecords](#com-tfrecords)
+  - [Com Imagens](#com-imagens)
 
 # Treinamento
+
+Já tem uma rede treinada em `/models` mas você pode treinar com os seus dados.
+
 ## Criar tfrecords
 
+Para treinar, utilize os tfrecords do tensorflow, já tem na pasta `/data` mas você pode criar rodando o arquivo.
+
 ```
-python create_tfrecords.py
+python create_tfrecords.py -i <images path> -o <tfrecords path>
 ```
 
-Parâmetros Opcionais:
+**Exemplo:**
 
-| **Parâmetro**   | **Padrão** | **Descrição**                                 |
-| :-------------- | :--------: | :-------------------------------------------- |
-| -i --inputdir   |  /images   | diretório contendo as imagens                 |
-| -o --outputdir  |   /data    | diretorio onde serão criados os tfrecords     |
-| --train_percent |    0.8     | porcentagem de imagens para treinamento       |
-| --n_files       |   1 1 1    | quantidade de divisões nos arquivos tfrecords |
+```
+python create_tfrecords.py -i /images -o /data
+```
+
+**Parâmetros Requeridos:**
+
+    -i --inputdir   diretório contendo as imagens
+    -o --outputdir  diretório onde serão criados os tfrecords
+
 
 **Parâmetro -i**
 
@@ -45,19 +52,68 @@ Este parâmetro define o diretório onde serão criados os arquivos .tfrecord us
 
 Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfrecord e teste_dataset.tfrecord. Arquivos de mesmo nome serão substituídos.
 
-**Parâmetro -train_percent**
+**Parâmetros Opcionais:**
+
+| **Parâmetro**   | **Padrão** | **Descrição**                                       |
+| :-------------- | :--------: | :-------------------------------------------------- |
+| --train_percent |    0.8     | porcentagem de imagens para treinamento             |
+| --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
+| --n_files       |   1 1 1    | quantidade de divisões nos arquivos tfrecords       |
+
+**Parâmetro --train_percent**
 
 Este parâmetro define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
 
-**Parâmetro -n_files**
+**Parâmetro --no-shuffle**
+
+Por padrão, as imagens são randomizadas antes da divisão em treinamento, validação e teste. Se este parâmetro estiver presente, as imagens não são randomizadas.
+
+**Parâmetro --n_files**
 
 Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
 
 ## Ver tfrecords
+```
+python show_tfrecords.py
+```
+
+Parâmetros Opcionais:
+
+| **Parâmetro** | **Padrão** | **Descrição**                 |
+| :------------ | :--------: | :---------------------------- |
+| -i --inputdir |  /images   | diretório contendo as imagens |
+
 ## Treinamento da Rede
+```
+python train.py
+```
+
+Parâmetros Opcionais:
+
+| **Parâmetro** | **Padrão** | **Descrição**                 |
+| :------------ | :--------: | :---------------------------- |
+| -i --inputdir |  /images   | diretório contendo as imagens |
 
 # Uso
 
-## Teste em tfrecords
+## Com tfrecords
+```
+python test_tfrecords.py
+```
 
-## Usar em Imagens
+Parâmetros Opcionais:
+
+| **Parâmetro** | **Padrão** | **Descrição**                 |
+| :------------ | :--------: | :---------------------------- |
+| -i --inputdir |  /images   | diretório contendo as imagens |
+
+## Com Imagens
+```
+python classify_images.py
+```
+
+Parâmetros Opcionais:
+
+| **Parâmetro** | **Padrão** | **Descrição**                 |
+| :------------ | :--------: | :---------------------------- |
+| -i --inputdir |  /images   | diretório contendo as imagens |

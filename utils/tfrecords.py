@@ -9,7 +9,7 @@ from utils import visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
-def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, splits=(1, 1, 1)):
+def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
 
     if not os.path.isdir(input_dir):
         print(f"Directory {input_dir} does not exists.")
@@ -37,9 +37,9 @@ def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, 
     print(f'{len(teste_dataset)} teste images.')
     data_reader.count_beans_in_list(teste_dataset)
 
-    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=splits[0])
-    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=splits[1])
-    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=splits[2])
+    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=n_files[0])
+    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=n_files[1])
+    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=n_files[2])
 
     print('Finished.')
 

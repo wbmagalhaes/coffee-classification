@@ -10,7 +10,7 @@ def main(args):
     parser.add_argument('-i', '--inputdir', type=str, default='./images')
     parser.add_argument('-o', '--outputdir', type=str, default='./data')
     parser.add_argument('--train_percent', type=float, default=0.8)
-    parser.add_argument('--splits', nargs='+', type=int, default=(1, 1, 1))
+    parser.add_argument('--n_files', nargs='+', type=int, default=(1, 1, 1))
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)
     feature_parser.add_argument('--shuffle', dest='random', action='store_true')
@@ -24,7 +24,7 @@ def main(args):
         output_dir=args.outputdir,
         training_percentage=args.train,
         random=args.random,
-        splits=args.splits
+        n_files=args.n_files
     )
 
     # ? ===== DATASET =====

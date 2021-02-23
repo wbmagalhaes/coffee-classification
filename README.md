@@ -11,7 +11,7 @@ create_tfrecords.py
 | -i --inputdir   |  /images   | diretório contendo as imagens                 |
 | -o --outputdir  |   /data    | diretorio onde serão criados os tfrecords     |
 | --train_percent |    0.8     | porcentagem de imagens para treinamento       |
-| --splits        |   1 1 1    | quantidade de divisões nos arquivos tfrecords |
+| --n_files       |   1 1 1    | quantidade de divisões nos arquivos tfrecords |
 
 **Parâmetro -i** 
 
@@ -29,6 +29,6 @@ Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfre
 
 Este parâmetro define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
 
-**Parâmetro -splits** 
+**Parâmetro -n_files** 
 
-Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub.
+Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.

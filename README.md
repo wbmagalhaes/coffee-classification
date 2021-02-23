@@ -2,6 +2,9 @@
 
 ![CoffeeNet6](classi_net.png)
 
+
+[Criar os TFRecords](https://github.com/wbmagalhaes/coffee-classification#criar-os-tfrecords)
+
 ## Criar os TFRecords
 
 **create_tfrecords.py**

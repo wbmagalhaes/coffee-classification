@@ -19,15 +19,19 @@ Resumo
 
 # Treinamento
 
-Já tem uma rede treinada em (/models) mas você pode treinar com os seus dados.
+Já tem uma rede treinada no diretório [models](/models) mas você pode treinar com os seus dados.
 
 ## Segmentar Imagens
 
 Segmentar e gerar os .json
 
+```
+python segmentation.py
+```
+
 ## Criar TFRecords
 
-Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), em [/data](/data) você pode encontrar os TFRecords das imagens em [/images](/images).
+Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](/data) você pode encontrar os TFRecords das imagens em [images](/images).
 
 Você também pode criar outros TFRecords utilizando suas próprias imagens.
 
@@ -78,7 +82,7 @@ Por padrão, as imagens são randomizadas antes da divisão em treinamento, vali
 
 Define em quantos arquivos TFRecord os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
 
-Resultado:
+Formato do Resultado:
 
 ```
 4275 total images
@@ -113,6 +117,8 @@ marinheiro: 35
 preto: 62
 verde: 62
 ```
+
+Após carregar as imagens e gerar os TFRecords, será mostrado uma lista contendo a quantidade de imagens de cada classe separadas nos datasets de treinamento, validação e teste.
 
 ## Ver TFRecords
 ```

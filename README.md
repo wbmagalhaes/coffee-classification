@@ -5,11 +5,15 @@
 Resumo
 
 # Table of Contents
-* [Criar os TFRecords](#criar-os-tfrecords)
-* [Ver TFRecords](#ver-tfrecords)
-* [Treinamento da Rede](#treinamento-da-rede)
-* [Teste](#teste)
-* [Usar em Imagens](#usar-em-imagens)
+
+* [U](#criar-os-tfrecords)
+  * [Criar os TFRecords](#criar-os-tfrecords)
+  * [Ver TFRecords](#ver-tfrecords)
+  * [Treinamento da Rede](#treinamento-da-rede)
+
+* [U](#criar-os-tfrecords)
+  * [Teste](#teste)
+  * [Usar em Imagens](#usar-em-imagens)
 
 # Criar os TFRecords
 

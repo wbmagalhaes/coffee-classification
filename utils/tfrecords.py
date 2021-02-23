@@ -28,13 +28,13 @@ def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, 
     valid_dataset = dataset[train_num:train_num + teste_num]
     teste_dataset = dataset[train_num + teste_num:]
 
-    print(f'{len(train_dataset)} train images.')
+    print(f'{len(train_dataset)} train images')
     data_reader.count_beans_in_list(train_dataset)
 
-    print(f'{len(valid_dataset)} valid images.')
+    print(f'{len(valid_dataset)} valid images')
     data_reader.count_beans_in_list(valid_dataset)
 
-    print(f'{len(teste_dataset)} teste images.')
+    print(f'{len(teste_dataset)} teste images')
     data_reader.count_beans_in_list(teste_dataset)
 
     save_tfrecords(train_dataset, 'train_dataset', output_dir, n=n_files[0])

@@ -9,60 +9,66 @@ Resumo
 - [Coffee Beans Classification](#coffee-beans-classification)
 - [Tabela de Conteúdo](#tabela-de-conteúdo)
 - [Treinamento](#treinamento)
-  - [Criar tfrecords](#criar-tfrecords)
-  - [Ver tfrecords](#ver-tfrecords)
+  - [Segmentar Imagens](#segmentar-imagens)
+  - [Criar TFRecords](#criar-tfrecords)
+  - [Ver TFRecords](#ver-tfrecords)
   - [Treinamento da Rede](#treinamento-da-rede)
 - [Uso](#uso)
-  - [Com tfrecords](#com-tfrecords)
+  - [Com TFRecords](#com-tfrecords)
   - [Com Imagens](#com-imagens)
 
 # Treinamento
 
-Já tem uma rede treinada em `/models` mas você pode treinar com os seus dados.
+Já tem uma rede treinada em (/models) mas você pode treinar com os seus dados.
 
-## Criar tfrecords
+## Segmentar Imagens
 
-Para treinar, utilize os tfrecords do tensorflow, já tem na pasta `/data` mas você pode criar rodando o arquivo.
+Segmentar e gerar os .json
+
+## Criar TFRecords
+
+Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), em (/data) você pode encontrar os TFRecords das imagens em (/images).
+
+Você também pode criar outros TFRecords utilizando suas próprias imagens.
 
 ```
 python create_tfrecords.py -i <images path> -o <tfrecords path>
 ```
 
-**Exemplo:**
+Exemplo:
 
 ```
 python create_tfrecords.py -i /images -o /data
 ```
 
-**Parâmetros Requeridos:**
+Parâmetros Requeridos:
 
-    -i --inputdir   diretório contendo as imagens
+    -i --inputdir   diretório contendo as imagens e a segmentação
     -o --outputdir  diretório onde serão criados os tfrecords
-
 
 **Parâmetro -i**
 
-Este parâmetro define o diretório onde são as imagens do dataset de grãos.
+Define o diretório onde são as imagens do dataset de grãos.
 
-As imagens devem ser .jpg e podem estar separadas em subspastas e os arquivos .json devem estar na mesma pasta e com o mesmo nome da imagem.
+As imagens devem estar no formato JPG, podendo estar separadas em subspastas. Os arquivos de segmentação devem estar na mesma pasta e ter o mesmo nome da imagem correspondente.
 
 **Parâmetro -o**
 
-Este parâmetro define o diretório onde serão criados os arquivos .tfrecord usados pela rede.
+Define o diretório onde serão criados os arquivos .tfrecord usados pela rede.
 
 Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfrecord e teste_dataset.tfrecord. Arquivos de mesmo nome serão substituídos.
 
-**Parâmetros Opcionais:**
+Parâmetros Opcionais:
 
 | **Parâmetro**   | **Padrão** | **Descrição**                                       |
 | :-------------- | :--------: | :-------------------------------------------------- |
 | --train_percent |    0.8     | porcentagem de imagens para treinamento             |
 | --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
-| --n_files       |   1 1 1    | quantidade de divisões nos arquivos tfrecords       |
+| --n_files       |   1 1 1    | quantidade de divisões nos arquivos TFRecord        |
 
 **Parâmetro --train_percent**
 
-Este parâmetro define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
+Define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
 
 **Parâmetro --no-shuffle**
 
@@ -70,9 +76,45 @@ Por padrão, as imagens são randomizadas antes da divisão em treinamento, vali
 
 **Parâmetro --n_files**
 
-Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
+Define em quantos arquivos TFRecord os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
 
-## Ver tfrecords
+Resultado:
+
+```
+4275 total images
+normal: 1149
+ardido: 1139
+brocado: 404
+marinheiro: 307
+preto: 615
+verde: 661
+
+3420 train images
+normal: 912
+ardido: 910
+brocado: 334
+marinheiro: 241
+preto: 500
+verde: 523
+
+427 valid images
+normal: 114
+ardido: 114
+brocado: 39
+marinheiro: 31
+preto: 53
+verde: 76
+
+428 teste images
+normal: 123
+ardido: 115
+brocado: 31
+marinheiro: 35
+preto: 62
+verde: 62
+```
+
+## Ver TFRecords
 ```
 python show_tfrecords.py
 ```
@@ -96,7 +138,7 @@ Parâmetros Opcionais:
 
 # Uso
 
-## Com tfrecords
+## Com TFRecords
 ```
 python test_tfrecords.py
 ```

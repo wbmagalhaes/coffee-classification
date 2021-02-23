@@ -7,8 +7,8 @@ from utils.tfrecords import create_dataset
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-i', '--inputdir', type=str, default='./images')
-    parser.add_argument('-o', '--outputdir', type=str, default='./data')
+    parser.add_argument('-i', '--inputdir', type=str)
+    parser.add_argument('-o', '--outputdir', type=str)
     parser.add_argument('--train_percent', type=float, default=0.8)
     parser.add_argument('--n_files', nargs='+', type=int, default=(1, 1, 1))
 
@@ -17,13 +17,10 @@ def main(args):
 
     args = parser.parse_args()
 
-    print(args)
-    exit()
-
     create_dataset(
         input_dir=args.inputdir,
         output_dir=args.outputdir,
-        training_percentage=args.train,
+        training_percentage=args.train_percent,
         random=args.random,
         n_files=args.n_files
     )

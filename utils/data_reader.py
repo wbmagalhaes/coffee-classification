@@ -89,6 +89,8 @@ def load(data_dir, cut_size=64, bg_color=(255, 0, 0)):
                 count[label] = 0
             count[label] += 1
 
+    print(f'{len(data)} total images')
+
     for key in count.keys():
         print(f'{label_names[key]}: {count[key]}')
 

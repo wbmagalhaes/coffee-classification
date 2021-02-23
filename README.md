@@ -23,4 +23,12 @@ As imagens devem ser .jpg e podem estar separadas em subspastas e os arquivos .j
 
 Este parâmetro define o diretório onde serão criados os arquivos .tfrecord usados pela rede.
 
-Os arquivos são criados com os nomes  *train_dataset.tfrecord*, *valid_dataset.tfrecord* e *teste_dataset.tfrecord*. Arquivos de mesmo nome serão substituídos.
+Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfrecord e teste_dataset.tfrecord. Arquivos de mesmo nome serão substituídos.
+
+**Parâmetro -train_percent** 
+
+Este parâmetro define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
+
+**Parâmetro -splits** 
+
+Este parâmetro define em quantos arquivos .tfrecords os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub.

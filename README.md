@@ -160,7 +160,7 @@ Augment
 
 Formato do Resultado:
 
-![Samples](dataset samples.png)
+![Samples](dataset_samples.png)
 
 ## Treinamento da Rede
 

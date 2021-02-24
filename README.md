@@ -1,6 +1,6 @@
 # Coffee Beans Classification
 
-![CoffeeNet6](classi_net.png)
+![CoffeeNet6](classi_net.png | width=100)
 
 Resumo
 
@@ -160,7 +160,7 @@ Augment
 
 Formato do Resultado:
 
-![Samples](dataset_samples.png)
+![Samples](dataset_samples.png | width=100)
 
 ## Treinamento da Rede
 

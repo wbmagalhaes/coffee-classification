@@ -1,13 +1,13 @@
 import sys
 import argparse
 
-from src.utils.tfrecords import show_dataset
+from utils.tfrecords import show_dataset
 
 
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str)
+    parser.add_argument('-p', '--path', type=str, default='data/valid_dataset.tfrecord')
     parser.add_argument('--batch', type=int, default=36)
     parser.add_argument('--augment', dest='augment', action='store_true', default=False)
 

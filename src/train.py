@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from src.utils.CoffeeNet import load_datasets, create_model, train
+from utils.CoffeeNet import load_datasets, create_model, train
 
 
 def main(args):

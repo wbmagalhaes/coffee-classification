@@ -1,4 +1,4 @@
-from src.utils import tfrecords, visualize, reload_model
+from utils import tfrecords, visualize, reload_model
 
 dataset = tfrecords.read_tfrecord(['data/teste_dataset.tfrecord'])
 x_data, y_true = zip(*[data for data in dataset])

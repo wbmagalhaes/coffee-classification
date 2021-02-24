@@ -5,7 +5,7 @@ import cv2
 
 import numpy as np
 
-from src.utils.labelmap import label_names
+from utils.labelmap import label_names
 import matplotlib.pyplot as plt
 
 

@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from src.utils import reload_model
+from utils import reload_model
 
 model_name = 'CoffeeNet6'
 epoch = 0

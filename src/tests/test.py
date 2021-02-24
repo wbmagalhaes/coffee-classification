@@ -1,7 +1,8 @@
+import os
 import pytest
 
-import os
-from src.utils.tfrecords import load_dataset, save_tfrecords
+from utils.tfrecords import load_dataset, save_tfrecords
+from utils.tfrecords import read_tfrecord
 
 
 def test_segmentation():
@@ -13,7 +14,7 @@ def test_segmentation():
 def test_create_tfrecord(tmpdir):
 
     dataset = load_dataset(
-        input_dir='tests/images',
+        input_dir='src/tests/images',
         im_size=64,
         training_percentage=0.6,
         random=True,
@@ -37,9 +38,8 @@ def test_create_tfrecord(tmpdir):
 
 
 def test_show_tfrecord():
-    # TODO: MOSTRAR OS TFRECORDS
-
-    assert 1 == 1
+    dataset = read_tfrecord(['src/tests/tfrecords/dataset.tfrecord'])
+    assert len([0 for data in dataset]) == 3
 
 
 def test_train():

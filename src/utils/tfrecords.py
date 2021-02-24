@@ -2,11 +2,11 @@ import os
 import tensorflow as tf
 
 from random import shuffle
-from src.utils import data_reader
+from utils import data_reader
 
-from src.utils.labelmap import label_names
-from src.utils import visualize
-from src.utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from utils.labelmap import label_names
+from utils import visualize
+from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
 def load_dataset(input_dir, im_size=64, random=True, training_percentage=0.8, n_files=(1, 1, 1)):

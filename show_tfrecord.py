@@ -7,13 +7,9 @@ from utils.tfrecords import show_dataset
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-p', '--path', type=str, default='./data/teste_dataset0.tfrecord')
+    parser.add_argument('-p', '--path', type=str)
     parser.add_argument('--batch', type=int, default=36)
-
-    feature_parser = parser.add_mutually_exclusive_group(required=False)
-    feature_parser.add_argument('--augment', dest='augment', action='store_true')
-    feature_parser.add_argument('--no-augment', dest='augment', action='store_false')
-    parser.set_defaults(augment=True)
+    parser.add_argument('--augment', dest='augment', action='store_true', default=False)
 
     args = parser.parse_args()
 

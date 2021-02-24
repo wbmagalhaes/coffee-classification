@@ -23,7 +23,7 @@ Já tem uma rede treinada no diretório [models](/models) mas você pode treinar
 
 ## Segmentar Imagens
 
-Segmentar e gerar os .json
+TODO: Segmentar e gerar os .json
 
 ```
 python segmentation.py
@@ -67,8 +67,8 @@ Parâmetros Opcionais:
 | **Parâmetro**   | **Padrão** | **Descrição**                                       |
 | :-------------- | :--------: | :-------------------------------------------------- |
 | --train_percent |    0.8     | porcentagem de imagens para treinamento             |
-| --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
 | --n_files       |   1 1 1    | quantidade de divisões nos arquivos TFRecord        |
+| --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
 
 **Parâmetro --train_percent**
 
@@ -121,17 +121,49 @@ verde: 62
 Após carregar as imagens e gerar os TFRecords, será mostrado uma lista contendo a quantidade de imagens de cada classe separadas nos datasets de treinamento, validação e teste.
 
 ## Ver TFRecords
+
+Para verificar as imagens armazenadas nos TFRecords.
+
 ```
-python show_tfrecords.py
+python show_tfrecords.py -p <tfrecords path>
 ```
+
+Exemplo:
+
+```
+python show_tfrecords.py -p data/teste_dataset0.tfrecord
+```
+
+Parâmetros Requeridos:
+
+    -p --path   caminho para o arquivo .tfrecord
+
+
+**Parâmetro -p**
+
+Path
 
 Parâmetros Opcionais:
 
 | **Parâmetro** | **Padrão** | **Descrição**                 |
 | :------------ | :--------: | :---------------------------- |
-| -i --inputdir |  /images   | diretório contendo as imagens |
+| --batch       |     36     | diretório contendo as imagens |
+| --augment     |   False    | diretório contendo as imagens |
+
+**Parâmetro --batch**
+
+Batch
+
+**Parâmetro --augment**
+
+Augment
+
+Formato do Resultado:
+
+![Samples](dataset samples.png)
 
 ## Treinamento da Rede
+
 ```
 python train.py
 ```
@@ -145,6 +177,7 @@ Parâmetros Opcionais:
 # Uso
 
 ## Com TFRecords
+
 ```
 python test_tfrecords.py
 ```
@@ -156,6 +189,7 @@ Parâmetros Opcionais:
 | -i --inputdir |  /images   | diretório contendo as imagens |
 
 ## Com Imagens
+
 ```
 python classify_images.py
 ```

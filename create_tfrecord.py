@@ -11,9 +11,7 @@ def main(args):
     parser.add_argument('-o', '--outputdir', type=str)
     parser.add_argument('--train_percent', type=float, default=0.8)
     parser.add_argument('--n_files', nargs='+', type=int, default=(1, 1, 1))
-
-    feature_parser = parser.add_mutually_exclusive_group(required=False)
-    feature_parser.add_argument('--no-shuffle', dest='random', action='store_false', default=True)
+    parser.add_argument('--no-shuffle', dest='random', action='store_false', default=True)
 
     args = parser.parse_args()
 

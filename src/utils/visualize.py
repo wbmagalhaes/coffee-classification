@@ -3,7 +3,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils.labelmap import label_names, defect_values
+from src.utils.labelmap import label_names, defect_values
 
 from sklearn.metrics import classification_report, confusion_matrix
 import itertools

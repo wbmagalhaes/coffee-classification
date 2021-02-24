@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.tfrecords import show_dataset
+from src.utils.tfrecords import show_dataset
 
 
 def main(args):

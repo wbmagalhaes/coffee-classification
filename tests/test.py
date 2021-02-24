@@ -1,7 +1,7 @@
 import pytest
 
 import os
-from utils.tfrecords import load_dataset, save_tfrecords
+from src.utils.tfrecords import load_dataset, save_tfrecords
 
 
 def test_segmentation():

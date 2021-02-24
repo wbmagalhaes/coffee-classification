@@ -3,9 +3,9 @@ import tensorflow as tf
 import os
 import json
 
-from utils import tfrecords, visualize
-from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
-from utils.labelmap import label_names
+from src.utils import tfrecords, visualize
+from src.utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from src.utils.labelmap import label_names
 
 import math
 

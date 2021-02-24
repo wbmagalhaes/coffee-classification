@@ -1,14 +1,8 @@
 # Coffee Beans Classification
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="350">
+<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="500">
 
-[![Current version on PyPI](link 1)][pypi]
-
-[![Current version on PyPI](link 2)][js]
-
-[![Current version on PyPI](link 3)][aaaaaaa]
-
-[![Say Thanks!](link 4)](https://saythanks.io/to/joeyespo)
+[![Completion](https://img.shields.io/badge/completion-80%25-orange)][pypi] 
 
 Resumo
 
@@ -170,7 +164,7 @@ Formato do Resultado:
 
 ![Samples](dataset_samples.png)
 
-![Samples](dataset_samples.png){:width="500px"}
+![Samples](dataset_samples.png){:width="300px"}
 
 ## Treinamento da Rede
 

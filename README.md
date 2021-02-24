@@ -18,6 +18,7 @@ Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto 
 
 - [Classificação de grãos de café arábica](#classificação-de-grãos-de-café-arábica)
 - [Tabela de Conteúdo](#tabela-de-conteúdo)
+- [Requisitos](#requisitos)
 - [Treinamento](#treinamento)
   - [Segmentar Imagens](#segmentar-imagens)
   - [Criar TFRecords](#criar-tfrecords)
@@ -26,8 +27,13 @@ Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto 
 - [Uso](#uso)
   - [Com TFRecords](#com-tfrecords)
   - [Com Imagens](#com-imagens)
-- [Dependencias](#dependencias)
 - [Cite Este Projeto](#cite-este-projeto)
+
+
+# Requisitos
+
+- Python 3.8
+- Tensorflow 2.4
 
 # Treinamento
 
@@ -317,8 +323,6 @@ Parâmetros Opcionais:
 | **Parâmetro** | **Padrão** | **Descrição**                 |
 | :------------ | :--------: | :---------------------------- |
 | -i --inputdir |  /images   | diretório contendo as imagens |
-
-# Dependencias
 
 # Cite Este Projeto
 

@@ -1,16 +1,17 @@
 # Classificação de grãos de café arábica
 
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Bugs](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
-![Actions](https://github.com/wbmagalhaes/coffee-classification/actions)
-![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
 ![Last](https://img.shields.io/github/last-commit/wbmagalhaes/coffee-classification)
-
-Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
+![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
+![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
+![Actions](https://github.com/wbmagalhaes/coffee-classification/actions)
+![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="600">
 </p>
+
+Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
 # Tabela de Conteúdo
 

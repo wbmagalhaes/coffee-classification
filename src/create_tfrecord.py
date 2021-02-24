@@ -33,8 +33,6 @@ def main(args):
     print(f'{len(teste_dataset)} teste images')
     count_beans_in_list(teste_dataset)
 
-    exit()
-
     save_tfrecords(train_dataset, 'train_dataset', args.outputdir, n=1)
     save_tfrecords(valid_dataset, 'valid_dataset', args.outputdir, n=1)
     save_tfrecords(teste_dataset, 'teste_dataset', args.outputdir, n=1)

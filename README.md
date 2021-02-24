@@ -1,6 +1,11 @@
 # Coffee Beans Classification
 
-![CoffeeNet6](classi_net.png | width=100)
+<img src="https://classi_net.png" width="250">
+
+[![Current version on PyPI](link 1)][pypi]
+[![Current version on PyPI](link 2)][js]
+[![Current version on PyPI](link 3)][aaaaaaa]
+[![Say Thanks!](link 4)](https://saythanks.io/to/joeyespo)
 
 Resumo
 

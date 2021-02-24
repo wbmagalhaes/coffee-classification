@@ -1,4 +1,4 @@
-# Coffee Beans Classification
+# Classificação de grãos de café arábica
 
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
 ![Bugs](https://img.shields.io/badge/bugs-0-success)
@@ -7,11 +7,11 @@
   <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="700">
 </p>
 
-Resumo
+Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
 # Tabela de Conteúdo
 
-- [Coffee Beans Classification](#coffee-beans-classification)
+- [Classificação de grãos de café arábica](#classificação-de-grãos-de-café-arábica)
 - [Tabela de Conteúdo](#tabela-de-conteúdo)
 - [Treinamento](#treinamento)
   - [Segmentar Imagens](#segmentar-imagens)
@@ -24,7 +24,7 @@ Resumo
 
 # Treinamento
 
-Já tem uma rede treinada no diretório [models](/models) mas você pode treinar com os seus dados.
+Já tem uma rede de exemplo treinada no diretório [models](/models) mas você pode treinar com os seus dados.
 
 ## Segmentar Imagens
 

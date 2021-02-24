@@ -1,6 +1,6 @@
 # Coffee Beans Classification
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="250">
+<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="350">
 
 [![Current version on PyPI](link 1)][pypi]
 
@@ -168,7 +168,9 @@ Augment
 
 Formato do Resultado:
 
-![Samples](dataset_samples.png | width=100)
+![Samples](dataset_samples.png)
+
+![Samples](dataset_samples.png){:width="500px"}
 
 ## Treinamento da Rede
 

@@ -11,3 +11,7 @@ def from_json(model_name, epoch, resultdir='./results'):
     # Recover weights
     model.load_weights(f'{resultdir}/{model_name}/epoch-{epoch:04d}.h5')
     return model
+
+
+def from_savedmodel(path):
+    return tf.keras.models.load_model(path)

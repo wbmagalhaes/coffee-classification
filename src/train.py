@@ -1,18 +1,19 @@
 import sys
 import argparse
 
-from utils.CoffeeNet import load_datasets, create_model, train
+from utils.CoffeeNet import load_datasets, create_model, save_model
 
 
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--train', type=str)
-    parser.add_argument('-v', '--valid', type=str)
-    parser.add_argument('-o', '--output', type=str)
+    parser.add_argument('-t', '--train', type=str, default='data/train_dataset.tfrecord')
+    parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset.tfrecord')
+    parser.add_argument('-o', '--output', type=str, default='models/CoffeeNet6')
+    parser.add_argument('--logdir', type=str, default='logs/CoffeeNet6')
 
-    parser.add_argument('--batchsize', type=int)
-    parser.add_argument('--epochs', type=int)
+    parser.add_argument('--batchsize', type=int, default=64)
+    parser.add_argument('--epochs', type=int, default=500)
 
     parser.add_argument('--imsize', type=int, default=64)
     parser.add_argument('--nlayers', type=int, default=5)
@@ -33,8 +34,7 @@ def main(args):
         args.batchsize
     )
 
-    model, cbs = create_model(
-        model_name=args.output,
+    model = create_model(
         input_shape=(args.imsize, args.imsize, 3),
         num_layers=args.nlayers,
         filters=args.filters,
@@ -47,13 +47,16 @@ def main(args):
         label_smoothing=args.labelsmoothing
     )
 
-    history = train(
-        model,
+    cbs = save_model(model, args.output, args.logdir)
+
+    history = model.fit(
         train_ds,
-        valid_ds,
-        train_steps,
-        valid_steps,
+        steps_per_epoch=train_steps,
         epochs=args.epochs,
+        verbose=1,
+        validation_data=valid_ds,
+        validation_freq=1,
+        validation_steps=valid_steps,
         callbacks=cbs
     )
 

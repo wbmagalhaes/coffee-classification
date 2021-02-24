@@ -1,8 +1,9 @@
 import os
 import pytest
 
-from utils.tfrecords import load_dataset, save_tfrecords
+from utils.tfrecords import load_datafiles, save_tfrecords
 from utils.tfrecords import read_tfrecord
+from utils.CoffeeNet import load_datasets, create_model, save_model
 
 
 def test_segmentation():
@@ -13,7 +14,7 @@ def test_segmentation():
 
 def test_create_tfrecord(tmpdir):
 
-    dataset = load_dataset(
+    dataset = load_datafiles(
         input_dir='src/tests/images',
         im_size=64,
         training_percentage=0.6,
@@ -42,10 +43,43 @@ def test_show_tfrecord():
     assert len([0 for data in dataset]) == 3
 
 
-def test_train():
-    # TODO: INICIAR O TREINAMENTO
+def test_train(tmpdir):
+    train_ds, valid_ds, train_steps, valid_steps = load_datasets(
+        ['src/tests/tfrecords/dataset.tfrecord'],
+        ['src/tests/tfrecords/dataset.tfrecord'],
+        2
+    )
 
-    assert 1 == 1
+    assert train_steps == 2
+    assert valid_steps == 2
+
+    model = create_model(
+        input_shape=(64, 64, 3),
+        num_layers=1,
+        filters=16,
+        kernel_initializer='he_normal',
+        l2=0.01,
+        bias_value=0,
+        leaky_relu_alpha=0.02,
+        output_activation='softmax',
+        lr=1e-4,
+        label_smoothing=0
+    )
+
+    model_dir = tmpdir.mkdir("models")
+    save_model(model, model_dir)
+
+    assert os.path.isfile(model_dir.join('model.json'))
+
+    history = model.fit(
+        train_ds,
+        steps_per_epoch=train_steps,
+        epochs=1,
+        verbose=1,
+        validation_data=valid_ds,
+        validation_freq=1,
+        validation_steps=valid_steps
+    )
 
 
 def test_test_tfrecords():

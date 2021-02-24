@@ -9,7 +9,7 @@ from utils import visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
-def load_dataset(input_dir, im_size=64, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
+def load_datafiles(input_dir, im_size=64, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
     dataset = data_reader.load(input_dir, cut_size=im_size, bg_color=(0, 0, 0))
 
     if random:
@@ -47,7 +47,7 @@ def write_tfrecord(filename, data):
     writer = tf.data.experimental.TFRecordWriter(filename)
 
     def serialize_example(image, label):
-        image = tf.compat.as_bytes(image.tostring())
+        image = tf.compat.as_bytes(image.tobytes())
 
         feature = {
             'image': bytes_feature(image),

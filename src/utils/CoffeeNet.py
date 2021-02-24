@@ -36,7 +36,6 @@ def load_datasets(train_filenames, valid_filenames, batch_size):
 
 
 def create_model(
-        model_name,
         input_shape=(64, 64, 3),
         num_layers=5,
         filters=64,
@@ -78,63 +77,42 @@ def create_model(
 
     model.summary()
 
-    # Save model
-    if not os.path.isdir('models'):
-        os.mkdir('models')
+    return model
 
-    savedir = os.path.join('models', model_name)
-    if not os.path.isdir(savedir):
-        os.mkdir(savedir)
+
+def save_model(model, model_dir, log_dir=None):
+
+    os.makedirs(model_dir, exist_ok=True)
 
     json_config = model.to_json()
-    with open(savedir + '/model.json', 'w') as f:
+    with open(model_dir + '/model.json', 'w') as f:
         json.dump(json_config, f)
 
     # Save weights
-    model.save_weights(savedir + '/epoch-0000.h5')
-    filepath = savedir + '/epoch-{epoch:04d}.h5'
+    model.save_weights(model_dir + '/epoch-0000.h5')
+    filepath = model_dir + '/epoch-{epoch:04d}.h5'
     checkpoint_cb = tf.keras.callbacks.ModelCheckpoint(filepath, save_weights_only=True, verbose=1, period=10)
 
-    # Initialize Tensorboard visualization
-    logdir = os.path.join('logs', model_name)
-    tensorboar_cb = tf.keras.callbacks.TensorBoard(
-        log_dir=logdir,
-        histogram_freq=1,
-        write_graph=True,
-        profile_batch=0,
-        update_freq='epoch'
-    )
+    if log_dir is not None:
+        os.makedirs(log_dir, exist_ok=True)
 
-    return model, [checkpoint_cb, tensorboar_cb]
+        # Initialize Tensorboard visualization
+        tensorboar_cb = tf.keras.callbacks.TensorBoard(
+            log_dir=log_dir,
+            histogram_freq=1,
+            write_graph=True,
+            profile_batch=0,
+            update_freq='epoch'
+        )
+
+        return [checkpoint_cb, tensorboar_cb]
+
+    return [checkpoint_cb]
 
 
 def steps(ds, batch_size):
     n = len([0 for data in ds])
     return math.ceil(n / batch_size)
-
-
-def train(
-        model,
-        train_ds,
-        valid_ds,
-        train_steps,
-        valid_steps,
-        epochs=60,
-        batch_size=64,
-        callbacks=None):
-
-    history = model.fit(
-        train_ds,
-        steps_per_epoch=train_steps,
-        epochs=epochs,
-        verbose=1,
-        validation_data=valid_ds,
-        validation_freq=1,
-        validation_steps=valid_steps,
-        callbacks=callbacks
-    )
-
-    return history
 
 
 def conv2d_block(x, filters, kernel_initializer, kernel_regularizer, bias_initializer, leaky_relu_alpha):

@@ -4,7 +4,7 @@
 ![Bugs](https://img.shields.io/badge/bugs-0-success)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="500">
+  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="750">
 </p>
 
 Resumo

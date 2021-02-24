@@ -1,10 +1,13 @@
 # Coffee Beans Classification
 
-<img src="https://classi_net.png" width="250">
+<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="250">
 
 [![Current version on PyPI](link 1)][pypi]
+
 [![Current version on PyPI](link 2)][js]
+
 [![Current version on PyPI](link 3)][aaaaaaa]
+
 [![Say Thanks!](link 4)](https://saythanks.io/to/joeyespo)
 
 Resumo

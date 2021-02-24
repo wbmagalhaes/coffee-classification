@@ -1,7 +1,8 @@
 # Classificação de grãos de café arábica
 
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Bugs](https://img.shields.io/badge/bugs-0-success)
+![Bugs](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
+![Actions](https://github.com/wbmagalhaes/coffee-classification/actions)
 
 Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
@@ -21,6 +22,8 @@ Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto 
 - [Uso](#uso)
   - [Com TFRecords](#com-tfrecords)
   - [Com Imagens](#com-imagens)
+- [Dependencias](#dependencias)
+- [Cite Este Projeto](#cite-este-projeto)
 
 # Treinamento
 
@@ -310,3 +313,16 @@ Parâmetros Opcionais:
 | **Parâmetro** | **Padrão** | **Descrição**                 |
 | :------------ | :--------: | :---------------------------- |
 | -i --inputdir |  /images   | diretório contendo as imagens |
+
+# Dependencias
+
+# Cite Este Projeto
+
+```
+@misc{asd,
+  author =       {asd},
+  title =        {{asd}},
+  howpublished = {\url{https://github.com/wbmagalhaes/coffee-classification}},
+  year =         {2021}
+}
+```

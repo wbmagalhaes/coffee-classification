@@ -221,7 +221,7 @@ Define o tamanho da batch de imagens que será passada à rede em cada step do t
 
 **Parâmetro --epochs**
 
-Define o número de epochs pelo qual a rede será treinada. A quantidade de steps por epoch é calculada automaticamente.
+Define o número de epochs de treinamento. A quantidade de steps por epoch é calculada automaticamente.
 
 Parâmetros Opcionais:
 

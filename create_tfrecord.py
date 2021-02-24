@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.tfrecords import create_dataset
+from utils.tfrecords import load_dataset
 
 
 def main(args):
@@ -15,14 +15,30 @@ def main(args):
 
     args = parser.parse_args()
 
-    create_dataset(
+    train_dataset, valid_dataset, teste_dataset = load_dataset(
         input_dir=args.inputdir,
-        output_dir=args.outputdir,
         im_size=args.im_size,
         training_percentage=args.train_percent,
         random=args.random,
         n_files=(1, 1, 1)
     )
+
+    print(f'{len(train_dataset)} train images')
+    data_reader.count_beans_in_list(train_dataset)
+
+    print(f'{len(valid_dataset)} valid images')
+    data_reader.count_beans_in_list(valid_dataset)
+
+    print(f'{len(teste_dataset)} teste images')
+    data_reader.count_beans_in_list(teste_dataset)
+
+    exit()
+
+    save_tfrecords(train_dataset, 'train_dataset', args.outputdir, n=1)
+    save_tfrecords(valid_dataset, 'valid_dataset', args.outputdir, n=1)
+    save_tfrecords(teste_dataset, 'teste_dataset', args.outputdir, n=1)
+
+    print('Finished.')
 
     # ? ===== DATASET =====
     # normal: 1149

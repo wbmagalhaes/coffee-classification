@@ -3,11 +3,11 @@
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
 ![Bugs](https://img.shields.io/badge/bugs-0-success)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="700">
-</p>
-
 Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="600">
+</p>
 
 # Tabela de Conteúdo
 

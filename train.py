@@ -7,9 +7,9 @@ from utils.CoffeeNet import load_datasets, create_model, train
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--train', type=str, default='data/train_dataset0.tfrecord')
-    parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset0.tfrecord')
-    parser.add_argument('-o', '--output', type=str, default='CoffeeNet6')
+    parser.add_argument('-t', '--train', type=str)
+    parser.add_argument('-v', '--valid', type=str)
+    parser.add_argument('-o', '--output', type=str)
 
     parser.add_argument('--batchsize', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=60)

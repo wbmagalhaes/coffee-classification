@@ -1,21 +1,6 @@
 # Classificação de grãos de café arábica
 
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
 
 [![Python package](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
 ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)

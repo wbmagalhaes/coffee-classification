@@ -11,8 +11,8 @@ def main(args):
     parser.add_argument('-v', '--valid', type=str)
     parser.add_argument('-o', '--output', type=str)
 
-    parser.add_argument('--batchsize', type=int, default=64)
-    parser.add_argument('--epochs', type=int, default=60)
+    parser.add_argument('--batchsize', type=int)
+    parser.add_argument('--epochs', type=int)
 
     parser.add_argument('--imsize', type=int, default=64)
     parser.add_argument('--nlayers', type=int, default=5)

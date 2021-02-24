@@ -173,13 +173,13 @@ Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respe
 Como treinar a rede
 
 ```
-python train.py -t <train file path> -v <validation file path> -o <output directory>
+python train.py -t <train file path> -v <validation file path> -o <output directory> --batch <batch size> --epochs <epochs number>
 ```
 
 Exemplo:
 
 ```
-python train.py -t data/train_dataset.tfrecord -v data/valid_dataset.tfrecord -o CoffeeNet6
+python train.py -t data/train_dataset.tfrecord -v data/valid_dataset.tfrecord -o CoffeeNet6 --batch 64 --epochs 500
 ```
 
 Parâmetros Requeridos:

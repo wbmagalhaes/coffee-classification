@@ -149,10 +149,10 @@ Path do TFRecord
 
 Parâmetros Opcionais:
 
-| **Parâmetro** | **Padrão** | **Descrição**                 |
-| :------------ | :--------: | :---------------------------- |
-| --batch       |     36     | diretório contendo as imagens |
-| --augment     |   False    | diretório contendo as imagens |
+| **Parâmetro** | **Padrão** | **Descrição**                   |
+| :------------ | :--------: | :------------------------------ |
+| --batch       |     36     | quantidades de imagens          |
+| --augment     |   False    | aplica augmentation nas imagens |
 
 **Parâmetro --batch**
 
@@ -164,7 +164,7 @@ Mostra as imagens após aplicar augment
 
 Formato do Resultado:
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="400">
+<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="500">
 
 Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 
@@ -212,18 +212,18 @@ Number of epochs
 
 Parâmetros Opcionais:
 
-| **Parâmetro**    | **Padrão** | **Descrição**                 |
-| :--------------- | :--------: | :---------------------------- |
-| --imsize         |     64     | diretório contendo as imagens |
-| --nlayers        |     5      | diretório contendo as imagens |
-| --filters        |     64     | diretório contendo as imagens |
-| --kernelinit     | he_normal  | diretório contendo as imagens |
-| --l2             |    0.01    | diretório contendo as imagens |
-| --biasinit       |    0.1     | diretório contendo as imagens |
-| --lrelualpha     |    0.02    | diretório contendo as imagens |
-| --outactivation  |  softmax   | diretório contendo as imagens |
-| --lr             |    1e-4    | diretório contendo as imagens |
-| --labelsmoothing |    0.2     | diretório contendo as imagens |
+| **Parâmetro**    | **Padrão** | **Descrição**                            |
+| :--------------- | :--------: | :--------------------------------------- |
+| --imsize         |     64     | tamanho das imagens de input             |
+| --nlayers        |     5      | número de camadas de extração            |
+| --filters        |     64     | quantidade de filtros da primeira camada |
+| --kernelinit     | he_normal  | método de inicialização dos weigths      |
+| --l2             |    0.01    | valor do beta da regularização L2        |
+| --biasinit       |    0.1     | valor de inicialização dos biases        |
+| --lrelualpha     |    0.02    | valor do alpha da ativação LeakyReLU     |
+| --outactivation  |  softmax   | ativação da última camada da rede        |
+| --lr             |    1e-4    | learning rate do otimizador Adam         |
+| --labelsmoothing |    0.2     | suavização aplicada no vetor onehot      |
 
 **Parâmetro --imsize**
 

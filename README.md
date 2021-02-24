@@ -12,7 +12,7 @@
   <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="600">
 </p>
 
-Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
+Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
 # Tabela de Conteúdo
 
@@ -33,11 +33,13 @@ Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto 
 # Requisitos
 
 - Python 3.8
-- Tensorflow 2.4
+- Tensorflow 2.4.1
 
 # Treinamento
 
-Já tem uma rede de exemplo treinada no diretório [models](/models) mas você pode treinar com os seus dados.
+Já existe uma rede de exemplo treinada com imagens de grãos de café arábica no diretório [models](/models), mas você pode treinar uma nova rede utilizando seus dados.
+
+Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](/data) você pode encontrar os TFRecords das imagens localizadas em [images](/images).
 
 ## Segmentar Imagens
 
@@ -49,9 +51,7 @@ python segmentation.py
 
 ## Criar TFRecords
 
-Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](/data) você pode encontrar os TFRecords das imagens em [images](/images).
-
-Você também pode criar outros TFRecords utilizando suas próprias imagens.
+Você pode criar TFRecords para o treinamento a partir suas próprias imagens.
 
 ```
 python create_tfrecords.py -i <images path> -o <tfrecords path>
@@ -158,7 +158,7 @@ Parâmetros Requeridos:
 
 **Parâmetro -p**
 
-Path do TFRecord
+Define o path para o arquivo TFRecord contendo as imagens que se deseja visualizar.
 
 Parâmetros Opcionais:
 
@@ -169,11 +169,11 @@ Parâmetros Opcionais:
 
 **Parâmetro --batch**
 
-Tamanho do Batch de imagens
+Define o número de imagens que serão mostradas. Sugiro no máximo 64 imagens.
 
 **Parâmetro --augment**
 
-Mostra as imagens após aplicar augment
+Caso este parâmetro esteja presente, aplica o data augmentation, rotações e espelhamento nas imagens e mostra o resultado.
 
 Formato do Resultado:
 
@@ -183,7 +183,7 @@ Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respe
 
 ## Treinamento da Rede
 
-Como treinar a rede
+A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TFRecords.
 
 ```
 python train.py -t <train file path> -v <validation file path> -o <output directory> --batch <batch size> --epochs <epochs number>
@@ -205,23 +205,23 @@ Parâmetros Requeridos:
 
 **Parâmetro -t**
 
-Train path
+Define o caminho para o arquivo TFRecords contendo o dataset de treinamento.
 
 **Parâmetro -v**
 
-Valid path
+Define o caminho para o arquivo TFRecords contendo o dataset de validação.
 
 **Parâmetro -o**
 
-Valid path
+Define o diretório onde serão salvos o modelo e os logs de treinamento para visualização no TensorBoard.
 
 **Parâmetro --batch**
 
-Batch size
+Define o tamanho da batch de imagens que será passada à rede em cada step do treinamento.
 
 **Parâmetro --epochs**
 
-Number of epochs
+Define o número de epochs pelo qual a rede será treinada. A quantidade de steps por epoch é calculada automaticamente.
 
 Parâmetros Opcionais:
 
@@ -328,8 +328,8 @@ Parâmetros Opcionais:
 
 ```
 @misc{asd,
-  author =       {asd},
-  title =        {{asd}},
+  author =       {William Bernardes Magalhães},
+  title =        {TITLE},
   howpublished = {\url{https://github.com/wbmagalhaes/coffee-classification}},
   year =         {2021}
 }

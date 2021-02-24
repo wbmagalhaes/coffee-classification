@@ -265,9 +265,23 @@ Learning rate
 
 Label smoothing
 
+Formato do Resultado:
+
+```
+Keras printa o modelo
+Keras printa o treinamento
+Tensorboard mostra o gráfico
+```
+
 # Uso
 
+Após treinada, você pode usar.
+
 ## Com TFRecords
+
+Pode classificar o tfrecord de teste para avaliar a rede
+
+Mostra a matriz de confusão
 
 ```
 python test_tfrecords.py
@@ -280,6 +294,12 @@ Parâmetros Opcionais:
 | -i --inputdir |  /images   | diretório contendo as imagens |
 
 ## Com Imagens
+
+Pode classificar qualquer imagem
+
+Se tiver segmentada usa o .json
+
+Se tiver que segmentar, usa o .jpg
 
 ```
 python classify_images.py

@@ -1,8 +1,11 @@
 # Coffee Beans Classification
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="500">
+![Completion](https://img.shields.io/badge/completion-80%25-orange)
+![Bugs](https://img.shields.io/badge/bugs-0-success)
 
-[![Completion](https://img.shields.io/badge/completion-80%25-orange)][pypi] 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="500">
+</p>
 
 Resumo
 

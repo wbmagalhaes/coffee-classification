@@ -2,7 +2,7 @@ import sys
 import argparse
 
 from utils.tfrecords import load_dataset
-
+from utils.data_reader import count_beans_in_list
 
 def main(args):
     parser = argparse.ArgumentParser()
@@ -24,13 +24,13 @@ def main(args):
     )
 
     print(f'{len(train_dataset)} train images')
-    data_reader.count_beans_in_list(train_dataset)
+    count_beans_in_list(train_dataset)
 
     print(f'{len(valid_dataset)} valid images')
-    data_reader.count_beans_in_list(valid_dataset)
+    count_beans_in_list(valid_dataset)
 
     print(f'{len(teste_dataset)} teste images')
-    data_reader.count_beans_in_list(teste_dataset)
+    count_beans_in_list(teste_dataset)
 
     exit()
 

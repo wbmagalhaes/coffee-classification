@@ -71,9 +71,15 @@ Parâmetros Opcionais:
 
 | **Parâmetro**   | **Padrão** | **Descrição**                                       |
 | :-------------- | :--------: | :-------------------------------------------------- |
+| --im_size       |     64     | tamanho final da imagem recortada do grão           |
 | --train_percent |    0.8     | porcentagem de imagens para treinamento             |
 | --n_files       |   1 1 1    | quantidade de divisões nos arquivos TFRecord        |
 | --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
+
+
+**Parâmetro --im_size**
+
+Define o redimensionamento do recorte quadrado do grão de café.
 
 **Parâmetro --train_percent**
 
@@ -141,12 +147,11 @@ python show_tfrecords.py -p data/teste_dataset0.tfrecord
 
 Parâmetros Requeridos:
 
-    -p --path   caminho para o arquivo .tfrecord
-
+    -p --path   caminho para o arquivo TFRecord
 
 **Parâmetro -p**
 
-Path
+Path do TFRecord
 
 Parâmetros Opcionais:
 
@@ -157,31 +162,48 @@ Parâmetros Opcionais:
 
 **Parâmetro --batch**
 
-Batch
+Tamanho do Batch de imagens
 
 **Parâmetro --augment**
 
-Augment
+Mostra as imagens após aplicar augment
 
 Formato do Resultado:
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="500">
-</p>
+<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="400">
 
 Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 
 ## Treinamento da Rede
 
+Como treinar a rede
+
 ```
 python train.py
 ```
 
+Parâmetros Requeridos:
+
+    -t --traindir   caminho para o arquivo TFRecord
+    -v --validdir   caminho para o arquivo TFRecord
+    -o --outputdir  caminho para o arquivo TFRecord
+    --batch         caminho para o arquivo TFRecord
+    --epochs        caminho para o arquivo TFRecord
+
 Parâmetros Opcionais:
 
-| **Parâmetro** | **Padrão** | **Descrição**                 |
-| :------------ | :--------: | :---------------------------- |
-| -i --inputdir |  /images   | diretório contendo as imagens |
+| **Parâmetro**    | **Padrão** | **Descrição**                 |
+| :--------------- | :--------: | :---------------------------- |
+| --imsize         |     64     | diretório contendo as imagens |
+| --nlayers        |     5      | diretório contendo as imagens |
+| --filters        |     64     | diretório contendo as imagens |
+| --kernelinit     | he_normal  | diretório contendo as imagens |
+| --l2             |    0.01    | diretório contendo as imagens |
+| --biasinit       |    0.1     | diretório contendo as imagens |
+| --lrelualpha     |    0.02    | diretório contendo as imagens |
+| --outactivation  |  softmax   | diretório contendo as imagens |
+| --lr             |    1e-4    | diretório contendo as imagens |
+| --labelsmoothing |    0.2     | diretório contendo as imagens |
 
 # Uso
 

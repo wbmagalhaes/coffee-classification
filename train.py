@@ -9,8 +9,11 @@ def main(args):
 
     parser.add_argument('-t', '--traindir', type=str, default='./data/train_dataset0.tfrecord')
     parser.add_argument('-v', '--validdir', type=str, default='./data/valid_dataset0.tfrecord')
-
     parser.add_argument('-o', '--outputdir', type=str, default='CoffeeNet6')
+
+    parser.add_argument('--batchsize', type=int, default=64)
+    parser.add_argument('--epochs', type=int, default=60)
+
     parser.add_argument('--imsize', type=int, default=64)
     parser.add_argument('--nlayers', type=int, default=5)
     parser.add_argument('--filters', type=int, default=64)
@@ -22,17 +25,11 @@ def main(args):
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--labelsmoothing', type=float, default=0.2)
 
-    parser.add_argument('--batchsize', type=int, default=64)
-    parser.add_argument('--epochs', type=int, default=60)
-
     args = parser.parse_args()
 
-    train_filenames = [args.traindir]
-    valid_filenames = [args.validdir]
-
     train_ds, valid_ds, train_steps, valid_steps = load_datasets(
-        train_filenames,
-        valid_filenames,
+        [args.traindir],
+        [args.validdir],
         args.batchsize
     )
 

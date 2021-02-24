@@ -9,14 +9,14 @@ from utils import visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
-def create_dataset(input_dir, output_dir, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
+def create_dataset(input_dir, output_dir, im_size=64, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
 
     if not os.path.isdir(input_dir):
         print(f"Directory {input_dir} does not exists.")
         exit()
 
     print(f'Loading data from: {input_dir}')
-    dataset = data_reader.load(input_dir, cut_size=64, bg_color=(0, 0, 0))
+    dataset = data_reader.load(input_dir, cut_size=im_size, bg_color=(0, 0, 0))
 
     if random:
         shuffle(dataset)
@@ -50,11 +50,16 @@ def save_tfrecords(data, name, output_dir, n=1):
 
     path = os.path.join(output_dir, name)
 
-    size = len(data) // n
-    for i in range(0, n + 1):
-        splitted = data[size * i:size * (i + 1)]
-        if len(splitted) > 0:
-            write_tfrecord(f"{path}{i}.tfrecord", splitted)
+    if n == 1:
+        write_tfrecord(f"{path}.tfrecord", data)
+
+    else:
+
+        size = len(data) // n
+        for i in range(0, n + 1):
+            splitted = data[size * i:size * (i + 1)]
+            if len(splitted) > 0:
+                write_tfrecord(f"{path}{i}.tfrecord", splitted)
 
 
 def write_tfrecord(filename, data):

@@ -1,11 +1,14 @@
 # Classificação de grãos de café arábica
 
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
-![Last](https://img.shields.io/github/last-commit/wbmagalhaes/coffee-classification)
+
 ![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
 ![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
+
 [![Python package](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
 ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
+
+![Last](https://img.shields.io/github/last-commit/wbmagalhaes/coffee-classification)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="600">

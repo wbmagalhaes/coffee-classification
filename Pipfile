@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 tensorflow = "2.4.1"
+opencv-python = "*"
+matplotlib = "*"
+sklearn = "*"
 
 [dev-packages]
 

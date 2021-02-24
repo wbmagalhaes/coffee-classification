@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.tfrecords import load_dataset
+from utils.tfrecords import load_dataset, save_tfrecords
 from utils.data_reader import count_beans_in_list
 
 def main(args):

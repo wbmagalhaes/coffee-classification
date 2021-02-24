@@ -4,7 +4,8 @@ import os
 from utils.tfrecords import load_dataset, save_tfrecords
 
 
-def test_classify_images():
+def test_segmentation():
+    # TODO: SEGMENTAÇÃO
     assert 1 == 1
 
 
@@ -32,25 +33,35 @@ def test_create_tfrecord():
     assert os.path.isfile('tests/data/teste_dataset.tfrecord')
 
 
-def test_segmentation():
-    assert 1 == 1
-
-
 def test_show_tfrecord():
-    assert 1 == 1
+    # TODO: MOSTRAR OS TFRECORDS
 
-
-def test_test_tfrecords():
-    assert 1 == 1
-
-
-def test_tolite():
-    assert 1 == 1
-
-
-def test_to_saved_model():
     assert 1 == 1
 
 
 def test_train():
+    # TODO: INICIAR O TREINAMENTO
+
+    assert 1 == 1
+
+
+def test_test_tfrecords():
+    # TODO: TESTAR A REDE NOS TFRECORDS
+
+    assert 1 == 1
+
+
+def test_classify_images():
+    # TODO: SEGMENTAR E CLASSIFICAR UMA IMAGEM
+
+    assert 1 == 1
+
+
+def test_tolite():
+    # TODO: CONVERTER PARA .LITE
+    assert 1 == 1
+
+
+def test_to_saved_model():
+    # TODO: CONVERTER PARA SAVEDMODEL
     assert 1 == 1

@@ -3,6 +3,8 @@
 ![Completion](https://img.shields.io/badge/completion-80%25-orange)
 ![Bugs](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
 ![Actions](https://github.com/wbmagalhaes/coffee-classification/actions)
+![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
+![Last](https://img.shields.io/github/last-commit/wbmagalhaes/coffee-classification)
 
 Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado iniciado no ano de 2017 para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 

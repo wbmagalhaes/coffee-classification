@@ -73,9 +73,7 @@ Parâmetros Opcionais:
 | :-------------- | :--------: | :-------------------------------------------------- |
 | --im_size       |     64     | tamanho final da imagem recortada do grão           |
 | --train_percent |    0.8     | porcentagem de imagens para treinamento             |
-| --n_files       |   1 1 1    | quantidade de divisões nos arquivos TFRecord        |
 | --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
-
 
 **Parâmetro --im_size**
 
@@ -88,10 +86,6 @@ Define a porcentagem de imagens que serão utilizadas no treinamento, a porcenta
 **Parâmetro --no-shuffle**
 
 Por padrão, as imagens são randomizadas antes da divisão em treinamento, validação e teste. Se este parâmetro estiver presente, as imagens não são randomizadas.
-
-**Parâmetro --n_files**
-
-Define em quantos arquivos TFRecord os dados serão divididos, isso é útil para que os arquivos não passem do limite de 100Mb do GitHub. O valor padrão de 1 1 1 corresponde a 1 arquivo para treinamento, 1 para validação e 1 para teste.
 
 Formato do Resultado:
 
@@ -142,7 +136,7 @@ python show_tfrecords.py -p <tfrecords path>
 Exemplo:
 
 ```
-python show_tfrecords.py -p data/teste_dataset0.tfrecord
+python show_tfrecords.py -p data/teste_dataset.tfrecord
 ```
 
 Parâmetros Requeridos:
@@ -179,16 +173,42 @@ Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respe
 Como treinar a rede
 
 ```
-python train.py
+python train.py -t <train file path> -v <validation file path> -o <output directory>
+```
+
+Exemplo:
+
+```
+python train.py -t data/train_dataset.tfrecord -v data/valid_dataset.tfrecord -o CoffeeNet6
 ```
 
 Parâmetros Requeridos:
 
-    -t --traindir   caminho para o arquivo TFRecord
-    -v --validdir   caminho para o arquivo TFRecord
-    -o --outputdir  caminho para o arquivo TFRecord
-    --batch         caminho para o arquivo TFRecord
-    --epochs        caminho para o arquivo TFRecord
+    -t --train    caminho para o arquivo TFRecord de treinamento
+    -v --valid    caminho para o arquivo TFRecord de validação
+    -o --output   diretório onde o modelo e os logs de treinamento serão salvos
+    --batch       tamanho do batch de imagens
+    --epochs      quantidade de epochs de treinamento
+
+**Parâmetro -t**
+
+Train path
+
+**Parâmetro -v**
+
+Valid path
+
+**Parâmetro -o**
+
+Valid path
+
+**Parâmetro --batch**
+
+Batch size
+
+**Parâmetro --epochs**
+
+Number of epochs
 
 Parâmetros Opcionais:
 
@@ -204,6 +224,46 @@ Parâmetros Opcionais:
 | --outactivation  |  softmax   | diretório contendo as imagens |
 | --lr             |    1e-4    | diretório contendo as imagens |
 | --labelsmoothing |    0.2     | diretório contendo as imagens |
+
+**Parâmetro --imsize**
+
+Img size
+
+**Parâmetro --nlayers**
+
+Number of layers
+
+**Parâmetro --filters**
+
+Number of filters in the first layer
+
+**Parâmetro --kernelinit**
+
+Weights initialization
+
+**Parâmetro --l2**
+
+L2 regularization
+
+**Parâmetro --biasinit**
+
+Biases initialization
+
+**Parâmetro --lrelualpha**
+
+LeakyReLU alpha
+
+**Parâmetro --outactivation**
+
+Output activation
+
+**Parâmetro --lr**
+
+Learning rate
+
+**Parâmetro --labelsmoothing**
+
+Label smoothing
 
 # Uso
 

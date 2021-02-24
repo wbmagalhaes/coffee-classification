@@ -7,9 +7,9 @@ from utils.CoffeeNet import load_datasets, create_model, train
 def main(args):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--traindir', type=str, default='./data/train_dataset0.tfrecord')
-    parser.add_argument('-v', '--validdir', type=str, default='./data/valid_dataset0.tfrecord')
-    parser.add_argument('-o', '--outputdir', type=str, default='CoffeeNet6')
+    parser.add_argument('-t', '--train', type=str, default='data/train_dataset0.tfrecord')
+    parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset0.tfrecord')
+    parser.add_argument('-o', '--output', type=str, default='CoffeeNet6')
 
     parser.add_argument('--batchsize', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=60)
@@ -28,13 +28,13 @@ def main(args):
     args = parser.parse_args()
 
     train_ds, valid_ds, train_steps, valid_steps = load_datasets(
-        [args.traindir],
-        [args.validdir],
+        [args.train],
+        [args.valid],
         args.batchsize
     )
 
     model, cbs = create_model(
-        model_name=args.outputdir,
+        model_name=args.output,
         input_shape=(args.imsize, args.imsize, 3),
         num_layers=args.nlayers,
         filters=args.filters,

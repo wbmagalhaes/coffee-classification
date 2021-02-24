@@ -4,7 +4,7 @@
 ![Bugs](https://img.shields.io/badge/bugs-0-success)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="750">
+  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="700">
 </p>
 
 Resumo
@@ -165,9 +165,11 @@ Augment
 
 Formato do Resultado:
 
-![Samples](dataset_samples.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="500">
+</p>
 
-![Samples](dataset_samples.png){:width="300px"}
+Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 
 ## Treinamento da Rede
 

@@ -6,10 +6,11 @@ from utils.tfrecords import load_dataset, save_tfrecords
 
 def test_segmentation():
     # TODO: SEGMENTAÇÃO
+
     assert 1 == 1
 
 
-def test_create_tfrecord():
+def test_create_tfrecord(tmpdir):
 
     dataset = load_dataset(
         input_dir='tests/images',
@@ -23,14 +24,16 @@ def test_create_tfrecord():
     assert len(dataset[1]) == 5
     assert len(dataset[2]) == 5
 
-    save_tfrecords(dataset[0], 'train_dataset', 'tests/data', n=1)
-    assert os.path.isfile('tests/data/train_dataset.tfrecord')
+    data_dir = tmpdir.mkdir("data")
 
-    save_tfrecords(dataset[1], 'valid_dataset', 'tests/data', n=1)
-    assert os.path.isfile('tests/data/valid_dataset.tfrecord')
+    save_tfrecords(dataset[0], 'train_dataset', data_dir, n=1)
+    assert os.path.isfile(data_dir.join('train_dataset.tfrecord'))
 
-    save_tfrecords(dataset[2], 'teste_dataset', 'tests/data', n=1)
-    assert os.path.isfile('tests/data/teste_dataset.tfrecord')
+    save_tfrecords(dataset[1], 'valid_dataset', data_dir, n=1)
+    assert os.path.isfile(data_dir.join('valid_dataset.tfrecord'))
+
+    save_tfrecords(dataset[2], 'teste_dataset', data_dir, n=1)
+    assert os.path.isfile(data_dir.join('teste_dataset.tfrecord'))
 
 
 def test_show_tfrecord():
@@ -59,9 +62,11 @@ def test_classify_images():
 
 def test_tolite():
     # TODO: CONVERTER PARA .LITE
+
     assert 1 == 1
 
 
 def test_to_saved_model():
     # TODO: CONVERTER PARA SAVEDMODEL
+
     assert 1 == 1

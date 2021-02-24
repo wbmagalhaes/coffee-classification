@@ -118,7 +118,7 @@ for addr in addrs:
         print('Pulando imagem já segmentada.')
         continue
 
-    raw_img = cv2.imread(path)
+    raw_img = cv2.imread(addr)
     raw_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2RGB)
 
     input_img, mask = otsu(raw_img, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)

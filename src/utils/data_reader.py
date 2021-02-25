@@ -78,16 +78,17 @@ def load(data_dir, cut_size=64, bg_color=(255, 0, 0)):
     addrs = glob.glob(data_dir + '/**/*.json', recursive=True)
     for addr in addrs:
         print(os.path.basename(addr))
+        
+        if os.path.isfile(addr):
+            beans = read_json(addr, cut_size, bg_color)
+            data.extend(beans)
 
-        beans = read_json(addr, cut_size, bg_color)
-        data.extend(beans)
+            for bean in beans:
+                _, label = bean
 
-        for bean in beans:
-            _, label = bean
-
-            if label not in count.keys():
-                count[label] = 0
-            count[label] += 1
+                if label not in count.keys():
+                    count[label] = 0
+                count[label] += 1
 
     print(f'{len(data)} total images')
 

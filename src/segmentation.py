@@ -111,44 +111,62 @@ def findBeans(mask, expand, min_area, max_area):
     return beans
 
 
-def segment_images(imagesdir):
-    addrs = glob.glob(os.path.join(imagesdir, '*.jpg'), recursive=True)
-    for addr in addrs:
+def get_point_xy(point):
+    return [float(point[0]), float(point[1])]
 
-        print(os.path.basename(addr))
-        json_path = addr[:-3] + 'json'
 
-        if os.path.isfile(json_path):
-            print('Pulando imagem já segmentada.')
-            continue
+def get_bean_data(bean):
+    points = [get_point_xy(point) for point in bean]
 
-        raw_img = cv2.imread(addr)
-        raw_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2RGB)
+    return {
+        "label": "não classificado",
+        "points": points
+    }
 
-        input_img, mask = otsu(raw_img, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
-        beans = findBeans(mask, 1.1, 200, 4000)
 
-        data = []
-        for bean in beans:
+def get_beans(img_addr):
+    raw_img = cv2.imread(img_addr)
+    raw_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2RGB)
 
-            points = []
-            for point in bean:
-                point = [float(point[0]), float(point[1])]
-                points.append(point)
+    input_img, mask = otsu(raw_img, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
+    beans = findBeans(mask, 1.1, 200, 4000)
 
-            data.append({
-                "label": "não classificado",
-                "points": points
-            })
+    return [get_bean_data(bean) for bean in beans]
 
-        with open(json_path, 'w+') as f:
-            json.dump(data, f, indent=2)
+
+def segment_image(img_addr):
+    json_path = img_addr[:-3] + 'json'
+    data = get_beans(img_addr) if not os.path.isfile(json_path) else None
+
+    return {
+        'path': json_path,
+        'data': data
+    }
+
+
+def segment_images(images_dir):
+    path = os.path.join(images_dir, '**/*.jpg')
+    addrs = glob.glob(path, recursive=True)
+    return [segment_image(addr) for addr in addrs]
+
+
+def save_segmentation(data, output_dir=None):
+    for d in data:
+        if d:
+            path = os.path.basename(d['path']) if output_dir else d['path']
+
+            # with open(path, 'w+') as f:
+            #     json.dump(d['data'], f, indent=2)
 
 
 def main(args):
     parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--imagesdir', type=str, default='src/tests')
+    parser.add_argument('-o', '--outputdir', type=str, default=None)
+    args = parser.parse_args()
 
-    parser.add_argument('-i', '--inputdir', type=str, default='data/teste_dataset.tfrecord')
+    data = segment_images(args.imagesdir)
+    save_segmentation(data, args.outputdir)
 
 
 if __name__ == "__main__":

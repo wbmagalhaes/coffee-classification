@@ -5,6 +5,8 @@ import numpy as np
 from utils.tfrecords import read_tfrecord
 from utils.CoffeeNet import load_datasets, create_model, save_model
 
+from segmentation import segment_images, save_segmentation
+
 from create_tfrecords import create, save
 from classify_tfrecords import classify
 
@@ -13,9 +15,14 @@ from to_lite import export_tolite
 
 
 def test_segmentation():
-    # TODO: SEGMENTAÇÃO
+    data = segment_images('src/tests')
 
-    assert 1 == 1
+    assert len(data) == 2
+
+    assert data[0]['data'] != None
+    assert data[1]['data'] == None
+
+    # save_segmentation(data)
 
 
 def test_create_tfrecords(tmpdir):

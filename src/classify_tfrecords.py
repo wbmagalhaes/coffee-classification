@@ -1,7 +1,9 @@
 import sys
 import argparse
 
-from utils import tfrecords, visualize, reload_model
+from utils.tfrecords import read_tfrecord
+from utils.visualize import plot_images, plot_confusion_matrix
+from utils.reload_model import from_savedmodel
 
 
 def main(args):
@@ -14,14 +16,14 @@ def main(args):
 
     args = parser.parse_args()
 
-    dataset = tfrecords.read_tfrecord([args.inputdir])
+    dataset = read_tfrecord([args.inputdir])
     x_data, y_true = zip(*[data for data in dataset])
 
-    model = reload_model.from_savedmodel(args.modeldir)
+    model = from_savedmodel(args.modeldir)
     _, y_pred = model.predict(dataset.batch(args.batch))
 
-    visualize.plot_images(x_data[:args.batch], y_true[:args.batch], y_pred[:args.batch], fontsize=8)
-    visualize.plot_confusion_matrix(y_true, y_pred)
+    plot_images(x_data[:args.batch], y_true[:args.batch], y_pred[:args.batch], fontsize=8)
+    plot_confusion_matrix(y_true, y_pred)
 
 
 if __name__ == "__main__":

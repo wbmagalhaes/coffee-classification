@@ -1,6 +1,4 @@
-import tensorflow as tf
-
-from utils import reload_model
+from utils.export_model import export_tolite
 
 
 def main(args):
@@ -12,15 +10,7 @@ def main(args):
 
     args = parser.parse_args()
 
-    model = reload_model.from_json(args.modeldir, args.epoch)
-
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    tflite_model = converter.convert()
-
-    interpreter = tf.lite.Interpreter(model_content=tflite_model)
-    interpreter.allocate_tensors()
-
-    open(args.output, 'wb').write(tflite_model)
+    export_tolite(args.modeldir, args.epoch, args.output)
 
 
 if __name__ == "__main__":

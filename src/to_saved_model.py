@@ -1,6 +1,4 @@
-import tensorflow as tf
-
-from utils import reload_model
+from utils.export_model import export_savedmodel
 
 
 def main(args):
@@ -8,18 +6,11 @@ def main(args):
 
     parser.add_argument('--modeldir', type=str, default='models/CoffeeNet6')
     parser.add_argument('--epoch', type=int, default=500)
+    parser.add_argument('--output', type=int, default='CoffeeNet6')
 
     args = parser.parse_args()
 
-    model = reload_model.from_json(args.modeldir, args.epoch)
-
-    tf.keras.models.save_model(
-        model,
-        filepath=args.modeldir,
-        overwrite=True,
-        include_optimizer=False,
-        save_format='tf'
-    )
+    export_savedmodel(args.modeldir, args.epoch, args.output)
 
 
 if __name__ == "__main__":

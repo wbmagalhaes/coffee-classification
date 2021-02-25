@@ -1,9 +1,11 @@
 import os
 import pytest
+import numpy as np
 
-from utils.tfrecords import load_datafiles, save_tfrecords
-from utils.tfrecords import read_tfrecord
+from utils.tfrecords import load_datafiles, read_tfrecord, save_tfrecords
 from utils.CoffeeNet import load_datasets, create_model, save_model
+from utils.reload_model import from_savedmodel, from_json
+from utils.export_model import export_savedmodel, export_tolite
 
 
 def test_segmentation():
@@ -40,7 +42,7 @@ def test_create_tfrecord(tmpdir):
 
 def test_show_tfrecord():
     dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
-    assert len([0 for data in dataset]) == 3
+    assert len([0 for data in dataset]) == 5
 
 
 def test_train(tmpdir):
@@ -50,8 +52,8 @@ def test_train(tmpdir):
         2
     )
 
-    assert train_steps == 2
-    assert valid_steps == 2
+    assert train_steps == 3
+    assert valid_steps == 3
 
     model = create_model(
         input_shape=(64, 64, 3),
@@ -86,10 +88,10 @@ def test_train(tmpdir):
 
 
 def test_classify_tfrecords():
-    dataset = tfrecords.read_tfrecord(['src/tests/dataset.tfrecord'])
+    dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
     x_data, y_true = zip(*[data for data in dataset])
 
-    model = reload_model.from_savedmodel('models/CoffeeNet6')
+    model = from_savedmodel('models/CoffeeNet6')
     _, y_pred = model.predict(dataset.batch(64))
 
     assert np.argmax(y_pred[0]) == 3
@@ -104,32 +106,13 @@ def test_classify_images():
 
 
 # def test_tolite(tmpdir):
-#     model = reload_model.from_json('models/CoffeeNet6', 500)
-
-#     converter = tf.lite.TFLiteConverter.from_keras_model(model)
-#     tflite_model = converter.convert()
-
-#     interpreter = tf.lite.Interpreter(model_content=tflite_model)
-#     interpreter.allocate_tensors()
-
 #     resultpath = tmpdir.mkdir("result").join('test.tflite')
-
-#     open(resultpath, 'wb').write(tflite_model)
-
+#     export_tolite('models/CoffeeNet6', 500, resultpath)
 #     assert os.path.isfile(resultpath)
 
 
 # def test_to_saved_model(tmpdir):
-#     model = reload_model.from_json('models/CoffeeNet6', 500)
-
 #     resultpath = tmpdir.mkdir("result")
-#     tf.keras.models.save_model(
-#         model,
-#         filepath=resultpath,
-#         overwrite=True,
-#         include_optimizer=False,
-#         save_format='tf'
-#     )
-
-#     model = reload_model.from_savedmodel(resultpath)
+#     export_savedmodel('models/CoffeeNet6', 500, resultpath)
+#     model = from_savedmodel(resultpath)
 #     assert model != None

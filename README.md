@@ -54,19 +54,18 @@ python segmentation.py
 Você pode criar TFRecords para o treinamento a partir suas próprias imagens.
 
 ```
-python create_tfrecords.py -i <images path> -o <tfrecords path>
+python create_tfrecords.py
 ```
 
-Exemplo:
+Parâmetros:
 
-```
-python create_tfrecords.py -i images -o data
-```
-
-Parâmetros Requeridos:
-
-    -i --inputdir   diretório contendo as imagens e a segmentação
-    -o --outputdir  diretório onde serão criados os tfrecords
+| **Parâmetro**   | **Padrão** | **Descrição**                                       |
+| :-------------- | :--------: | :-------------------------------------------------- |
+| -i --inputdir   |   images   | diretório contendo as imagens e a segmentação       |
+| -o --outputdir  |    data    | diretório onde serão criados os tfrecords           |
+| --im_size       |     64     | tamanho final da imagem recortada do grão           |
+| --train_percent |    0.8     | porcentagem de imagens para treinamento             |
+| --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
 
 **Parâmetro -i**
 
@@ -79,14 +78,6 @@ As imagens devem estar no formato JPG, podendo estar separadas em subspastas. Os
 Define o diretório onde serão criados os arquivos .tfrecord usados pela rede.
 
 Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfrecord e teste_dataset.tfrecord. Arquivos de mesmo nome serão substituídos.
-
-Parâmetros Opcionais:
-
-| **Parâmetro**   | **Padrão** | **Descrição**                                       |
-| :-------------- | :--------: | :-------------------------------------------------- |
-| --im_size       |     64     | tamanho final da imagem recortada do grão           |
-| --train_percent |    0.8     | porcentagem de imagens para treinamento             |
-| --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
 
 **Parâmetro --im_size**
 
@@ -143,29 +134,20 @@ Após carregar as imagens e gerar os TFRecords, será mostrado uma lista contend
 Para verificar as imagens armazenadas nos TFRecords.
 
 ```
-python show_tfrecords.py -p <tfrecords path>
+python show_tfrecords.py
 ```
 
-Exemplo:
+Parâmetros:
 
-```
-python show_tfrecords.py -p data/teste_dataset.tfrecord
-```
-
-Parâmetros Requeridos:
-
-    -p --path   caminho para o arquivo TFRecord
+| **Parâmetro** |         **Padrão**          | **Descrição**                   |
+| :------------ | :-------------------------: | :------------------------------ |
+| -p --path     | data/valid_dataset.tfrecord | caminho para o arquivo TFRecord |
+| --batch       |             36              | quantidades de imagens          |
+| --augment     |            False            | aplica augmentation nas imagens |
 
 **Parâmetro -p**
 
 Define o path para o arquivo TFRecord contendo as imagens que se deseja visualizar.
-
-Parâmetros Opcionais:
-
-| **Parâmetro** | **Padrão** | **Descrição**                   |
-| :------------ | :--------: | :------------------------------ |
-| --batch       |     36     | quantidades de imagens          |
-| --augment     |   False    | aplica augmentation nas imagens |
 
 **Parâmetro --batch**
 
@@ -186,7 +168,7 @@ Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respe
 A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TFRecords.
 
 ```
-python train.py -t <train file path> -v <validation file path> -o <output directory> --batch <batch size> --epochs <epochs number>
+python train.py
 ```
 
 Exemplo:
@@ -195,13 +177,26 @@ Exemplo:
 python train.py -t data/train_dataset.tfrecord -v data/valid_dataset.tfrecord -o CoffeeNet6 --batch 64 --epochs 500
 ```
 
-Parâmetros Requeridos:
+Parâmetros:
 
-    -t --train    caminho para o arquivo TFRecord de treinamento
-    -v --valid    caminho para o arquivo TFRecord de validação
-    -o --output   diretório onde o modelo e os logs de treinamento serão salvos
-    --batch       tamanho do batch de imagens
-    --epochs      quantidade de epochs de treinamento
+| **Parâmetro**    |         **Padrão**          | **Descrição**                                    |
+| :--------------- | :-------------------------: | :----------------------------------------------- |
+| -t --train       | data/train_dataset.tfrecord | caminho para o arquivo TFRecord de treinamento   |
+| -v --valid       | data/valid_dataset.tfrecord | caminho para o arquivo TFRecord de validação     |
+| --output         |      models/CoffeeNet6      | diretório onde o modelo é salvo                  |
+| --logdir         |       logs/CoffeeNet6       | diretório onde os logs de treinamento são salvos |
+| --batch          |             64              | tamanho do batch de imagens                      |
+| --epochs         |             500             | quantidade de epochs de treinamento              |
+| --imsize         |             64              | tamanho das imagens de input                     |
+| --nlayers        |              5              | número de camadas de extração                    |
+| --filters        |             64              | quantidade de filtros da primeira camada         |
+| --kernelinit     |          he_normal          | método de inicialização dos weigths              |
+| --l2             |            0.01             | valor do beta da regularização L2                |
+| --biasinit       |             0.1             | valor de inicialização dos biases                |
+| --lrelualpha     |            0.02             | valor do alpha da ativação LeakyReLU             |
+| --outactivation  |           softmax           | ativação da última camada da rede                |
+| --lr             |            1e-4             | learning rate do otimizador Adam                 |
+| --labelsmoothing |             0.2             | suavização aplicada no vetor onehot              |
 
 **Parâmetro -t**
 
@@ -211,9 +206,13 @@ Define o caminho para o arquivo TFRecords contendo o dataset de treinamento.
 
 Define o caminho para o arquivo TFRecords contendo o dataset de validação.
 
-**Parâmetro -o**
+**Parâmetro -output**
 
-Define o diretório onde serão salvos o modelo e os logs de treinamento para visualização no TensorBoard.
+Define o diretório onde será salvo o modelo.
+
+**Parâmetro -logdir**
+
+Define o diretório onde serão salvos os logs de treinamento para visualização no TensorBoard.
 
 **Parâmetro --batch**
 
@@ -222,21 +221,6 @@ Define o tamanho da batch de imagens que será passada à rede em cada step do t
 **Parâmetro --epochs**
 
 Define o número de epochs de treinamento. A quantidade de steps por epoch é calculada automaticamente.
-
-Parâmetros Opcionais:
-
-| **Parâmetro**    | **Padrão** | **Descrição**                            |
-| :--------------- | :--------: | :--------------------------------------- |
-| --imsize         |     64     | tamanho das imagens de input             |
-| --nlayers        |     5      | número de camadas de extração            |
-| --filters        |     64     | quantidade de filtros da primeira camada |
-| --kernelinit     | he_normal  | método de inicialização dos weigths      |
-| --l2             |    0.01    | valor do beta da regularização L2        |
-| --biasinit       |    0.1     | valor de inicialização dos biases        |
-| --lrelualpha     |    0.02    | valor do alpha da ativação LeakyReLU     |
-| --outactivation  |  softmax   | ativação da última camada da rede        |
-| --lr             |    1e-4    | learning rate do otimizador Adam         |
-| --labelsmoothing |    0.2     | suavização aplicada no vetor onehot      |
 
 **Parâmetro --imsize**
 
@@ -297,14 +281,16 @@ Pode classificar o tfrecord de teste para avaliar a rede
 Mostra a matriz de confusão
 
 ```
-python test_tfrecords.py
+python classify_tfrecords.py
 ```
 
-Parâmetros Opcionais:
+Parâmetros:
 
 | **Parâmetro** | **Padrão** | **Descrição**                 |
 | :------------ | :--------: | :---------------------------- |
 | -i --inputdir |  /images   | diretório contendo as imagens |
+| -m --modeldir |  /images   | diretório contendo as imagens |
+| --batch       |  /images   | diretório contendo as imagens |
 
 ## Com Imagens
 
@@ -318,7 +304,7 @@ Se tiver que segmentar, usa o .jpg
 python classify_images.py
 ```
 
-Parâmetros Opcionais:
+Parâmetros:
 
 | **Parâmetro** | **Padrão** | **Descrição**                 |
 | :------------ | :--------: | :---------------------------- |
@@ -334,3 +320,12 @@ Parâmetros Opcionais:
   year =         {2021}
 }
 ```
+
+[ ] classify_images
+[ ] classify_tfrecords
+[ ] create_tfrecord
+[ ] segmentation
+[ ] show_tfrecord
+[ ] to_lite
+[ ] to_saved_model
+[ ] train

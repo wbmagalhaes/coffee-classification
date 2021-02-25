@@ -9,7 +9,7 @@ def main(args):
 
     parser.add_argument('-t', '--train', type=str, default='data/train_dataset.tfrecord')
     parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset.tfrecord')
-    parser.add_argument('-o', '--output', type=str, default='models/CoffeeNet6')
+    parser.add_argument('--output', type=str, default='models/CoffeeNet6')
     parser.add_argument('--logdir', type=str, default='logs/CoffeeNet6')
 
     parser.add_argument('--batchsize', type=int, default=64)

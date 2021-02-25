@@ -15,7 +15,7 @@ def test_segmentation():
 def test_create_tfrecord(tmpdir):
 
     dataset = load_datafiles(
-        input_dir='src/tests/images',
+        input_dir='src/tests',
         im_size=64,
         training_percentage=0.6,
         random=True,
@@ -39,14 +39,14 @@ def test_create_tfrecord(tmpdir):
 
 
 def test_show_tfrecord():
-    dataset = read_tfrecord(['src/tests/tfrecords/dataset.tfrecord'])
+    dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
     assert len([0 for data in dataset]) == 3
 
 
 def test_train(tmpdir):
     train_ds, valid_ds, train_steps, valid_steps = load_datasets(
-        ['src/tests/tfrecords/dataset.tfrecord'],
-        ['src/tests/tfrecords/dataset.tfrecord'],
+        ['src/tests/dataset.tfrecord'],
+        ['src/tests/dataset.tfrecord'],
         2
     )
 
@@ -66,8 +66,7 @@ def test_train(tmpdir):
         label_smoothing=0
     )
 
-    model_dir = tmpdir.mkdir("models")
-    save_model(model, model_dir)
+    save_model(model, tmpdir.mkdir("models"))
 
     assert os.path.isfile(model_dir.join('model.json'))
 
@@ -81,11 +80,20 @@ def test_train(tmpdir):
         validation_steps=valid_steps
     )
 
+    acc = history.history['logits_categorical_accuracy']
+    assert len(acc) == 1
 
-def test_test_tfrecords():
-    # TODO: TESTAR A REDE NOS TFRECORDS
 
-    assert 1 == 1
+def test_classify_tfrecords():
+    dataset = tfrecords.read_tfrecord(['src/tests/dataset.tfrecord'])
+    x_data, y_true = zip(*[data for data in dataset])
+
+    model = reload_model.from_savedmodel('models/CoffeeNet6')
+    _, y_pred = model.predict(dataset.batch(64))
+
+    assert np.argmax(y_pred[0]) == 3
+    assert np.argmax(y_pred[1]) == 3
+    assert np.argmax(y_pred[2]) == 3
 
 
 def test_classify_images():

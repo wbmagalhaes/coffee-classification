@@ -1,3 +1,6 @@
+import sys
+import argparse
+
 import tensorflow as tf
 from utils.reload_model import from_json
 

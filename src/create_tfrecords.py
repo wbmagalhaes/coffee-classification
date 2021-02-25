@@ -5,6 +5,24 @@ from utils.tfrecords import load_datafiles, save_tfrecords
 from utils.data_reader import count_beans_in_list
 
 
+def create(input_dir, im_size=64, train_percent=0.8, random=True, n_files=(1, 1, 1)):
+    train_dataset, valid_dataset, teste_dataset = load_datafiles(
+        input_dir=input_dir,
+        im_size=im_size,
+        train_percent=train_percent,
+        random=random,
+        n_files=n_files
+    )
+
+    return train_dataset, valid_dataset, teste_dataset
+
+
+def save(output_dir, train_dataset, valid_dataset, teste_dataset):
+    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=1)
+    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=1)
+    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=1)
+
+
 def main(args):
     parser = argparse.ArgumentParser()
 
@@ -16,26 +34,23 @@ def main(args):
 
     args = parser.parse_args()
 
-    train_dataset, valid_dataset, teste_dataset = load_datafiles(
+    train_dataset, valid_dataset, teste_dataset = create(
         input_dir=args.inputdir,
         im_size=args.im_size,
-        training_percentage=args.train_percent,
+        train_percent=args.train_percent,
         random=args.random,
         n_files=(1, 1, 1)
     )
 
     print(f'{len(train_dataset)} train images')
-    count_beans_in_list(train_dataset)
-
     print(f'{len(valid_dataset)} valid images')
-    count_beans_in_list(valid_dataset)
-
     print(f'{len(teste_dataset)} teste images')
+
+    count_beans_in_list(train_dataset)
+    count_beans_in_list(valid_dataset)
     count_beans_in_list(teste_dataset)
 
-    save_tfrecords(train_dataset, 'train_dataset', args.outputdir, n=1)
-    save_tfrecords(valid_dataset, 'valid_dataset', args.outputdir, n=1)
-    save_tfrecords(teste_dataset, 'teste_dataset', args.outputdir, n=1)
+    save(args.outputdir, train_dataset, valid_dataset, teste_dataset)
 
     print('Finished.')
 

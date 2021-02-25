@@ -1,6 +1,9 @@
 import os
 import cv2
 
+import sys
+import argparse
+
 import json
 import glob
 import numpy as np
@@ -108,34 +111,45 @@ def findBeans(mask, expand, min_area, max_area):
     return beans
 
 
-addrs = glob.glob('**/*.jpg', recursive=True)
-for addr in addrs:
+def segment_images(imagesdir):
+    addrs = glob.glob(os.path.join(imagesdir, '*.jpg'), recursive=True)
+    for addr in addrs:
 
-    print(os.path.basename(addr))
-    json_path = addr[:-3] + 'json'
+        print(os.path.basename(addr))
+        json_path = addr[:-3] + 'json'
 
-    if os.path.isfile(json_path):
-        print('Pulando imagem já segmentada.')
-        continue
+        if os.path.isfile(json_path):
+            print('Pulando imagem já segmentada.')
+            continue
 
-    raw_img = cv2.imread(addr)
-    raw_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2RGB)
+        raw_img = cv2.imread(addr)
+        raw_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2RGB)
 
-    input_img, mask = otsu(raw_img, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
-    beans = findBeans(mask, 1.1, 200, 4000)
+        input_img, mask = otsu(raw_img, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
+        beans = findBeans(mask, 1.1, 200, 4000)
 
-    data = []
-    for bean in beans:
+        data = []
+        for bean in beans:
 
-        points = []
-        for point in bean:
-            point = [float(point[0]), float(point[1])]
-            points.append(point)
+            points = []
+            for point in bean:
+                point = [float(point[0]), float(point[1])]
+                points.append(point)
 
-        data.append({
-            "label": "não classificado",
-            "points": points
-        })
+            data.append({
+                "label": "não classificado",
+                "points": points
+            })
 
-    with open(json_path, 'w+') as f:
-        json.dump(data, f, indent=2)
+        with open(json_path, 'w+') as f:
+            json.dump(data, f, indent=2)
+
+
+def main(args):
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-i', '--inputdir', type=str, default='data/teste_dataset.tfrecord')
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -324,8 +324,8 @@ Parâmetros:
 Implemented
 
 - [ ] segmentation
-- [x] create_tfrecord
-- [x] show_tfrecord
+- [x] create_tfrecords
+- [x] show_tfrecords
 - [x] train
 - [x] classify_tfrecords
 - [ ] classify_images
@@ -335,8 +335,8 @@ Implemented
 README
 
 - [ ] segmentation
-- [x] create_tfrecord
-- [x] show_tfrecord
+- [x] create_tfrecords
+- [x] show_tfrecords
 - [ ] train
 - [ ] classify_tfrecords
 - [ ] classify_images
@@ -346,8 +346,8 @@ README
 PyTest
 
 - [ ] segmentation
-- [x] create_tfrecord
-- [x] show_tfrecord
+- [x] create_tfrecords
+- [x] show_tfrecords
 - [x] train
 - [x] classify_tfrecords
 - [ ] classify_images

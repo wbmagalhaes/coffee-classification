@@ -9,14 +9,14 @@ from utils import visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
-def load_datafiles(input_dir, im_size=64, random=True, training_percentage=0.8, n_files=(1, 1, 1)):
+def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_files=(1, 1, 1)):
     dataset = data_reader.load(input_dir, cut_size=im_size, bg_color=(0, 0, 0))
 
     if random:
         shuffle(dataset)
 
-    train_num = int(len(dataset) * training_percentage)
-    teste_num = int(len(dataset) * (1 - training_percentage)) // 2
+    train_num = int(len(dataset) * train_percent)
+    teste_num = int(len(dataset) * (1 - train_percent)) // 2
 
     train_dataset = dataset[:train_num]
     valid_dataset = dataset[train_num:train_num + teste_num]
@@ -93,17 +93,15 @@ def read_tfrecord(filenames, img_size=64):
     return dataset
 
 
-def show_dataset(path, batch=36, augment=True):
-    ds = read_tfrecord([path])
-
-    visualize.plot_dataset(ds.batch(batch))
+def show_dataset(dataset, batch=36, augment=True):
+    visualize.plot_dataset(dataset.batch(batch))
 
     if augment:
-        ds = rotate(ds)
-        ds = flip(ds)
-        ds = clip01(ds)
+        dataset = rotate(dataset)
+        dataset = flip(dataset)
+        dataset = clip01(dataset)
 
-        visualize.plot_dataset(ds.batch(batch))
+        visualize.plot_dataset(dataset.batch(batch))
 
 
 def bytes_feature(value):

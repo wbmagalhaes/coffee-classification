@@ -1,5 +1,5 @@
-import tensorflow as tf
 import json
+import tensorflow as tf
 
 
 def from_json(path, epoch):
@@ -12,7 +12,3 @@ def from_json(path, epoch):
     # Recover weights
     model.load_weights(f'{path}/epoch-{epoch:04d}.h5')
     return model
-
-
-def from_savedmodel(path):
-    return tf.keras.models.load_model(path)

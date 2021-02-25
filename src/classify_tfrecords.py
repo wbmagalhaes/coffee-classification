@@ -1,9 +1,19 @@
 import sys
 import argparse
+import tensorflow as tf
 
 from utils.tfrecords import read_tfrecord
 from utils.visualize import plot_images, plot_confusion_matrix
-from utils.reload_model import from_savedmodel
+
+
+def classify(filenames, modeldir, batch):
+    dataset = read_tfrecord(filenames)
+    x_data, y_true = zip(*[data for data in dataset])
+
+    model = tf.keras.models.load_model(modeldir)
+    _, y_pred = model.predict(dataset.batch(batch))
+
+    return x_data, y_true, y_pred
 
 
 def main(args):
@@ -16,14 +26,14 @@ def main(args):
 
     args = parser.parse_args()
 
-    dataset = read_tfrecord([args.inputdir])
-    x_data, y_true = zip(*[data for data in dataset])
+    x, true, pred = classify(
+        filenames=[args.inputdir],
+        modeldir=args.modeldir,
+        batch=args.batch
+    )
 
-    model = from_savedmodel(args.modeldir)
-    _, y_pred = model.predict(dataset.batch(args.batch))
-
-    plot_images(x_data[:args.batch], y_true[:args.batch], y_pred[:args.batch], fontsize=8)
-    plot_confusion_matrix(y_true, y_pred)
+    plot_images(x[:args.batch], true[:args.batch], pred[:args.batch], fontsize=8)
+    plot_confusion_matrix(true, pred)
 
 
 if __name__ == "__main__":

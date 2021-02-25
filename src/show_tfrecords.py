@@ -13,8 +13,10 @@ def main(args):
 
     args = parser.parse_args()
 
+    dataset = read_tfrecord([args.path])
+
     show_dataset(
-        path=args.path,
+        dataset=dataset,
         batch=args.batch,
         augment=args.augment,
     )

@@ -1,4 +1,17 @@
-from utils.export_model import export_savedmodel
+import tensorflow as tf
+from utils.reload_model import from_json
+
+
+def export_savedmodel(modeldir, epoch, output):
+    model = from_json(modeldir, epoch)
+
+    tf.keras.models.save_model(
+        model,
+        filepath=output,
+        overwrite=True,
+        include_optimizer=False,
+        save_format='tf'
+    )
 
 
 def main(args):

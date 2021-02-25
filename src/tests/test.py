@@ -2,10 +2,14 @@ import os
 import pytest
 import numpy as np
 
-from utils.tfrecords import load_datafiles, read_tfrecord, save_tfrecords
+from utils.tfrecords import read_tfrecord
 from utils.CoffeeNet import load_datasets, create_model, save_model
-from utils.reload_model import from_savedmodel, from_json
-from utils.export_model import export_savedmodel, export_tolite
+
+from create_tfrecords import create, save
+from classify_tfrecords import classify
+
+from to_saved_model import export_savedmodel
+from to_lite import export_tolite
 
 
 def test_segmentation():
@@ -14,12 +18,11 @@ def test_segmentation():
     assert 1 == 1
 
 
-def test_create_tfrecord(tmpdir):
-
-    dataset = load_datafiles(
+def test_create_tfrecords(tmpdir):
+    dataset = create(
         input_dir='src/tests',
         im_size=64,
-        training_percentage=0.6,
+        train_percent=0.6,
         random=True,
         n_files=(1, 1, 1)
     )
@@ -29,14 +32,10 @@ def test_create_tfrecord(tmpdir):
     assert len(dataset[2]) == 5
 
     data_dir = tmpdir.mkdir("data")
+    save(data_dir, dataset[0], dataset[1], dataset[2])
 
-    save_tfrecords(dataset[0], 'train_dataset', data_dir, n=1)
     assert os.path.isfile(data_dir.join('train_dataset.tfrecord'))
-
-    save_tfrecords(dataset[1], 'valid_dataset', data_dir, n=1)
     assert os.path.isfile(data_dir.join('valid_dataset.tfrecord'))
-
-    save_tfrecords(dataset[2], 'teste_dataset', data_dir, n=1)
     assert os.path.isfile(data_dir.join('teste_dataset.tfrecord'))
 
 
@@ -88,15 +87,15 @@ def test_train(tmpdir):
 
 
 def test_classify_tfrecords():
-    dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
-    x_data, y_true = zip(*[data for data in dataset])
+    _, _, pred = classify(
+        filenames=['src/tests/dataset.tfrecord'],
+        modeldir='models/CoffeeNet6',
+        batch=64
+    )
 
-    model = from_savedmodel('models/CoffeeNet6')
-    _, y_pred = model.predict(dataset.batch(64))
-
-    assert np.argmax(y_pred[0]) == 3
-    assert np.argmax(y_pred[1]) == 3
-    assert np.argmax(y_pred[2]) == 3
+    assert np.argmax(pred[0]) == 3
+    assert np.argmax(pred[1]) == 3
+    assert np.argmax(pred[2]) == 3
 
 
 def test_classify_images():
@@ -114,5 +113,5 @@ def test_classify_images():
 # def test_to_saved_model(tmpdir):
 #     resultpath = tmpdir.mkdir("result")
 #     export_savedmodel('models/CoffeeNet6', 500, resultpath)
-#     model = from_savedmodel(resultpath)
+#     model = tf.keras.models.load_model(resultpath)
 #     assert model != None

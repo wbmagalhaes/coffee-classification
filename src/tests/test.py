@@ -66,7 +66,8 @@ def test_train(tmpdir):
         label_smoothing=0
     )
 
-    save_model(model, tmpdir.mkdir("models"))
+    model_dir = tmpdir.mkdir("models")
+    save_model(model, model_dir)
 
     assert os.path.isfile(model_dir.join('model.json'))
 
@@ -102,13 +103,33 @@ def test_classify_images():
     assert 1 == 1
 
 
-def test_tolite():
-    # TODO: CONVERTER PARA .LITE
+# def test_tolite(tmpdir):
+#     model = reload_model.from_json('models/CoffeeNet6', 500)
 
-    assert 1 == 1
+#     converter = tf.lite.TFLiteConverter.from_keras_model(model)
+#     tflite_model = converter.convert()
+
+#     interpreter = tf.lite.Interpreter(model_content=tflite_model)
+#     interpreter.allocate_tensors()
+
+#     resultpath = tmpdir.mkdir("result").join('test.tflite')
+
+#     open(resultpath, 'wb').write(tflite_model)
+
+#     assert os.path.isfile(resultpath)
 
 
-def test_to_saved_model():
-    # TODO: CONVERTER PARA SAVEDMODEL
+# def test_to_saved_model(tmpdir):
+#     model = reload_model.from_json('models/CoffeeNet6', 500)
 
-    assert 1 == 1
+#     resultpath = tmpdir.mkdir("result")
+#     tf.keras.models.save_model(
+#         model,
+#         filepath=resultpath,
+#         overwrite=True,
+#         include_optimizer=False,
+#         save_format='tf'
+#     )
+
+#     model = reload_model.from_savedmodel(resultpath)
+#     assert model != None

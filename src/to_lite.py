@@ -2,21 +2,26 @@ import tensorflow as tf
 
 from utils import reload_model
 
-model_name = 'CoffeeNet6'
-epoch = 0
 
-model = reload_model.from_json(model_name, epoch)
+def main(args):
+    parser = argparse.ArgumentParser()
 
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
+    parser.add_argument('--modeldir', type=str, default='models/CoffeeNet6')
+    parser.add_argument('--epoch', type=int, default=500)
+    parser.add_argument('--output', type=int, default='coffeenet6_v1.0.tflite')
 
-interpreter = tf.lite.Interpreter(model_content=tflite_model)
-interpreter.allocate_tensors()
+    args = parser.parse_args()
 
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+    model = reload_model.from_json(args.modeldir, args.epoch)
 
-print(input_details)
-print(output_details)
+    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    tflite_model = converter.convert()
 
-open('./results/coffeenet6_v0.1.tflite', 'wb').write(tflite_model)
+    interpreter = tf.lite.Interpreter(model_content=tflite_model)
+    interpreter.allocate_tensors()
+
+    open(args.output, 'wb').write(tflite_model)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

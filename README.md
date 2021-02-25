@@ -321,11 +321,35 @@ Parâmetros:
 }
 ```
 
-- [ ] classify_images
-- [ ] classify_tfrecords
-- [ ] create_tfrecord
+Implemented
+
 - [ ] segmentation
-- [ ] show_tfrecord
-- [ ] to_lite
-- [ ] to_saved_model
+- [x] create_tfrecord
+- [x] show_tfrecord
+- [x] train
+- [x] classify_tfrecords
+- [ ] classify_images
+- [x] to_saved_model
+- [x] to_lite
+
+README
+
+- [ ] segmentation
+- [x] create_tfrecord
+- [x] show_tfrecord
 - [ ] train
+- [ ] classify_tfrecords
+- [ ] classify_images
+- [ ] to_saved_model
+- [ ] to_lite
+
+PyTest
+
+- [ ] segmentation
+- [x] create_tfrecord
+- [x] show_tfrecord
+- [x] train
+- [x] classify_tfrecords
+- [ ] classify_images
+- [x] to_saved_model
+- [x] to_lite

@@ -152,11 +152,16 @@ def segment_images(images_dir):
 
 def save_segmentation(data, output_dir=None):
     for d in data:
-        if d:
-            path = os.path.basename(d['path']) if output_dir else d['path']
+        if d['data']:
 
-            # with open(path, 'w+') as f:
-            #     json.dump(d['data'], f, indent=2)
+            if output_dir:
+                basename = os.path.basename(d['path'])
+                path = os.path.join(output_dir, basename)
+            else:
+                path = d['path']
+
+            with open(path, 'w+') as f:
+                json.dump(d['data'], f, indent=2)
 
 
 def main(args):

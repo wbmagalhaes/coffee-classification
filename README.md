@@ -323,7 +323,7 @@ Parâmetros:
 
 Implemented
 
-- [ ] segmentation
+- [x] segmentation
 - [x] create_tfrecords
 - [x] show_tfrecords
 - [x] train
@@ -345,7 +345,7 @@ README
 
 PyTest
 
-- [ ] segmentation
+- [x] segmentation
 - [x] create_tfrecords
 - [x] show_tfrecords
 - [x] train

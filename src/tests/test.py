@@ -15,18 +15,18 @@ from to_lite import export_tolite
 
 
 def test_segmentation(tmpdir):
-    data = segment_images('src/tests')
+    imgs_data = segment_images('src/tests')
 
-    assert len(data) == 2
+    assert len(imgs_data) == 2
 
-    assert data[0]['data'] != None
-    assert data[1]['data'] == None
+    assert imgs_data['20210212_164545.json']['data'] == None
+    assert len(imgs_data['20210212_152332.json']['data']) == 34
 
     data_dir = tmpdir.mkdir("data")
-    save_segmentation(data, data_dir)
+    save_segmentation(imgs_data, data_dir)
 
     assert not os.path.isfile(data_dir.join('20210212_164545.json'))
-    assert os.path.isfile(data_dir.join('20201103_180648.json'))
+    assert os.path.isfile(data_dir.join('20210212_152332.json'))
 
 
 def test_create_tfrecords(tmpdir):

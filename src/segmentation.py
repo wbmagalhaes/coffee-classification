@@ -138,40 +138,46 @@ def segment_image(img_addr):
     json_path = img_addr[:-3] + 'json'
     data = get_beans(img_addr) if not os.path.isfile(json_path) else None
 
-    return {
-        'path': json_path,
-        'data': data
-    }
+    img_data = {'path': json_path, 'data': data}
+    img_name = os.path.basename(json_path)
+
+    return img_name, img_data
 
 
 def segment_images(images_dir):
+    imgs_data = {}
+
     path = os.path.join(images_dir, '**/*.jpg')
     addrs = glob.glob(path, recursive=True)
-    return [segment_image(addr) for addr in addrs]
+
+    for addr in addrs:
+        img_name, img_data = segment_image(addr)
+        imgs_data[img_name] = img_data
+
+    return imgs_data
 
 
-def save_segmentation(data, output_dir=None):
-    for d in data:
-        if d['data']:
+def save_segmentation(imgs_data, output_dir=None):
+    for img in imgs_data:
+        if imgs_data[img]['data']:
 
             if output_dir:
-                basename = os.path.basename(d['path'])
-                path = os.path.join(output_dir, basename)
+                path = os.path.join(output_dir, img)
             else:
-                path = d['path']
+                path = imgs_data[img]['path']
 
             with open(path, 'w+') as f:
-                json.dump(d['data'], f, indent=2)
+                json.dump(imgs_data[img]['data'], f, indent=2)
 
 
 def main(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--imagesdir', type=str, default='src/tests')
+    parser.add_argument('-i', '--imagesdir', type=str, default='images')
     parser.add_argument('-o', '--outputdir', type=str, default=None)
     args = parser.parse_args()
 
-    data = segment_images(args.imagesdir)
-    save_segmentation(data, args.outputdir)
+    imgs_data = segment_images(args.imagesdir)
+    save_segmentation(imgs_data, args.outputdir)
 
 
 if __name__ == "__main__":

@@ -3,19 +3,17 @@ import pytest
 import numpy as np
 
 from utils.tfrecords import read_tfrecord
-from utils.CoffeeNet import load_datasets, create_model, save_model
+from utils.neural_net import load_datasets, create_model, save_model
 
-from segmentation import segment_images, save_segmentation
-
-from create_tfrecords import create, save
+from segment_images import segment, save_segmentation
+from create_tfrecords import load_datafiles, save_datasets
 from classify_tfrecords import classify
-
 from to_saved_model import export_savedmodel
 from to_lite import export_tolite
 
 
 def test_segmentation(tmpdir):
-    imgs_data = segment_images('src/tests')
+    imgs_data = segment('src/tests')
 
     assert len(imgs_data) == 2
 
@@ -30,7 +28,7 @@ def test_segmentation(tmpdir):
 
 
 def test_create_tfrecords(tmpdir):
-    dataset = create(
+    datasets = load_datafiles(
         input_dir='src/tests',
         im_size=64,
         train_percent=0.6,
@@ -38,12 +36,12 @@ def test_create_tfrecords(tmpdir):
         n_files=(1, 1, 1)
     )
 
-    assert len(dataset[0]) == 15
-    assert len(dataset[1]) == 5
-    assert len(dataset[2]) == 5
+    assert len(datasets[0]) == 15
+    assert len(datasets[1]) == 5
+    assert len(datasets[2]) == 5
 
     data_dir = tmpdir.mkdir("data")
-    save(data_dir, dataset[0], dataset[1], dataset[2])
+    save_datasets(data_dir, datasets[0], datasets[1], datasets[2])
 
     assert os.path.isfile(data_dir.join('train_dataset.tfrecord'))
     assert os.path.isfile(data_dir.join('valid_dataset.tfrecord'))

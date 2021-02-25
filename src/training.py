@@ -1,20 +1,17 @@
 import sys
 import argparse
 
-from utils.CoffeeNet import load_datasets, create_model, save_model
+from utils.neural_net import load_datasets, create_model, save_model
 
 
 def main(args):
     parser = argparse.ArgumentParser()
-
     parser.add_argument('-t', '--train', type=str, default='data/train_dataset.tfrecord')
     parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset.tfrecord')
     parser.add_argument('--output', type=str, default='models/CoffeeNet6')
     parser.add_argument('--logdir', type=str, default='logs/CoffeeNet6')
-
     parser.add_argument('--batchsize', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=500)
-
     parser.add_argument('--imsize', type=int, default=64)
     parser.add_argument('--nlayers', type=int, default=5)
     parser.add_argument('--filters', type=int, default=64)
@@ -25,7 +22,6 @@ def main(args):
     parser.add_argument('--outactivation', type=str, default='softmax')
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--labelsmoothing', type=float, default=0.2)
-
     args = parser.parse_args()
 
     train_ds, valid_ds, train_steps, valid_steps = load_datasets(

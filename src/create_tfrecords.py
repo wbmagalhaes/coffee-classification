@@ -1,40 +1,51 @@
 import sys
 import argparse
 
-from utils.tfrecords import load_datafiles, save_tfrecords
-from utils.data_reader import count_beans_in_list
+from random import shuffle
+
+from utils.data_reader import open_image, open_jsons
+from utils.segmentation import crop_beans, count_beans
+from utils.tfrecords import save_tfrecord
 
 
-def create(input_dir, im_size=64, train_percent=0.8, random=True, n_files=(1, 1, 1)):
-    train_dataset, valid_dataset, teste_dataset = load_datafiles(
-        input_dir=input_dir,
-        im_size=im_size,
-        train_percent=train_percent,
-        random=random,
-        n_files=n_files
-    )
+def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_files=(1, 1, 1)):
+    jsons, addrs = open_jsons(input_dir)
 
-    return train_dataset, valid_dataset, teste_dataset
+    dataset = []
+    for data, addr in zip(jsons, addrs):
+        image = open_image(addr[:-4] + 'jpg')
+        beans = crop_beans(image, data, cut_size=im_size, bg_color=(0, 0, 0))
+        dataset.extend(beans)
+
+    if random:
+        shuffle(dataset)
+
+    train_num = int(len(dataset) * train_percent)
+    teste_num = int(len(dataset) * (1 - train_percent)) // 2
+
+    train = dataset[:train_num]
+    valid = dataset[train_num:train_num + teste_num]
+    teste = dataset[train_num + teste_num:]
+
+    return train, valid, teste
 
 
-def save(output_dir, train_dataset, valid_dataset, teste_dataset):
-    save_tfrecords(train_dataset, 'train_dataset', output_dir, n=1)
-    save_tfrecords(valid_dataset, 'valid_dataset', output_dir, n=1)
-    save_tfrecords(teste_dataset, 'teste_dataset', output_dir, n=1)
+def save_datasets(output_dir, train, valid, teste):
+    save_tfrecord(train, 'train_dataset', output_dir, n=1)
+    save_tfrecord(valid, 'valid_dataset', output_dir, n=1)
+    save_tfrecord(teste, 'teste_dataset', output_dir, n=1)
 
 
 def main(args):
     parser = argparse.ArgumentParser()
-
     parser.add_argument('-i', '--inputdir', type=str, default='images')
     parser.add_argument('-o', '--outputdir', type=str, default='data')
     parser.add_argument('--im_size', type=int, default=64)
     parser.add_argument('--train_percent', type=float, default=0.8)
     parser.add_argument('--no-shuffle', dest='random', action='store_false', default=True)
-
     args = parser.parse_args()
 
-    train_dataset, valid_dataset, teste_dataset = create(
+    train, valid, teste = load_datafiles(
         input_dir=args.inputdir,
         im_size=args.im_size,
         train_percent=args.train_percent,
@@ -42,15 +53,19 @@ def main(args):
         n_files=(1, 1, 1)
     )
 
-    print(f'{len(train_dataset)} train images')
-    print(f'{len(valid_dataset)} valid images')
-    print(f'{len(teste_dataset)} teste images')
+    print(f'{len(train)} train images')
+    count_beans(train)
+    print('')
 
-    count_beans_in_list(train_dataset)
-    count_beans_in_list(valid_dataset)
-    count_beans_in_list(teste_dataset)
+    print(f'{len(valid)} valid images')
+    count_beans(valid)
+    print('')
 
-    save(args.outputdir, train_dataset, valid_dataset, teste_dataset)
+    print(f'{len(teste)} teste images')
+    count_beans(teste)
+    print('')
+
+    save_datasets(args.outputdir, train, valid, teste)
 
     print('Finished.')
 

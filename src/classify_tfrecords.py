@@ -18,12 +18,9 @@ def classify(filenames, modeldir, batch):
 
 def main(args):
     parser = argparse.ArgumentParser()
-
     parser.add_argument('-i', '--inputdir', type=str, default='data/teste_dataset.tfrecord')
     parser.add_argument('-m', '--modeldir', type=str, default='models/CoffeeNet6')
-
     parser.add_argument('--batch', type=int, default=36)
-
     args = parser.parse_args()
 
     x, true, pred = classify(

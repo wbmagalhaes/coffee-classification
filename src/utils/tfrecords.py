@@ -9,23 +9,7 @@ from utils import visualize
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 
 
-def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_files=(1, 1, 1)):
-    dataset = data_reader.load(input_dir, cut_size=im_size, bg_color=(0, 0, 0))
-
-    if random:
-        shuffle(dataset)
-
-    train_num = int(len(dataset) * train_percent)
-    teste_num = int(len(dataset) * (1 - train_percent)) // 2
-
-    train_dataset = dataset[:train_num]
-    valid_dataset = dataset[train_num:train_num + teste_num]
-    teste_dataset = dataset[train_num + teste_num:]
-
-    return train_dataset, valid_dataset, teste_dataset
-
-
-def save_tfrecords(data, name, output_dir, n=1):
+def save_tfrecord(data, name, output_dir, n=1):
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
 
@@ -63,7 +47,11 @@ def write_tfrecord(filename, data):
             yield serialize_example(*features)
 
     dataset = tf.data.Dataset.from_generator(
-        generator, output_types=tf.string, output_shapes=())
+        generator,
+        output_types=tf.string,
+        output_shapes=()
+    )
+
     writer.write(dataset)
 
 

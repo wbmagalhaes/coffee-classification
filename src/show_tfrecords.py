@@ -6,11 +6,9 @@ from utils.tfrecords import read_tfrecord, show_dataset
 
 def main(args):
     parser = argparse.ArgumentParser()
-
     parser.add_argument('-p', '--path', type=str, default='data/valid_dataset.tfrecord')
     parser.add_argument('--batch', type=int, default=36)
     parser.add_argument('--augment', dest='augment', action='store_true', default=False)
-
     args = parser.parse_args()
 
     dataset = read_tfrecord([args.path])

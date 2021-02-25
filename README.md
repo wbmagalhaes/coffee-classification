@@ -321,11 +321,11 @@ Parâmetros:
 }
 ```
 
-[ ] classify_images
-[ ] classify_tfrecords
-[ ] create_tfrecord
-[ ] segmentation
-[ ] show_tfrecord
-[ ] to_lite
-[ ] to_saved_model
-[ ] train
+- [ ] classify_images
+- [ ] classify_tfrecords
+- [ ] create_tfrecord
+- [ ] segmentation
+- [ ] show_tfrecord
+- [ ] to_lite
+- [ ] to_saved_model
+- [ ] train

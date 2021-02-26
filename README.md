@@ -9,7 +9,7 @@
 ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/classi_net.png" width="600">
+  <img src="docs/classi_net.png" width="600">
 </p>
 
 Rede neural desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
@@ -159,7 +159,7 @@ Caso este parâmetro esteja presente, aplica o data augmentation, rotações e e
 
 Formato do Resultado:
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/master/dataset_samples.png" width="500">
+<img src="docs/dataset_samples.png" width="500">
 
 Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 

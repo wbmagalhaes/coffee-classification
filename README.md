@@ -1,7 +1,6 @@
 # Classificação de grãos de café arábica
 
-![Last](https://img.shields.io/github/last-commit/wbmagalhaes/coffee-classification)
-![Completion](https://img.shields.io/badge/completion-80%25-orange)
+Rede neural para classificação de defeitos em grãos crus de café arábica.
 
 ![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
 ![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
@@ -12,7 +11,7 @@
   <img src="docs/classi_net.png" width="600">
 </p>
 
-Rede neural para classificação de defeitos em grãos crus de café arábica. Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
+Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
 # Tabela de Conteúdos
 

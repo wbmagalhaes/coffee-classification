@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 
 from utils.data_reader import open_images, open_json
-from utils.segmentation import process_image, crop_beans
+from utils.segmentation import process_image, crop_beans, count_beans_pred
 
 
 def load_images(images_dir, im_size=64, load_previous=True):
@@ -31,8 +31,7 @@ def load_images(images_dir, im_size=64, load_previous=True):
 
 def classify_imgs(dataset, modeldir):
     model = tf.keras.models.load_model(modeldir)
-    result = [classify_img(data, model) for data in dataset]
-    return result
+    return [classify_img(data, model) for data in dataset]
 
 
 def classify_img(data, model):
@@ -52,8 +51,8 @@ def main(args):
     dataset = load_images(args.imagesdir, args.im_size, (not args.ignore_previous))
     pred = classify_imgs(dataset, args.modeldir)
 
-    # show result
-    print(pred)
+    for p in pred:
+        count_beans_pred(p)
 
 
 if __name__ == "__main__":

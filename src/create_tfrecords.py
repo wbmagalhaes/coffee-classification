@@ -4,7 +4,7 @@ import argparse
 from random import shuffle
 
 from utils.data_reader import open_image, open_jsons
-from utils.segmentation import crop_beans, count_beans
+from utils.segmentation import crop_beans, count_beans_set
 from utils.tfrecords import save_tfrecord
 
 
@@ -54,15 +54,15 @@ def main(args):
     )
 
     print(f'{len(train)} train images')
-    count_beans(train)
+    count_beans_set(train)
     print('')
 
     print(f'{len(valid)} valid images')
-    count_beans(valid)
+    count_beans_set(valid)
     print('')
 
     print(f'{len(teste)} teste images')
-    count_beans(teste)
+    count_beans_set(teste)
     print('')
 
     save_datasets(args.outputdir, train, valid, teste)

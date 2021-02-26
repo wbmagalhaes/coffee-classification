@@ -332,6 +332,17 @@ Implemented
 - [x] to_saved_model
 - [x] to_lite
 
+PyTest
+
+- [x] segmentation
+- [x] create_tfrecords
+- [x] show_tfrecords
+- [x] train
+- [x] classify_tfrecords
+- [x] classify_images
+- [x] to_saved_model
+- [x] to_lite
+
 README
 
 - [ ] segmentation
@@ -342,14 +353,3 @@ README
 - [ ] classify_images
 - [ ] to_saved_model
 - [ ] to_lite
-
-PyTest
-
-- [x] segmentation
-- [x] create_tfrecords
-- [x] show_tfrecords
-- [x] train
-- [x] classify_tfrecords
-- [ ] classify_images
-- [x] to_saved_model
-- [x] to_lite

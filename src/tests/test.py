@@ -4,6 +4,7 @@ import numpy as np
 
 from utils.tfrecords import read_tfrecord
 from utils.neural_net import load_datasets, create_model, save_model
+from utils.segmentation import count_beans_pred
 
 from segment_images import make_segmentation, save_segmentation
 from create_tfrecords import load_datafiles, save_datasets
@@ -121,7 +122,19 @@ def test_classify_images():
         modeldir='models/CoffeeNet6'
     )
 
-    assert 1 == 1
+    assert len(pred) == 2
+
+    assert pred[0].shape == (34, 6)
+    assert pred[1].shape == (30, 6)
+
+    counts = count_beans_pred(pred[0])
+
+    assert counts['brocado'] == 11
+    assert counts['marinheiro'] == 23
+
+    counts = count_beans_pred(pred[1])
+
+    assert counts['marinheiro'] == 30
 
 
 # def test_tolite(tmpdir):

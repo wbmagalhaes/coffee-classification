@@ -58,17 +58,26 @@ def crop_bean(image, bean_data, cut_size, bg_color):
     return cropped, label
 
 
-def get_label(bean):
-    _, label = bean
-    return label
+def count_beans_pred(beans_pred):
+    labels = [np.argmax(bean) for bean in beans_pred]
+    return count_labels(labels)
 
 
-def count_beans(beans_dataset):
-    labels = [get_label(bean) for bean in beans_dataset]
+def count_beans_set(beans_set):
+    labels = [label for _, label in beans_set]
+    return count_labels(labels)
+
+
+def count_labels(labels):
     labels, counts = np.unique(labels, return_counts=True)
 
+    result = {}
     for l, n in zip(labels, counts):
-        print(label_names[l], n)
+        name = label_names[l]
+        result[name] = n
+        print(name, n)
+
+    return result
 
 
 def process_image(image):

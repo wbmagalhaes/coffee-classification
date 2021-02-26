@@ -4,11 +4,20 @@ Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.t
 
 ## Segmentar Imagens
 
-TODO: Segmentar e gerar os .json
+Segmentar e gerar os .json
 
 ```
-python segmentation.py
+python segment_images.py
 ```
+
+Parâmetros:
+
+| **Parâmetro**  | **Padrão** | **Descrição**                                 |
+| :------------- | :--------: | :-------------------------------------------- |
+| -i --imagesdir |   images   | diretório contendo as imagens e a segmentação |
+| -o --outputdir |    None    | diretório onde serão criados os jsons         |
+| --ignore       |   False    | ignora segmentação pré-existente              |
+| --overwrite    |   False    | sobreescreve a segmentação pré-existente      |
 
 ## Criar TFRecords
 
@@ -129,13 +138,7 @@ Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respe
 A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TFRecords.
 
 ```
-python train.py
-```
-
-Exemplo:
-
-```
-python train.py -t data/train_dataset.tfrecord -v data/valid_dataset.tfrecord -o CoffeeNet6 --batch 64 --epochs 500
+python training.py
 ```
 
 Parâmetros:
@@ -148,7 +151,7 @@ Parâmetros:
 | --logdir         |       logs/CoffeeNet6       | diretório onde os logs de treinamento são salvos |
 | --batch          |             64              | tamanho do batch de imagens                      |
 | --epochs         |             500             | quantidade de epochs de treinamento              |
-| --imsize         |             64              | tamanho das imagens de input                     |
+| --im_size        |             64              | tamanho das imagens de input                     |
 | --nlayers        |              5              | número de camadas de extração                    |
 | --filters        |             64              | quantidade de filtros da primeira camada         |
 | --kernelinit     |          he_normal          | método de inicialização dos weigths              |
@@ -183,7 +186,7 @@ Define o tamanho da batch de imagens que será passada à rede em cada step do t
 
 Define o número de epochs de treinamento. A quantidade de steps por epoch é calculada automaticamente.
 
-**Parâmetro --imsize**
+**Parâmetro --im_size**
 
 Img size
 
@@ -230,6 +233,34 @@ Keras printa o modelo
 Keras printa o treinamento
 Tensorboard mostra o gráfico
 ```
+
+## Export to .lite
+
+```
+python to_lite.py
+```
+
+Parâmetros:
+
+| **Parâmetro** |    **Padrão**     | **Descrição**                              |
+| :------------ | :---------------: | :----------------------------------------- |
+| --modeldir    | models/CoffeeNet6 | diretório contendo o arquivo .h5 do modelo |
+| --epoch       |        500        | epoch que será salva                       |
+| --output      |  coffeenet6.lite  | caminho onde sera salvo o arquivo          |
+
+## Export to Saved Model
+
+```
+python to_saved_model.py
+```
+
+Parâmetros:
+
+| **Parâmetro** |    **Padrão**     | **Descrição**                              |
+| :------------ | :---------------: | :----------------------------------------- |
+| --modeldir    | models/CoffeeNet6 | diretório contendo o arquivo .h5 do modelo |
+| --epoch       |        500        | epoch que será salva                       |
+| --output      |    CoffeeNet6     | diretório onde sera salvo o modelo         |
 
 - [ ] segmentation
 - [x] create_tfrecords

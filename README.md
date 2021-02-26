@@ -51,11 +51,12 @@ python classify_tfrecords.py
 
 Parâmetros:
 
-| **Parâmetro** | **Padrão** | **Descrição**                 |
-| :------------ | :--------: | :---------------------------- |
-| -i --inputdir |  /images   | diretório contendo as imagens |
-| -m --modeldir |  /images   | diretório contendo as imagens |
-| --batch       |  /images   | diretório contendo as imagens |
+| **Parâmetro** |         **Padrão**          | **Descrição**                |
+| :------------ | :-------------------------: | :--------------------------- |
+| -i --inputdir | data/teste_dataset.tfrecord | caminho até o TFRecords      |
+| -m --modeldir |      models/CoffeeNet6      | diretório contendo o modelo  |
+| --im_size     |             64              | tamanho das imagens de input |
+| --batch       |             36              | número de imagens por batch  |
 
 ## Com Imagens
 
@@ -71,9 +72,12 @@ python classify_images.py
 
 Parâmetros:
 
-| **Parâmetro** | **Padrão** | **Descrição**                 |
-| :------------ | :--------: | :---------------------------- |
-| -i --inputdir |  /images   | diretório contendo as imagens |
+| **Parâmetro** |         **Padrão**          | **Descrição**                    |
+| :------------ | :-------------------------: | :------------------------------- |
+| -i --inputdir | data/teste_dataset.tfrecord | caminho até o TFRecords          |
+| -m --modeldir |      models/CoffeeNet6      | diretório contendo o modelo      |
+| --ignore      |            False            | ignora segmentação pré-existente |
+| --im_size     |             64              | tamanho das imagens de input     |
 
 # Cite Este Projeto
 

@@ -10,9 +10,9 @@ def main(args):
     parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset.tfrecord')
     parser.add_argument('--output', type=str, default='models/CoffeeNet6')
     parser.add_argument('--logdir', type=str, default='logs/CoffeeNet6')
-    parser.add_argument('--batchsize', type=int, default=64)
+    parser.add_argument('--batch', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=500)
-    parser.add_argument('--imsize', type=int, default=64)
+    parser.add_argument('--im_size', type=int, default=64)
     parser.add_argument('--nlayers', type=int, default=5)
     parser.add_argument('--filters', type=int, default=64)
     parser.add_argument('--kernelinit', type=str, default='he_normal')
@@ -27,11 +27,11 @@ def main(args):
     train_ds, valid_ds, train_steps, valid_steps = load_datasets(
         [args.train],
         [args.valid],
-        args.batchsize
+        args.batch
     )
 
     model = create_model(
-        input_shape=(args.imsize, args.imsize, 3),
+        input_shape=(args.im_size, args.im_size, 3),
         num_layers=args.nlayers,
         filters=args.filters,
         kernel_initializer=args.kernelinit,

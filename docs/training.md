@@ -1,4 +1,4 @@
-# Treinamento
+# Treinamento da Rede
 
 Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](data) você pode encontrar os TFRecords das imagens localizadas em [images](images).
 
@@ -120,11 +120,11 @@ Caso este parâmetro esteja presente, aplica o data augmentation, rotações e e
 
 Formato do Resultado:
 
-<img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/main/docs/dataset_samples.png" width="500">
+<img src="dataset_samples.png" width="500">
 
 Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 
-## Treinamento da Rede
+## Treinamento
 
 A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TFRecords.
 
@@ -230,3 +230,10 @@ Keras printa o modelo
 Keras printa o treinamento
 Tensorboard mostra o gráfico
 ```
+
+- [ ] segmentation
+- [x] create_tfrecords
+- [x] show_tfrecords
+- [ ] train
+- [ ] to_saved_model
+- [ ] to_lite

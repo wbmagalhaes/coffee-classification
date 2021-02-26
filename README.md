@@ -9,7 +9,7 @@
 ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wbmagalhaes/coffee-classification/main/docs/classi_net.png" width="600">
+  <img src="docs/classi_net.png" width="600">
 </p>
 
 Rede neural para classificação de defeitos em grãos crus de café arábica. Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
@@ -24,7 +24,6 @@ Rede neural para classificação de defeitos em grãos crus de café arábica. D
   - [Com Imagens](#com-imagens)
 - [Cite Este Projeto](#cite-este-projeto)
 
-
 # Requisitos
 
 - Python 3.8
@@ -32,15 +31,19 @@ Rede neural para classificação de defeitos em grãos crus de café arábica. D
 
 # Uso
 
-Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models](models), mas você pode treinar uma nova rede utilizando seus dados.
+Existem duas formas de realizar a classificação, utilizando o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord) ou utilizando imagens no formato JPG.
 
-A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md)
+Para utilizar o TFRecord, as imagens já devem ter sido segmentadas e os grãos devem ter classificação conhecida. O TFRecord do dataset de testes pode ser utilizado como exemplo. Detalhes de como gerar TFRecords a partir de seus dados podem ser encontrados em [Criar TFRecords](docs/training.md#criar-tfrecords).
+
+Para classificar imagens diretamente blablabla
+
+Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models](models), mas você pode treinar uma nova rede utilizando seus dados. A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md#treinamento).
 
 ## Com TFRecords
 
-Pode classificar o tfrecord de teste para avaliar a rede
+Utilizando o TFRecord, os grãos já tem classificação conhecida.
 
-Mostra a matriz de confusão
+Ao final, é mostrado a matriz de confusão, comparando a classificação esperada e a classificação obtida.
 
 ```
 python classify_tfrecords.py
@@ -75,43 +78,13 @@ Parâmetros:
 # Cite Este Projeto
 
 ```
-@misc{asd,
-  author =       {William Bernardes Magalhães},
-  title =        {TITLE},
-  howpublished = {\url{https://github.com/wbmagalhaes/coffee-classification}},
-  year =         {2021}
+@misc{magalhaes2021,
+  author =  {William Bernardes Magalh{\~a}es},
+  title  =  {TITLE},
+  url    =  {https://github.com/wbmagalhaes/coffee-classification},
+  year   =  {2021}
 }
 ```
 
-Implemented
-
-- [x] segmentation
-- [x] create_tfrecords
-- [x] show_tfrecords
-- [x] train
-- [x] classify_tfrecords
-- [x] classify_images
-- [x] to_saved_model
-- [x] to_lite
-
-PyTest
-
-- [x] segmentation
-- [x] create_tfrecords
-- [x] show_tfrecords
-- [x] train
-- [x] classify_tfrecords
-- [x] classify_images
-- [x] to_saved_model
-- [x] to_lite
-
-README
-
-- [ ] segmentation
-- [x] create_tfrecords
-- [x] show_tfrecords
-- [ ] train
 - [ ] classify_tfrecords
 - [ ] classify_images
-- [ ] to_saved_model
-- [ ] to_lite

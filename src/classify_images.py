@@ -2,11 +2,14 @@ import os
 import sys
 import argparse
 
+import numpy as np
+import tensorflow as tf
+
 from utils.data_reader import open_images, open_json
 from utils.segmentation import process_image, crop_beans
 
 
-def load_images(images_dir, im_size=64, load_previous=False):
+def load_images(images_dir, im_size=64, load_previous=True):
     images, addrs = open_images(images_dir)
 
     dataset = []
@@ -19,31 +22,38 @@ def load_images(images_dir, im_size=64, load_previous=False):
         else:
             data = process_image(image)
 
-        beans = crop_beans(image, data, cut_size=im_size, bg_color=(0, 0, 0))
-        dataset.append(beans)
+        beans_data = crop_beans(image, data, cut_size=im_size, bg_color=(0, 0, 0))
+        image_data = [crop for crop, _ in beans_data]
+        dataset.append(image_data)
 
     return dataset
 
 
-def classify_imgs(data, modeldir):
+def classify_imgs(dataset, modeldir):
     model = tf.keras.models.load_model(modeldir)
-    _, y_pred = model.predict(data)
-    return y_pred
+    result = [classify_img(data, model) for data in dataset]
+    return result
+
+
+def classify_img(data, model):
+    data = np.array(data)
+    _, pred = model.predict(data)
+    return pred
 
 
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--imagesdir', type=str, default='images')
+    parser.add_argument('-m', '--modeldir', type=str, default='models/CoffeeNet6')
+    parser.add_argument('--ignore', dest='ignore_previous', action='store_true', default=False)
+    parser.add_argument('--im_size', type=int, default=64)
     args = parser.parse_args()
 
-    # load images
-    dataset = load_images(args.imagesdir, im_size=64, load_previous=False)
-
-    # classify
-    classify_imgs()
+    dataset = load_images(args.imagesdir, args.im_size, (not args.ignore_previous))
+    pred = classify_imgs(dataset, args.modeldir)
 
     # show result
-    print(y_pred)
+    print(pred)
 
 
 if __name__ == "__main__":

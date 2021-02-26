@@ -8,21 +8,21 @@ from utils.neural_net import load_datasets, create_model, save_model
 from segment_images import make_segmentation, save_segmentation
 from create_tfrecords import load_datafiles, save_datasets
 from classify_tfrecords import classify_tfs
-from classify_images import classify_imgs
+from classify_images import load_images, classify_imgs
 from to_saved_model import export_savedmodel
 from to_lite import export_tolite
 
 
 def test_segmentation(tmpdir):
     data_dir = tmpdir.mkdir("data")
-    json_addrs, imgs_data = make_segmentation('src/tests', load_previous=False, output_dir=data_dir)
+    json_addrs, imgs_data = make_segmentation('src/tests', False, data_dir)
 
     assert len(imgs_data) == 2
 
     assert len(imgs_data[0]) == 34
     assert len(imgs_data[1]) == 30
 
-    save_segmentation(json_addrs, imgs_data, overwrite=False)
+    save_segmentation(json_addrs, imgs_data, False)
 
     assert os.path.isfile(data_dir.join('20210212_164545.json'))
     assert os.path.isfile(data_dir.join('20210212_152332.json'))
@@ -100,6 +100,7 @@ def test_classify_tfrecords():
     _, _, pred = classify_tfs(
         filenames=['src/tests/dataset.tfrecord'],
         modeldir='models/CoffeeNet6',
+        im_size=64,
         batch=64
     )
 
@@ -109,7 +110,16 @@ def test_classify_tfrecords():
 
 
 def test_classify_images():
-    # TODO: SEGMENTAR E CLASSIFICAR UMA IMAGEM
+    dataset = load_images(
+        images_dir='src/tests',
+        im_size=64,
+        load_previous=False
+    )
+
+    pred = classify_imgs(
+        dataset=dataset,
+        modeldir='models/CoffeeNet6'
+    )
 
     assert 1 == 1
 

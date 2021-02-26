@@ -12,7 +12,10 @@ def crop_bean(image, bean_data, cut_size, bg_color):
     image = image.copy()
     im_h, im_w, _ = image.shape
 
-    label = label_names.index(bean_data['label'])
+    if bean_data['label'] in label_names:
+        label = label_names.index(bean_data['label'])
+    else:
+        label = -1
 
     points = bean_data['points']
     xs, ys = zip(*points)

@@ -6,7 +6,7 @@ from utils.data_reader import open_images, open_json, save_json
 from utils.segmentation import process_image
 
 
-def make_segmentation(images_dir, load_previous=False, output_dir=None):
+def make_segmentation(images_dir, load_previous=True, output_dir=None):
     images, addrs = open_images(images_dir)
 
     json_addrs = []
@@ -40,10 +40,12 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--imagesdir', type=str, default='images')
     parser.add_argument('-o', '--outputdir', type=str, default=None)
+    parser.add_argument('--ignore', dest='ignore_previous', action='store_true', default=False)
+    parser.add_argument('--overwrite', dest='overwrite', action='store_true', default=False)
     args = parser.parse_args()
 
-    json_addrs, imgs_data = make_segmentation(args.imagesdir, load_previous=True, output_dir=args.outputdir)
-    save_segmentation(json_addrs, imgs_data, overwrite=False)
+    json_addrs, imgs_data = make_segmentation(args.imagesdir, (not args.ignore_previous), args.outputdir)
+    save_segmentation(json_addrs, imgs_data, args.overwrite)
 
 
 if __name__ == "__main__":

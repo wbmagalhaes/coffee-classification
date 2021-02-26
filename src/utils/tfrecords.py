@@ -55,7 +55,7 @@ def write_tfrecord(filename, data):
     writer.write(dataset)
 
 
-def read_tfrecord(filenames, img_size=64):
+def read_tfrecord(filenames, im_size=64):
     raw_dataset = tf.data.TFRecordDataset(filenames)
 
     feature_description = {
@@ -71,7 +71,7 @@ def read_tfrecord(filenames, img_size=64):
         label = tf.cast(features['label'], tf.int64)
 
         image = tf.cast(raw_image, tf.float32) / 255.
-        image = tf.reshape(image, [img_size, img_size, 3])
+        image = tf.reshape(image, [im_size, im_size, 3])
 
         label = tf.one_hot(label, len(label_names))
 

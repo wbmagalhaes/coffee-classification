@@ -328,7 +328,7 @@ Implemented
 - [x] show_tfrecords
 - [x] train
 - [x] classify_tfrecords
-- [ ] classify_images
+- [x] classify_images
 - [x] to_saved_model
 - [x] to_lite
 

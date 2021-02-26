@@ -5,25 +5,26 @@ import numpy as np
 from utils.tfrecords import read_tfrecord
 from utils.neural_net import load_datasets, create_model, save_model
 
-from segment_images import segment, save_segmentation
+from segment_images import make_segmentation, save_segmentation
 from create_tfrecords import load_datafiles, save_datasets
-from classify_tfrecords import classify
+from classify_tfrecords import classify_tfs
+from classify_images import classify_imgs
 from to_saved_model import export_savedmodel
 from to_lite import export_tolite
 
 
 def test_segmentation(tmpdir):
-    imgs_data = segment('src/tests')
+    data_dir = tmpdir.mkdir("data")
+    json_addrs, imgs_data = make_segmentation('src/tests', load_previous=False, output_dir=data_dir)
 
     assert len(imgs_data) == 2
 
-    assert imgs_data['20210212_164545.json']['data'] == None
-    assert len(imgs_data['20210212_152332.json']['data']) == 34
+    assert len(imgs_data[0]) == 34
+    assert len(imgs_data[1]) == 30
 
-    data_dir = tmpdir.mkdir("data")
-    save_segmentation(imgs_data, data_dir)
+    save_segmentation(json_addrs, imgs_data, overwrite=False)
 
-    assert not os.path.isfile(data_dir.join('20210212_164545.json'))
+    assert os.path.isfile(data_dir.join('20210212_164545.json'))
     assert os.path.isfile(data_dir.join('20210212_152332.json'))
 
 
@@ -96,7 +97,7 @@ def test_train(tmpdir):
 
 
 def test_classify_tfrecords():
-    _, _, pred = classify(
+    _, _, pred = classify_tfs(
         filenames=['src/tests/dataset.tfrecord'],
         modeldir='models/CoffeeNet6',
         batch=64

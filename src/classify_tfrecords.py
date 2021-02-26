@@ -6,7 +6,7 @@ from utils.tfrecords import read_tfrecord
 from utils.visualize import plot_images, plot_confusion_matrix
 
 
-def classify(filenames, modeldir, batch):
+def classify_tfs(filenames, modeldir, batch):
     dataset = read_tfrecord(filenames)
     x_data, y_true = zip(*[data for data in dataset])
 
@@ -23,7 +23,7 @@ def main(args):
     parser.add_argument('--batch', type=int, default=36)
     args = parser.parse_args()
 
-    x, true, pred = classify(
+    x, true, pred = classify_tfs(
         filenames=[args.inputdir],
         modeldir=args.modeldir,
         batch=args.batch

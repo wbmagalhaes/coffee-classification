@@ -1,13 +1,13 @@
 # Classificação de grãos de café arábica
 
+![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
+![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
+[![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
+![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
+  
+Rede neural para classificação de defeitos em grãos crus de café arábica.
+
 <p align="center">
-  Rede neural para classificação de defeitos em grãos crus de café arábica.
-
-  ![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
-  ![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
-  [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
-  ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
-
   <img src="docs/classi_net.png" width="600">
 </p>
 

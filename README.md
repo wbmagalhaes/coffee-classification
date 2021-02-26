@@ -76,8 +76,8 @@ Parâmetros:
 | :------------ | :-------------------------: | :------------------------------- |
 | -i --inputdir | data/teste_dataset.tfrecord | caminho até o TFRecords          |
 | -m --modeldir |      models/CoffeeNet6      | diretório contendo o modelo      |
-| --ignore      |            False            | ignora segmentação pré-existente |
 | --im_size     |             64              | tamanho das imagens de input     |
+| --ignore      |            False            | ignora segmentação pré-existente |
 
 # Cite Este Projeto
 

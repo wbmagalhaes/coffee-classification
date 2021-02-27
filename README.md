@@ -19,11 +19,11 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 - [Requisitos](#requisitos)
 - [Uso](#uso)
   - [Classificar TFRecords](#classificar-tfrecords)
-    - [Parâmetros:](#parâmetros)
-    - [Formato do Resultado:](#formato-do-resultado)
+    - [Parâmetros](#parâmetros)
+    - [Formato do Resultado](#formato-do-resultado)
   - [Classificar Imagens](#classificar-imagens)
-  - [Parâmetros:](#parâmetros-1)
-    - [Formato do Resultado:](#formato-do-resultado-1)
+  - [Parâmetros](#parâmetros-1)
+    - [Formato do Resultado](#formato-do-resultado-1)
 - [Cite Este Projeto](#cite-este-projeto)
 
 # Requisitos
@@ -49,7 +49,7 @@ No TFRecord, os grãos estão recortados da imagem e a classificação já é co
 python classify_tfrecords.py
 ```
 
-### Parâmetros:
+### Parâmetros
 
 | **Parâmetro** |         **Padrão**          | **Descrição**                |
 | :------------ | :-------------------------: | :--------------------------- |
@@ -74,18 +74,13 @@ Tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será
 
 Define o tamanho da batch de imagens que será passada à rede em cada step da classificação.
 
-### Formato do Resultado:
+### Formato do Resultado
 
 Após a classificação, é mostrado algumas imagens que foram classificadas e a matriz de confusão da rede.
 
-<p align="center">
-  <img src="docs/tfrecords_cla.png" width="400">
-</p>
+<img src="docs/tfrecords_cla.png" width="400">
 
-<p align="center">
-  Rede neural para classificação de defeitos em grãos crus de café arábica.
-  <img src="docs/conf_matrix.png" width="400">
-</p>
+<img src="docs/conf_matrix.png" width="400">
 
 ```
               precision    recall  f1-score   support
@@ -110,7 +105,7 @@ Pode classificar diretamente qualquer imagem JPG. Os grãos são recortados da i
 python classify_images.py
 ```
 
-## Parâmetros:
+## Parâmetros
 
 | **Parâmetro** |         **Padrão**          | **Descrição**                    |
 | :------------ | :-------------------------: | :------------------------------- |
@@ -135,7 +130,7 @@ Tamanho do lado da imagem que é esperado pela rede. O formato da imagem será u
 
 Caso este parâmetro esteja presente, ignora a segmentação pré-existente e faz uma nova segmentação.
 
-### Formato do Resultado:
+### Formato do Resultado
 
 Gera uma lista da quantidade de grão de cada classe em cada imagem classificada.
 

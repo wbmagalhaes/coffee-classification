@@ -68,7 +68,9 @@ Define o diretório onde está o modelo no formato Saved Model.
 
 **Parâmetro --im_size**
 
-Tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
+Tamanho do lado da imagem que está salva no TFRecord.
+
+O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
 **Parâmetro --batch**
 
@@ -124,7 +126,9 @@ Define o diretório onde está o modelo no formato Saved Model.
 
 **Parâmetro --im_size**
 
-Tamanho do lado da imagem que é esperado pela rede. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
+Tamanho do lado da imagem que é esperado pela rede.
+
+O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
 **Parâmetro --ignore**
 

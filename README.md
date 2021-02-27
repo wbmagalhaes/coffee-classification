@@ -18,8 +18,8 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 - [Tabela de Conteúdos](#tabela-de-conteúdos)
 - [Requisitos](#requisitos)
 - [Uso](#uso)
-  - [Com TFRecords](#com-tfrecords)
-  - [Com Imagens](#com-imagens)
+  - [Classificar TFRecords](#classificar-tfrecords)
+  - [Classificar Imagens](#classificar-imagens)
 - [Cite Este Projeto](#cite-este-projeto)
 
 # Requisitos
@@ -37,7 +37,7 @@ Para classificar imagens diretamente blablabla
 
 Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models](models), mas você pode treinar uma nova rede utilizando seus dados. A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md#treinamento).
 
-## Com TFRecords
+## Classificar TFRecords
 
 Utilizando o TFRecord, os grãos já tem classificação conhecida.
 
@@ -56,7 +56,7 @@ Parâmetros:
 | --im_size     |             64              | tamanho das imagens de input |
 | --batch       |             36              | número de imagens por batch  |
 
-## Com Imagens
+## Classificar Imagens
 
 Pode classificar qualquer imagem
 
@@ -82,7 +82,7 @@ Parâmetros:
 ```
 @misc{magalhaes2021,
   author =  {William Bernardes Magalh{\~a}es},
-  title  =  {TITLE},
+  title  =  {Classificação de defeitos em grãos de café arábica},
   url    =  {https://github.com/wbmagalhaes/coffee-classification},
   year   =  {2021}
 }

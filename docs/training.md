@@ -2,6 +2,29 @@
 
 Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](data) você pode encontrar os TFRecords das imagens localizadas em [images](images).
 
+# Tabela de Conteúdos
+
+- [Treinamento da Rede](#treinamento-da-rede)
+- [Tabela de Conteúdos](#tabela-de-conteúdos)
+  - [Segmentar Imagens](#segmentar-imagens)
+    - [Parâmetros](#parâmetros)
+    - [Formato do Resultado](#formato-do-resultado)
+  - [Criar TFRecords](#criar-tfrecords)
+    - [Parâmetros](#parâmetros-1)
+    - [Formato do Resultado](#formato-do-resultado-1)
+  - [Ver TFRecords](#ver-tfrecords)
+    - [Parâmetros](#parâmetros-2)
+    - [Formato do Resultado](#formato-do-resultado-2)
+  - [Treinamento](#treinamento)
+    - [Parâmetros](#parâmetros-3)
+    - [Formato do Resultado](#formato-do-resultado-3)
+  - [Export to .lite](#export-to-lite)
+    - [Parâmetros](#parâmetros-4)
+    - [Formato do Resultado](#formato-do-resultado-4)
+  - [Export to Saved Model](#export-to-saved-model)
+    - [Parâmetros](#parâmetros-5)
+    - [Formato do Resultado](#formato-do-resultado-5)
+
 ## Segmentar Imagens
 
 Segmentar e gerar os .json
@@ -10,7 +33,7 @@ Segmentar e gerar os .json
 python segment_images.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro**  | **Padrão** | **Descrição**                                 |
 | :------------- | :--------: | :-------------------------------------------- |
@@ -18,6 +41,8 @@ Parâmetros:
 | -o --outputdir |    None    | diretório onde serão criados os jsons         |
 | --ignore       |   False    | ignora segmentação pré-existente              |
 | --overwrite    |   False    | sobreescreve a segmentação pré-existente      |
+
+### Formato do Resultado
 
 ## Criar TFRecords
 
@@ -27,7 +52,7 @@ Você pode criar TFRecords para o treinamento a partir suas próprias imagens.
 python create_tfrecords.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro**   | **Padrão** | **Descrição**                                       |
 | :-------------- | :--------: | :-------------------------------------------------- |
@@ -61,7 +86,7 @@ Define a porcentagem de imagens que serão utilizadas no treinamento, a porcenta
 
 Por padrão, as imagens são randomizadas antes da divisão em treinamento, validação e teste. Se este parâmetro estiver presente, as imagens não são randomizadas.
 
-Formato do Resultado:
+### Formato do Resultado
 
 ```
 4275 total images
@@ -107,7 +132,7 @@ Para verificar as imagens armazenadas nos TFRecords.
 python show_tfrecords.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro** |         **Padrão**          | **Descrição**                   |
 | :------------ | :-------------------------: | :------------------------------ |
@@ -127,7 +152,7 @@ Define o número de imagens que serão mostradas. Sugiro no máximo 64 imagens.
 
 Caso este parâmetro esteja presente, aplica o data augmentation, rotações e espelhamento nas imagens e mostra o resultado.
 
-Formato do Resultado:
+### Formato do Resultado
 
 <img src="dataset_samples.png" width="500">
 
@@ -141,7 +166,7 @@ A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TF
 python training.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro**    |         **Padrão**          | **Descrição**                                    |
 | :--------------- | :-------------------------: | :----------------------------------------------- |
@@ -226,7 +251,7 @@ Learning rate
 
 Label smoothing
 
-Formato do Resultado:
+### Formato do Resultado
 
 ```
 Keras printa o modelo
@@ -240,7 +265,7 @@ Tensorboard mostra o gráfico
 python to_lite.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro** |    **Padrão**     | **Descrição**                              |
 | :------------ | :---------------: | :----------------------------------------- |
@@ -248,19 +273,23 @@ Parâmetros:
 | --epoch       |        500        | epoch que será salva                       |
 | --output      |  coffeenet6.lite  | caminho onde sera salvo o arquivo          |
 
+### Formato do Resultado
+
 ## Export to Saved Model
 
 ```
 python to_saved_model.py
 ```
 
-Parâmetros:
+### Parâmetros
 
 | **Parâmetro** |    **Padrão**     | **Descrição**                              |
 | :------------ | :---------------: | :----------------------------------------- |
 | --modeldir    | models/CoffeeNet6 | diretório contendo o arquivo .h5 do modelo |
 | --epoch       |        500        | epoch que será salva                       |
 | --output      |    CoffeeNet6     | diretório onde sera salvo o modelo         |
+
+### Formato do Resultado
 
 - [ ] segmentation
 - [x] create_tfrecords

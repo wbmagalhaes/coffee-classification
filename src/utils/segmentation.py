@@ -4,11 +4,11 @@ import numpy as np
 from utils.labelmap import label_names
 
 
-def crop_beans(image, beans_data, cut_size, bg_color):
-    return [crop_bean(image, bean_data, cut_size, bg_color) for bean_data in beans_data]
+def crop_beans(image, beans_data, cut_size):
+    return [crop_bean(image, bean_data, cut_size) for bean_data in beans_data]
 
 
-def crop_bean(image, bean_data, cut_size, bg_color):
+def crop_bean(image, bean_data, cut_size):
     image = image.copy()
     im_h, im_w, _ = image.shape
 
@@ -45,14 +45,9 @@ def crop_bean(image, bean_data, cut_size, bg_color):
     cv2.fillPoly(mask, [points], (1., 1., 1.))
     mask = mask[ymin:ymax, xmin:xmax]
 
-    cropped = image[ymin:ymax, xmin:xmax].astype(np.float32)
+    cropped = image[ymin:ymax, xmin:xmax]
     cropped = cropped * mask
 
-    bg = mask.copy()
-    bg[:, :, :] = bg_color
-    bg = bg * (1 - mask)
-
-    cropped = (cropped + bg).astype(np.uint8)
     cropped = cv2.resize(cropped, dsize=(cut_size, cut_size))
 
     return cropped, label

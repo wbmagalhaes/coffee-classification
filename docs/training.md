@@ -188,7 +188,7 @@ Define o número de epochs de treinamento. A quantidade de steps por epoch é ca
 
 **Parâmetro --im_size**
 
-Img size
+Tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
 **Parâmetro --nlayers**
 

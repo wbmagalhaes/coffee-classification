@@ -14,7 +14,7 @@ def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_file
     dataset = []
     for data, addr in zip(jsons, addrs):
         image = open_image(addr[:-4] + 'jpg')
-        beans = crop_beans(image, data, cut_size=im_size, bg_color=(0, 0, 0))
+        beans = crop_beans(image, data, cut_size=im_size)
         dataset.extend(beans)
 
     if random:

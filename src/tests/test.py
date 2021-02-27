@@ -111,7 +111,7 @@ def test_classify_tfrecords():
 
 
 def test_classify_images():
-    dataset = load_images(
+    _, dataset = load_images(
         images_dir='src/tests',
         im_size=64,
         load_previous=False
@@ -128,10 +128,10 @@ def test_classify_images():
     assert pred[1].shape == (34, 6) or pred[1].shape == (30, 6)
 
     counts = count_beans_pred(pred[0])
-    assert counts['marinheiro'] == 23 or counts['marinheiro'] == 30
+    assert counts['brocado'] == 26 or counts['marinheiro'] == 22
 
     counts = count_beans_pred(pred[1])
-    assert counts['marinheiro'] == 23 or counts['marinheiro'] == 30
+    assert counts['brocado'] == 26 or counts['marinheiro'] == 22
 
 
 # def test_tolite(tmpdir):

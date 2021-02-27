@@ -22,11 +22,11 @@ def load_images(images_dir, im_size=64, load_previous=True):
         else:
             data = process_image(image)
 
-        beans_data = crop_beans(image, data, cut_size=im_size, bg_color=(0, 0, 0))
-        image_data = [crop for crop, _ in beans_data]
+        beans_data = crop_beans(image, data, cut_size=im_size)
+        image_data = [crop.astype(np.float32) / 255. for crop, _ in beans_data]
         dataset.append(image_data)
 
-    return dataset
+    return addrs, dataset
 
 
 def classify_imgs(dataset, modeldir):
@@ -42,17 +42,19 @@ def classify_img(data, model):
 
 def main(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--imagesdir', type=str, default='images')
+    parser.add_argument('-i', '--imagesdir', type=str, default='images\__test')
     parser.add_argument('-m', '--modeldir', type=str, default='models/CoffeeNet6')
     parser.add_argument('--ignore', dest='ignore_previous', action='store_true', default=False)
     parser.add_argument('--im_size', type=int, default=64)
     args = parser.parse_args()
 
-    dataset = load_images(args.imagesdir, args.im_size, (not args.ignore_previous))
-    pred = classify_imgs(dataset, args.modeldir)
+    addrs, dataset = load_images(args.imagesdir, args.im_size, (not args.ignore_previous))
+    preds = classify_imgs(dataset, args.modeldir)
 
-    for p in pred:
-        count_beans_pred(p)
+    for pred, addr in zip(preds, addrs):
+        print(addr)
+        count_beans_pred(pred)
+        print('')
 
 
 if __name__ == "__main__":

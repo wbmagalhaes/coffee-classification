@@ -312,7 +312,7 @@ Epoch 3/10
 Epoch 4/10
 131/182 [==========>---] - 12s 63ms/step - loss: 35.8461 - logits_loss: 1.1548 - logits_categorical_accuracy: 0.7258 - val_loss: 34.7300 - val_logits_loss: 1.1247 - val_logits_categorical_accuracy: 0.7717
 ```
-<img src="tensorboard_graph.png" width="500">
+<img src="tensorboard_graph.png">
 
 ## Export to .lite
 

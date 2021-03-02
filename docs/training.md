@@ -35,14 +35,63 @@ python segment_images.py
 
 ### Parâmetros
 
-| **Parâmetro**  | **Padrão** | **Descrição**                                 |
-| :------------- | :--------: | :-------------------------------------------- |
-| -i --imagesdir |   images   | diretório contendo as imagens e a segmentação |
-| -o --outputdir |    None    | diretório onde serão criados os jsons         |
-| --ignore       |   False    | ignora segmentação pré-existente              |
-| --overwrite    |   False    | sobreescreve a segmentação pré-existente      |
+| **Parâmetro**  | **Padrão** | **Descrição**                            |
+| :------------- | :--------: | :--------------------------------------- |
+| -i --imagesdir |   images   | diretório contendo as imagens            |
+| -o --outputdir |    None    | diretório onde serão criados os jsons    |
+| --ignore       |   False    | ignora segmentação pré-existente         |
+| --overwrite    |   False    | sobreescreve a segmentação pré-existente |
+
+**Parâmetro -i**
+
+Define o diretório onde estão as imagens para segmentação. 
+
+**Parâmetro -o**
+
+Define o diretório onde serão salvas as segmentações.
+
+**Parâmetro --ignore**
+
+Se presente, ignora a segmentação pré-existente e cria uma nova.
+
+**Parâmetro --overwrite**
+
+Se presente, sobreescreve o arquivo de segmentação pre-existente.
 
 ### Formato do Resultado
+
+Os arquivos contendo a segmentação são criados no mesmo diretório das imagens, ou no diretório definido.
+
+```
+[
+  {
+    "label": "não classificado",
+    "points": [
+      [156, 640],
+      [155, 647],
+      [151, 653],
+      [145, 656],
+      [137, 657],
+      [132, 643],
+      [134, 636]
+    ]
+  },
+  {
+    "label": "não classificado",
+    "points": [
+      [189, 641],
+      [188, 644],
+      [183, 649],
+      [181, 650],
+      [178, 651],
+      [161, 640],
+      [159, 637],
+      [159, 631],
+      [167, 623]
+    ]
+  }
+]
+```
 
 ## Criar TFRecords
 
@@ -213,48 +262,47 @@ Define o número de epochs de treinamento. A quantidade de steps por epoch é ca
 
 **Parâmetro --im_size**
 
-Tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
+Define o tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
 **Parâmetro --nlayers**
 
-Number of layers
+Define a quantidade de camadas de convolução extratoras.
 
 **Parâmetro --filters**
 
-Number of filters in the first layer
+Define o número de filtros na primeira camada. Após a primeira camada, a quantidade de filtros sempre dobra.
 
 **Parâmetro --kernelinit**
 
-Weights initialization
+Define o tipo de inicialização dos weights.
 
 **Parâmetro --l2**
 
-L2 regularization
+Define o valor do fator de regularização L2.
 
 **Parâmetro --biasinit**
 
-Biases initialization
+Define o valor inicial dos biases.
 
 **Parâmetro --lrelualpha**
 
-LeakyReLU alpha
+Define o valor do alfa da ativação LeakyReLU entre as camadas de convolução.
 
 **Parâmetro --outactivation**
 
-Output activation
+Define o tipo de ativação da última camada.
 
 **Parâmetro --lr**
 
-Learning rate
+Define o learning rate do otimizador Adam.
 
 **Parâmetro --labelsmoothing**
 
-Label smoothing
+Define o valor da suavização do vetor one hot encoded.
 
 ### Formato do Resultado
 
 ```
-Keras printa o modelo
 Keras printa o treinamento
 Tensorboard mostra o gráfico
 ```
@@ -273,7 +321,21 @@ python to_lite.py
 | --epoch       |        500        | epoch que será salva                       |
 | --output      |  coffeenet6.lite  | caminho onde sera salvo o arquivo          |
 
+**Parâmetro --modeldir**
+
+Define o diretório onde está o modelo no formato h5.
+
+**Parâmetro --epoch**
+
+Define qual época de modelo será carregada.
+
+**Parâmetro --output**
+
+Define o diretório onde será salvo o modelo no formato lite.
+
 ### Formato do Resultado
+
+Gera o arquivo com o modelo no formato lite.
 
 ## Export to Saved Model
 
@@ -289,11 +351,18 @@ python to_saved_model.py
 | --epoch       |        500        | epoch que será salva                       |
 | --output      |    CoffeeNet6     | diretório onde sera salvo o modelo         |
 
+**Parâmetro --modeldir**
+
+Define o diretório onde está o modelo no formato h5.
+
+**Parâmetro --epoch**
+
+Define qual época de modelo será carregada.
+
+**Parâmetro --output**
+
+Define o diretório onde será salvo o Saved Model.
+
 ### Formato do Resultado
 
-- [ ] segmentation
-- [x] create_tfrecords
-- [x] show_tfrecords
-- [ ] train
-- [ ] to_saved_model
-- [ ] to_lite
+Gera o arquivo com o modelo no formato Saved Model.

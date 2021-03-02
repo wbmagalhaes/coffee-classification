@@ -303,9 +303,16 @@ Define o valor da suavização do vetor one hot encoded.
 ### Formato do Resultado
 
 ```
-Keras printa o treinamento
-Tensorboard mostra o gráfico
+Epoch 1/10
+182/182 [==============] - 16s 66ms/step - loss: 40.8213 - logits_loss: 1.4470 - logits_categorical_accuracy: 0.5326 - val_loss: 39.7749 - val_logits_loss: 1.6034 - val_logits_categorical_accuracy: 0.3621
+Epoch 2/10
+182/182 [==============] - 12s 64ms/step - loss: 38.9904 - logits_loss: 1.2198 - logits_categorical_accuracy: 0.6886 - val_loss: 37.8582 - val_logits_loss: 1.2761 - val_logits_categorical_accuracy: 0.6549
+Epoch 3/10
+182/182 [==============] - 12s 64ms/step - loss: 37.3861 - logits_loss: 1.1897 - logits_categorical_accuracy: 0.7082 - val_loss: 36.2330 - val_logits_loss: 1.1736 - val_logits_categorical_accuracy: 0.7147
+Epoch 4/10
+131/182 [==========>---] - 12s 63ms/step - loss: 35.8461 - logits_loss: 1.1548 - logits_categorical_accuracy: 0.7258 - val_loss: 34.7300 - val_logits_loss: 1.1247 - val_logits_categorical_accuracy: 0.7717
 ```
+<img src="tensorboard_graph.png" width="500">
 
 ## Export to .lite
 

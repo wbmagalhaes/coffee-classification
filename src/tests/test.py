@@ -2,6 +2,8 @@ import os
 import pytest
 import numpy as np
 
+import tensorflow as tf
+
 from utils.tfrecords import read_tfrecord
 from utils.neural_net import load_datasets, prepare_datasets, create_model, save_model
 from utils.segmentation import count_beans_pred
@@ -145,14 +147,14 @@ def test_classify_images():
     assert normal_order or invers_order
 
 
-# def test_tolite(tmpdir):
-#     resultpath = tmpdir.mkdir("result").join('test.tflite')
-#     export_tolite('models/h5_models/CoffeeNet6', 500, resultpath)
-#     assert os.path.isfile(resultpath)
+def test_tolite(tmpdir):
+    resultpath = tmpdir.mkdir("result").join('test.tflite')
+    export_tolite('models/h5_models/CoffeeNet6', 500, resultpath)
+    assert os.path.isfile(resultpath)
 
 
-# def test_to_saved_model(tmpdir):
-#     resultpath = tmpdir.mkdir("result")
-#     export_savedmodel('models/h5_models/CoffeeNet6', 500, resultpath)
-#     model = tf.keras.models.load_model(resultpath)
-#     assert model != None
+def test_to_saved_model(tmpdir):
+    resultpath = tmpdir.mkdir("result")
+    export_savedmodel('models/h5_models/CoffeeNet6', 500, resultpath)
+    model = tf.keras.models.load_model(resultpath)
+    assert model != None

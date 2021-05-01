@@ -8,7 +8,7 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--train', type=str, default='data/train_dataset.tfrecord')
     parser.add_argument('-v', '--valid', type=str, default='data/valid_dataset.tfrecord')
-    parser.add_argument('--output', type=str, default='models/CoffeeNet6')
+    parser.add_argument('--output', type=str, default='models/h5_models/CoffeeNet6')
     parser.add_argument('--logdir', type=str, default='logs/CoffeeNet6')
     parser.add_argument('--batch', type=int, default=64)
     parser.add_argument('--epochs', type=int, default=500)

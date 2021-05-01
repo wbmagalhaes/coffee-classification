@@ -19,7 +19,7 @@ def classify_tfs(filenames, modeldir, im_size, batch):
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--inputdir', type=str, default='data/teste_dataset.tfrecord')
-    parser.add_argument('-m', '--modeldir', type=str, default='models/CoffeeNet6')
+    parser.add_argument('-m', '--modeldir', type=str, default='models/saved_models/CoffeeNet6')
     parser.add_argument('--im_size', type=int, default=64)
     parser.add_argument('--batch', type=int, default=36)
     args = parser.parse_args()

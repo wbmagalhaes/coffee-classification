@@ -43,7 +43,7 @@ def classify_img(data, model):
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--imagesdir', type=str, default='images')
-    parser.add_argument('-m', '--modeldir', type=str, default='models/CoffeeNet6')
+    parser.add_argument('-m', '--modeldir', type=str, default='models/saved_models/CoffeeNet6')
     parser.add_argument('--ignore', dest='ignore_previous', action='store_true', default=False)
     parser.add_argument('--im_size', type=int, default=64)
     args = parser.parse_args()

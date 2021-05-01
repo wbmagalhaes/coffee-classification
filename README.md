@@ -39,7 +39,7 @@ Para utilizar o TFRecord, as imagens já devem ter sido segmentadas e os grãos 
 
 Para classificar imagens diretamente, eles devem estar no formato JPG. Se uma segmentação para imagem não for encontrada, a imagem é segmentada pelo algoritmo Otsu.
 
-Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models](models), mas você pode treinar uma nova rede utilizando seus dados. A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md#treinamento).
+Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models/saved_models](models/saved_models), mas você pode treinar uma nova rede utilizando seus dados. A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md#treinamento).
 
 ## Classificar TFRecords
 
@@ -51,12 +51,12 @@ python classify_tfrecords.py
 
 ### Parâmetros
 
-| **Parâmetro** |         **Padrão**          | **Descrição**                |
-| :------------ | :-------------------------: | :--------------------------- |
-| -i --inputdir | data/teste_dataset.tfrecord | caminho até o TFRecord       |
-| -m --modeldir |      models/CoffeeNet6      | diretório contendo o modelo  |
-| --im_size     |             64              | tamanho das imagens de input |
-| --batch       |             36              | número de imagens por batch  |
+| **Parâmetro** |           **Padrão**           | **Descrição**                |
+| :------------ | :----------------------------: | :--------------------------- |
+| -i --inputdir |  data/teste_dataset.tfrecord   | caminho até o TFRecord       |
+| -m --modeldir | models/saved_models/CoffeeNet6 | diretório contendo o modelo  |
+| --im_size     |               64               | tamanho das imagens de input |
+| --batch       |               36               | número de imagens por batch  |
 
 **Parâmetro -i**
 
@@ -109,12 +109,12 @@ python classify_images.py
 
 ## Parâmetros
 
-| **Parâmetro** |         **Padrão**          | **Descrição**                    |
-| :------------ | :-------------------------: | :------------------------------- |
-| -i --inputdir | data/teste_dataset.tfrecord | caminho até o TFRecords          |
-| -m --modeldir |      models/CoffeeNet6      | diretório contendo o modelo      |
-| --im_size     |             64              | tamanho das imagens de input     |
-| --ignore      |            False            | ignora segmentação pré-existente |
+| **Parâmetro** |           **Padrão**           | **Descrição**                    |
+| :------------ | :----------------------------: | :------------------------------- |
+| -i --inputdir |  data/teste_dataset.tfrecord   | caminho até o TFRecords          |
+| -m --modeldir | models/saved_models/CoffeeNet6 | diretório contendo o modelo      |
+| --im_size     |               64               | tamanho das imagens de input     |
+| --ignore      |             False              | ignora segmentação pré-existente |
 
 **Parâmetro -i**
 

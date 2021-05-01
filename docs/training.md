@@ -221,7 +221,7 @@ python training.py
 | :--------------- | :-------------------------: | :----------------------------------------------- |
 | -t --train       | data/train_dataset.tfrecord | caminho para o arquivo TFRecord de treinamento   |
 | -v --valid       | data/valid_dataset.tfrecord | caminho para o arquivo TFRecord de validação     |
-| --output         |      models/CoffeeNet6      | diretório onde o modelo é salvo                  |
+| --output         | models/h5_models/CoffeeNet6 | diretório onde o modelo é salvo                  |
 | --logdir         |       logs/CoffeeNet6       | diretório onde os logs de treinamento são salvos |
 | --batch          |             64              | tamanho do batch de imagens                      |
 | --epochs         |             500             | quantidade de epochs de treinamento              |
@@ -322,11 +322,11 @@ python to_lite.py
 
 ### Parâmetros
 
-| **Parâmetro** |    **Padrão**     | **Descrição**                              |
-| :------------ | :---------------: | :----------------------------------------- |
-| --modeldir    | models/CoffeeNet6 | diretório contendo o arquivo .h5 do modelo |
-| --epoch       |        500        | epoch que será salva                       |
-| --output      |  coffeenet6.lite  | caminho onde sera salvo o arquivo          |
+| **Parâmetro** |              **Padrão**              | **Descrição**                              |
+| :------------ | :----------------------------------: | :----------------------------------------- |
+| --modeldir    |     models/h5_models/CoffeeNet6      | diretório contendo o arquivo .h5 do modelo |
+| --epoch       |                 500                  | epoch que será salva                       |
+| --output      | models/tflite_models/coffeenet6.lite | caminho onde sera salvo o arquivo          |
 
 **Parâmetro --modeldir**
 
@@ -352,11 +352,11 @@ python to_saved_model.py
 
 ### Parâmetros
 
-| **Parâmetro** |    **Padrão**     | **Descrição**                              |
-| :------------ | :---------------: | :----------------------------------------- |
-| --modeldir    | models/CoffeeNet6 | diretório contendo o arquivo .h5 do modelo |
-| --epoch       |        500        | epoch que será salva                       |
-| --output      |    CoffeeNet6     | diretório onde sera salvo o modelo         |
+| **Parâmetro** |           **Padrão**           | **Descrição**                              |
+| :------------ | :----------------------------: | :----------------------------------------- |
+| --modeldir    |  models/h5_models/CoffeeNet6   | diretório contendo o arquivo .h5 do modelo |
+| --epoch       |              500               | epoch que será salva                       |
+| --output      | models/saved_models/CoffeeNet6 | diretório onde sera salvo o modelo         |
 
 **Parâmetro --modeldir**
 

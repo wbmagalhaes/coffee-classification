@@ -78,7 +78,7 @@ def test_train(tmpdir):
         label_smoothing=0
     )
 
-    model_dir = tmpdir.mkdir("models")
+    model_dir = tmpdir.mkdir("models/h5_model")
     save_model(model, model_dir)
 
     assert os.path.isfile(model_dir.join('model.json'))
@@ -100,7 +100,7 @@ def test_train(tmpdir):
 def test_classify_tfrecords():
     _, _, pred = classify_tfs(
         filenames=['src/tests/dataset.tfrecord'],
-        modeldir='models/CoffeeNet6',
+        modeldir='models/saved_models/CoffeeNet6',
         im_size=64,
         batch=64
     )
@@ -119,7 +119,7 @@ def test_classify_images():
 
     pred = classify_imgs(
         dataset=dataset,
-        modeldir='models/CoffeeNet6'
+        modeldir='models/saved_models/CoffeeNet6'
     )
 
     assert len(pred) == 2
@@ -136,12 +136,12 @@ def test_classify_images():
 
 # def test_tolite(tmpdir):
 #     resultpath = tmpdir.mkdir("result").join('test.tflite')
-#     export_tolite('models/CoffeeNet6', 500, resultpath)
+#     export_tolite('models/h5_models/CoffeeNet6', 500, resultpath)
 #     assert os.path.isfile(resultpath)
 
 
 # def test_to_saved_model(tmpdir):
 #     resultpath = tmpdir.mkdir("result")
-#     export_savedmodel('models/CoffeeNet6', 500, resultpath)
+#     export_savedmodel('models/h5_models/CoffeeNet6', 500, resultpath)
 #     model = tf.keras.models.load_model(resultpath)
 #     assert model != None

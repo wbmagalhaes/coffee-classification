@@ -75,7 +75,7 @@ def test_train(tmpdir):
         label_smoothing=0
     )
 
-    model_dir = tmpdir.mkdir("models/h5_model")
+    model_dir = tmpdir.mkdir("result")
     save_model(model, model_dir)
 
     assert os.path.isfile(model_dir.join('model.json'))

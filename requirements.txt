@@ -29,7 +29,7 @@ numpy==1.19.5; python_version >= '3.6'
 oauthlib==3.1.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
 opencv-python==4.5.1.48
 opt-einsum==3.3.0; python_version >= '3.5'
-pillow==8.1.0; python_version >= '3.6'
+pillow==8.1.2; python_version >= '3.6'
 protobuf==3.15.2
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
@@ -49,7 +49,7 @@ tensorflow==2.4.1
 termcolor==1.1.0
 threadpoolctl==2.1.0; python_version >= '3.5'
 typing-extensions==3.7.4.3
-urllib3==1.26.3; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'
+urllib3==1.26.4; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'
 werkzeug==1.0.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'
 wheel==0.36.2; python_version >= '3'
 wrapt==1.12.1

@@ -67,6 +67,9 @@ def count_labels(labels):
     labels, counts = np.unique(labels, return_counts=True)
 
     result = {}
+    for label in label_names:
+        result[label] = 0
+
     for l, n in zip(labels, counts):
         name = label_names[l]
         result[name] = n

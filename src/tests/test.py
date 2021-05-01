@@ -5,6 +5,7 @@ import numpy as np
 from utils.tfrecords import read_tfrecord
 from utils.neural_net import load_datasets, prepare_datasets, create_model, save_model
 from utils.segmentation import count_beans_pred
+from utils.labelmap import label_names
 
 from segment_images import make_segmentation, save_segmentation
 from create_tfrecords import load_datafiles, save_datasets
@@ -121,14 +122,27 @@ def test_classify_images():
 
     assert len(pred) == 2
 
+    # sometimes the images load in a diferent order
     assert pred[0].shape == (34, 6) or pred[0].shape == (30, 6)
     assert pred[1].shape == (34, 6) or pred[1].shape == (30, 6)
 
-    counts = count_beans_pred(pred[0])
-    assert counts['brocado'] == 26 or counts['marinheiro'] == 22
+    counts1 = count_beans_pred(pred[0])
+    counts2 = count_beans_pred(pred[1])
 
-    counts = count_beans_pred(pred[1])
-    assert counts['brocado'] == 26 or counts['marinheiro'] == 22
+    expected1 = {'normal': 8, 'ardido': 0, 'brocado': 25, 'marinheiro': 0, 'preto': 0, 'verde': 1}
+    expected2 = {'normal': 2, 'ardido': 6, 'brocado': 0, 'marinheiro': 22, 'preto': 0, 'verde': 0}
+
+    def compare(prediction, expected):
+        for label in label_names:
+            if prediction[label] != expected[label]:
+                return False
+
+        return True
+
+    # sometimes the images load in a diferent order
+    normal_order = compare(counts1, expected1) and compare(counts2, expected2)
+    invers_order = compare(counts1, expected2) and compare(counts2, expected1)
+    assert normal_order or invers_order
 
 
 # def test_tolite(tmpdir):

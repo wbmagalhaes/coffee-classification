@@ -10,11 +10,14 @@ from utils.labelmap import label_names
 import math
 
 
-def load_datasets(train_filenames, valid_filenames, batch_size):
+def load_datasets(train_filenames, valid_filenames):
     # Load train/test data
     train_ds = tfrecords.read_tfrecord(filenames=train_filenames)
     valid_ds = tfrecords.read_tfrecord(filenames=valid_filenames)
+    return train_ds, valid_ds
 
+
+def prepare_datasets(train_ds, valid_ds, batch_size):
     # Apply augmentations
     train_ds = zoom(train_ds)
     train_ds = rotate(train_ds)

@@ -3,7 +3,7 @@ import pytest
 import numpy as np
 
 from utils.tfrecords import read_tfrecord
-from utils.neural_net import load_datasets, create_model, save_model
+from utils.neural_net import load_datasets, prepare_datasets, create_model, save_model
 from utils.segmentation import count_beans_pred
 
 from segment_images import make_segmentation, save_segmentation
@@ -56,11 +56,8 @@ def test_show_tfrecord():
 
 
 def test_train(tmpdir):
-    train_ds, valid_ds, train_steps, valid_steps = load_datasets(
-        ['src/tests/dataset.tfrecord'],
-        ['src/tests/dataset.tfrecord'],
-        2
-    )
+    train_ds, valid_ds = load_datasets(['src/tests/dataset.tfrecord'], ['src/tests/dataset.tfrecord'])
+    train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(train_ds, valid_ds, 2)
 
     assert train_steps == 3
     assert valid_steps == 3

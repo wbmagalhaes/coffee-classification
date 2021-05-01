@@ -9,6 +9,21 @@ from sklearn.metrics import classification_report, confusion_matrix
 import itertools
 
 
+def count_in_dataset(dataset):
+    defects = {}
+    for label in label_names:
+        defects[label] = 0
+
+    for data in dataset:
+        _, label = data
+        pred = np.argmax(label)
+        label_name = label_names[int(pred)]
+        defects[label_name] += 1
+
+    for label in label_names:
+        print(f'\t{label}: {defects[label]}')
+
+
 def plot_dataset(dataset, figsize=8, fontsize=10):
     for data in dataset:
         imgs, labels = data

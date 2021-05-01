@@ -43,7 +43,7 @@ Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser en
 
 ## Classificar TFRecords
 
-No TFRecord, os grãos estão recortados da imagem e a classificação já é conhecida. Você pode utilizar esse método para comparar a classificação esperada e a classificação obtida
+No TFRecord, os grãos estão recortados da imagem e a classificação já é conhecida. Esse método é utilizado para comparar a classificação esperada e a classificação obtida
 
 ```
 python classify_tfrecords.py
@@ -70,7 +70,7 @@ Define o diretório onde está o modelo no formato Saved Model.
 
 Tamanho do lado da imagem que está salva no TFRecord.
 
-O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
+O formato da imagem será quadrado, com 3 canais RGB (--im_size, --im_size, 3).
 
 **Parâmetro --batch**
 
@@ -78,7 +78,7 @@ Define o tamanho da batch de imagens que será passada à rede em cada step da c
 
 ### Formato do Resultado
 
-Após a classificação, é mostrado algumas imagens que foram classificadas e a matriz de confusão da rede.
+Após a classificação, são mostradas algumas das imagens que foram classificadas e a matriz de confusão da rede.
 
 <img src="docs/tfrecords_cla.png" width="400">
 

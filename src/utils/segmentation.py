@@ -114,12 +114,8 @@ def otsu(raw_img, colorSpace, channel, invert, opening_it, dilate_it, fg_thresho
 
     blur = cv2.GaussianBlur(input_img, (5, 5), 0)
 
-    if invert:
-        thresh = cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU
-    else:
-        thresh = cv2.THRESH_BINARY + cv2.THRESH_OTSU
-
-    _, thresh = cv2.threshold(blur, 0, 255, thresh)
+    thresh_type = cv2.THRESH_BINARY_INV if invert else cv2.THRESH_BINARY
+    _, thresh = cv2.threshold(blur, 0, 255, thresh_type + cv2.THRESH_OTSU)
 
     # noise removal
     kernel = np.ones((3, 3), np.uint8)

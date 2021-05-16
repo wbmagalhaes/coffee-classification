@@ -117,7 +117,7 @@ def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):
     plt.xticks(tick_marks, label_names, rotation=45)
     plt.yticks(tick_marks, label_names)
 
-    fmt = '.2f' if normalize else 'd'
+    fmt = '.4f' if normalize else 'd'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
         plt.text(j, i, format(cm[i, j], fmt),

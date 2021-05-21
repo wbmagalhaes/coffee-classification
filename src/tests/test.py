@@ -124,7 +124,7 @@ def test_classify_images():
 
     assert len(pred) == 2
 
-    # sometimes the images load in a diferent order
+    # sometimes the images are loaded in a different order
     assert pred[0].shape == (34, 6) or pred[0].shape == (30, 6)
     assert pred[1].shape == (34, 6) or pred[1].shape == (30, 6)
 
@@ -141,7 +141,7 @@ def test_classify_images():
 
         return True
 
-    # sometimes the images load in a diferent order
+    # sometimes the images load in a different order
     normal_order = compare(counts1, expected1) and compare(counts2, expected2)
     invers_order = compare(counts1, expected2) and compare(counts2, expected1)
     assert normal_order or invers_order

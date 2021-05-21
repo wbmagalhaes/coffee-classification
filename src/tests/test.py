@@ -131,8 +131,8 @@ def test_classify_images():
     counts1 = count_beans_pred(pred[0])
     counts2 = count_beans_pred(pred[1])
 
-    expected1 = {'normal': 8, 'ardido': 0, 'brocado': 25, 'marinheiro': 0, 'preto': 0, 'verde': 1}
-    expected2 = {'normal': 2, 'ardido': 6, 'brocado': 0, 'marinheiro': 22, 'preto': 0, 'verde': 0}
+    expected1 = {'sadio': 8, 'ardido': 0, 'brocado': 25, 'marinheiro': 0, 'preto': 0, 'verde': 1}
+    expected2 = {'sadio': 2, 'ardido': 6, 'brocado': 0, 'marinheiro': 22, 'preto': 0, 'verde': 0}
 
     def compare(prediction, expected):
         for label in label_names:

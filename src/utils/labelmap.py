@@ -1,5 +1,5 @@
 label_names = [
-    'normal',
+    'sadio',
     'ardido',
     'brocado',
     # 'chocho',
@@ -12,7 +12,7 @@ label_names = [
 ]
 
 defect_values = {
-    'normal': 0,
+    'sadio': 0,
     'ardido': 0.5,
     'brocado': 0.333,
     # 'chocho': 0.2,

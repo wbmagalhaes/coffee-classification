@@ -70,7 +70,7 @@ def main(args):
     print('Finished.')
 
     # ? ===== DATASET =====
-    # normal: 1149
+    # sadio: 1149
     # ardido: 1139
     # brocado: 404
     # marinheiro: 307
@@ -79,7 +79,7 @@ def main(args):
     # TOTAL: 4275
 
     # ? ===== TREINAMENTO (80%) =====
-    # normal: 912
+    # sadio: 912
     # ardido: 910
     # brocado: 334
     # marinheiro: 241
@@ -88,7 +88,7 @@ def main(args):
     # TOTAL: 3420
 
     # ? ===== VALIDAÇÃO (10%) =====
-    # normal: 114
+    # sadio: 114
     # ardido: 114
     # brocado: 39
     # marinheiro: 31
@@ -97,7 +97,7 @@ def main(args):
     # TOTAL: 427
 
     # ? ===== TESTE (10%) =====
-    # normal: 123
+    # sadio: 123
     # ardido: 115
     # brocado: 31
     # marinheiro: 35

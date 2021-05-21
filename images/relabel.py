@@ -8,7 +8,7 @@ labels = [
     'ardido',
     'brocado',
     'marinheiro',
-    'normal',
+    'sadio',
     'preto',
     'verde'
 ]

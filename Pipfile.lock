@@ -298,7 +298,7 @@
                 "sha256:df815378a754a7edd4559f8c51fc7064f779a74013644a7f5ac7a0c31f875866"
             ],
             "index": "pypi",
-            "version": "==3.4.2"
+            "version": "==3.3.4"
         },
         "numpy": {
             "hashes": [

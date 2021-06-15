@@ -4,11 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tensorflow = "2.4.1"
-opencv-python = "*"
-matplotlib = "*"
-sklearn = "*"
 pytest = "*"
+numpy = "*"
+tensorflow = "*"
+matplotlib = "*"
+opencv-python = "*"
+sklearn = "*"
 
 [dev-packages]
 

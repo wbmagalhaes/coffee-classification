@@ -60,7 +60,7 @@ def flip(dataset):
     return dataset.map(apply, num_parallel_calls=4)
 
 
-def gaussian(dataset, stddev=1/255):
+def gaussian(dataset, stddev=1/255.):
     def apply(x, y):
         noise = tf.random.normal(shape=tf.shape(
             x), mean=0.0, stddev=stddev, dtype=tf.float32)

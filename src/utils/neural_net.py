@@ -3,7 +3,7 @@ import tensorflow as tf
 import os
 import json
 
-from utils import tfrecords, visualize
+from utils import tfrecords
 from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
 from utils.labelmap import label_names
 
@@ -17,23 +17,40 @@ def load_datasets(train_filenames, valid_filenames):
     return train_ds, valid_ds
 
 
-def prepare_datasets(train_ds, valid_ds, batch_size):
-    # Apply augmentations
-    train_ds = zoom(train_ds)
-    train_ds = rotate(train_ds)
-    train_ds = flip(train_ds)
+def apply_augmentations(dataset, aug=['zoom', 'rotate', 'flip', 'gaussian']):
+    if 'zoom' in aug:
+        dataset = zoom(dataset)
 
-    # train_ds = color(train_ds)
-    # train_ds = gaussian(train_ds)
+    if 'rotate' in aug:
+        dataset = rotate(dataset)
 
-    train_ds = clip01(train_ds)
+    if 'flip' in aug:
+        dataset = flip(dataset)
 
-    train_steps = steps(train_ds, batch_size)
-    valid_steps = steps(valid_ds, batch_size)
+    if 'color' in aug:
+        dataset = color(dataset)
 
-    # Set batchs
-    train_ds = train_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
-    valid_ds = valid_ds.repeat().shuffle(buffer_size=10000).batch(batch_size)
+    if 'gaussian' in aug:
+        dataset = gaussian(dataset)
+
+    dataset = clip01(dataset)
+    return dataset
+
+
+def prepare_datasets(train_ds, valid_ds, repeat=True, shuffle=True, batch_size=64):
+    train_steps = calculate_steps(train_ds, batch_size)
+    valid_steps = calculate_steps(valid_ds, batch_size)
+
+    if repeat:
+        train_ds = train_ds.repeat()
+        valid_ds = valid_ds.repeat()
+
+    if shuffle:
+        train_ds = train_ds.shuffle(buffer_size=10000)
+        valid_ds = valid_ds.shuffle(buffer_size=10000)
+
+    train_ds = train_ds.batch(batch_size)
+    valid_ds = valid_ds.batch(batch_size)
 
     return train_ds, valid_ds, train_steps, valid_steps
 
@@ -113,8 +130,8 @@ def save_model(model, model_dir, log_dir=None):
     return [checkpoint_cb]
 
 
-def steps(ds, batch_size):
-    n = len([0 for data in ds])
+def calculate_steps(ds, batch_size):
+    n = len([0 for _ in ds])
     return math.ceil(n / batch_size)
 
 

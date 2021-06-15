@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.neural_net import load_datasets, prepare_datasets, create_model, save_model
+from utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
 from utils.visualize import count_in_dataset
 
 
@@ -32,7 +32,14 @@ def main(args):
     print("defects for validation")
     count_in_dataset(valid_ds)
 
-    train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(train_ds, valid_ds, args.batch)
+    train_ds = apply_augmentations(train_ds, aug=['zoom', 'rotate', 'flip', 'gaussian'])
+    train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(
+        train_ds,
+        valid_ds,
+        repeat=True,
+        shuffle=True,
+        batch_size=args.batch
+    )
 
     model = create_model(
         input_shape=(args.im_size, args.im_size, 3),

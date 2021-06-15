@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 
 from utils.tfrecords import read_tfrecord
-from utils.neural_net import load_datasets, prepare_datasets, create_model, save_model
+from utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
 from utils.segmentation import count_beans_pred
 from utils.labelmap import label_names
 
@@ -60,7 +60,14 @@ def test_show_tfrecord():
 
 def test_train(tmpdir):
     train_ds, valid_ds = load_datasets(['src/tests/dataset.tfrecord'], ['src/tests/dataset.tfrecord'])
-    train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(train_ds, valid_ds, 2)
+    train_ds = apply_augmentations(train_ds, aug=['zoom', 'rotate', 'flip', 'gaussian'])
+    train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(
+        train_ds,
+        valid_ds,
+        repeat=True,
+        shuffle=True,
+        batch_size=2
+    )
 
     assert train_steps == 3
     assert valid_steps == 3

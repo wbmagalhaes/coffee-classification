@@ -37,12 +37,11 @@ def crop_bean(image, bean_data, cut_size):
     xmax = int(min(center_x + size, im_w - 1))
     ymax = int(min(center_y + size, im_h - 1))
 
-    mask = image.copy()
-    mask *= 0
-
     points = np.array(points, dtype=np.int32)
 
+    mask = np.ones_like(image)
     cv2.fillPoly(mask, [points], (1., 1., 1.))
+
     mask = mask[ymin:ymax, xmin:xmax]
 
     cropped = image[ymin:ymax, xmin:xmax]

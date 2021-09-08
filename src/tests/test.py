@@ -37,8 +37,7 @@ def test_create_tfrecords(tmpdir):
         input_dir='src/tests',
         im_size=64,
         train_percent=0.6,
-        random=True,
-        n_files=(1, 1, 1)
+        random=True
     )
 
     assert len(datasets[0]) == 15
@@ -46,7 +45,7 @@ def test_create_tfrecords(tmpdir):
     assert len(datasets[2]) == 5
 
     data_dir = tmpdir.mkdir("data")
-    save_datasets(data_dir, datasets[0], datasets[1], datasets[2])
+    save_datasets(data_dir, datasets[0], datasets[1], datasets[2], n_files=(1, 1, 1))
 
     assert os.path.isfile(data_dir.join('train_dataset.tfrecord'))
     assert os.path.isfile(data_dir.join('valid_dataset.tfrecord'))

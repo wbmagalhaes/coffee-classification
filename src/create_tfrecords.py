@@ -8,7 +8,7 @@ from utils.segmentation import crop_beans, count_beans_set
 from utils.tfrecords import save_tfrecord
 
 
-def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_files=(1, 1, 1)):
+def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8):
     jsons, addrs = open_jsons(input_dir)
 
     dataset = []
@@ -30,10 +30,10 @@ def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8, n_file
     return train, valid, teste
 
 
-def save_datasets(output_dir, train, valid, teste):
-    save_tfrecord(train, 'train_dataset', output_dir, n=1)
-    save_tfrecord(valid, 'valid_dataset', output_dir, n=1)
-    save_tfrecord(teste, 'teste_dataset', output_dir, n=1)
+def save_datasets(output_dir, train, valid, teste, n_files=(1, 1, 1)):
+    save_tfrecord(train, 'train_dataset', output_dir, n=n_files[0])
+    save_tfrecord(valid, 'valid_dataset', output_dir, n=n_files[1])
+    save_tfrecord(teste, 'teste_dataset', output_dir, n=n_files[2])
 
 
 def main(args):
@@ -49,8 +49,7 @@ def main(args):
         input_dir=args.inputdir,
         im_size=args.im_size,
         train_percent=args.train_percent,
-        random=args.random,
-        n_files=(1, 1, 1)
+        random=args.random
     )
 
     print(f'{len(train)} train images')
@@ -65,7 +64,7 @@ def main(args):
     count_beans_set(teste)
     print('')
 
-    save_datasets(args.outputdir, train, valid, teste)
+    save_datasets(args.outputdir, train, valid, teste, n_files=(1, 1, 1))
 
     print('Finished.')
 

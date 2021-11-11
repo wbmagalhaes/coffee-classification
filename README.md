@@ -1,7 +1,7 @@
 # Classificação de grãos de café arábica
 
-![Python](https://img.shields.io/github/pipenv/locked/python-version/wbmagalhaes/coffee-classification)
-![Tensorflow](https://img.shields.io/github/pipenv/locked/dependency-version/wbmagalhaes/coffee-classification/tensorflow)
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
 ![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
 

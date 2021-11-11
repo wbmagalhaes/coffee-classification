@@ -1,9 +1,9 @@
 # Classificação de grãos de café arábica
 
-![Python](https://img.shields.io/badge/python-3.7%2B-blue)
-![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)(https://www.python.org/downloads/)
+![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)(https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
-![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)
+![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)(https://github.com/wbmagalhaes/coffee-classification/issues)
 
 <p align="center">
   Rede neural para classificação de defeitos em grãos crus de café arábica.
@@ -18,12 +18,12 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 - [Tabela de Conteúdos](#tabela-de-conteúdos)
 - [Requisitos](#requisitos)
 - [Uso](#uso)
-  - [Classificar TFRecords](#classificar-tfrecords)
-    - [Parâmetros](#parâmetros)
-    - [Formato do Resultado](#formato-do-resultado)
-  - [Classificar Imagens](#classificar-imagens)
-  - [Parâmetros](#parâmetros-1)
-    - [Formato do Resultado](#formato-do-resultado-1)
+	- [Classificar TFRecords](#classificar-tfrecords)
+		- [Parâmetros](#parâmetros)
+		- [Formato do Resultado](#formato-do-resultado)
+	- [Classificar Imagens](#classificar-imagens)
+	- [Parâmetros](#parâmetros-1)
+		- [Formato do Resultado](#formato-do-resultado-1)
 - [Cite Este Projeto](#cite-este-projeto)
 
 # Requisitos

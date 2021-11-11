@@ -107,7 +107,7 @@ Pode classificar diretamente qualquer imagem JPG. Os grãos são recortados da i
 python classify_images.py
 ```
 
-## Parâmetros
+### Parâmetros
 
 | **Parâmetro** |           **Padrão**           | **Descrição**                    |
 | :------------ | :----------------------------: | :------------------------------- |

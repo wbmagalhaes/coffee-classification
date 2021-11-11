@@ -22,7 +22,7 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 		- [Parâmetros](#parâmetros)
 		- [Formato do Resultado](#formato-do-resultado)
 	- [Classificar Imagens](#classificar-imagens)
-	- [Parâmetros](#parâmetros-1)
+		- [Parâmetros](#parâmetros-1)
 		- [Formato do Resultado](#formato-do-resultado-1)
 - [Cite Este Projeto](#cite-este-projeto)
 

@@ -3,6 +3,10 @@ name = "coffee-classification"
 version = "0.1.0"
 description = ""
 authors = ["William <william1504@gmail.com>"]
+packages = [
+    { include = "src" },
+    { include = "src/**/*.py" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.10"

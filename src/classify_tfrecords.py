@@ -10,7 +10,7 @@ def classify_tfs(filenames, modeldir, im_size, batch):
     dataset = read_tfrecord(filenames, im_size=im_size)
     x_data, y_true = zip(*[data for data in dataset])
 
-    model = tf.keras.models.load_model(modeldir)
+    model = tf.keras.models.load_model(modeldir, compile=False)
     _, y_pred = model.predict(dataset.batch(batch))
 
     return x_data, y_true, y_pred

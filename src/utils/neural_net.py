@@ -52,6 +52,9 @@ def prepare_datasets(train_ds, valid_ds, repeat=True, shuffle=True, batch_size=6
     train_ds = train_ds.batch(batch_size)
     valid_ds = valid_ds.batch(batch_size)
 
+    train_ds = train_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
+    valid_ds = valid_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
+
     return train_ds, valid_ds, train_steps, valid_steps
 
 
@@ -90,7 +93,7 @@ def create_model(
     model = tf.keras.Model(inputs=[image_input], outputs=[logits, classes])
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(lr=lr),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
         loss={'logits': tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=label_smoothing)},
         metrics={'logits': [tf.keras.metrics.CategoricalAccuracy()]}
     )

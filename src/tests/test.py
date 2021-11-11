@@ -21,15 +21,12 @@ def test_segmentation(tmpdir):
     data_dir = tmpdir.mkdir("data")
     json_addrs, imgs_data = make_segmentation('src/tests', False, data_dir)
 
-    assert len(imgs_data) == 2
-
-    assert len(imgs_data[0]) == 34 or len(imgs_data[0]) == 30
-    assert len(imgs_data[1]) == 34 or len(imgs_data[1]) == 30
+    assert len(imgs_data) == 1
+    assert len(imgs_data[0]) == 30
 
     save_segmentation(json_addrs, imgs_data, False)
 
     assert os.path.isfile(data_dir.join('20210212_164545.json'))
-    assert os.path.isfile(data_dir.join('20210212_152332.json'))
 
 
 def test_create_tfrecords(tmpdir):
@@ -54,7 +51,7 @@ def test_create_tfrecords(tmpdir):
 
 def test_show_tfrecord():
     dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
-    assert len([0 for data in dataset]) == 5
+    assert len([0 for _ in dataset]) == 5
 
 
 def test_train(tmpdir):
@@ -128,17 +125,10 @@ def test_classify_images():
         modeldir='models/saved_models/CoffeeNet6'
     )
 
-    assert len(pred) == 2
+    assert pred[0].shape == (30, 6)
 
-    # sometimes the images are loaded in a different order
-    assert pred[0].shape == (34, 6) or pred[0].shape == (30, 6)
-    assert pred[1].shape == (34, 6) or pred[1].shape == (30, 6)
-
-    counts1 = count_beans_pred(pred[0])
-    counts2 = count_beans_pred(pred[1])
-
-    expected1 = {'sadio': 8, 'ardido': 0, 'brocado': 25, 'marinheiro': 0, 'preto': 0, 'verde': 1}
-    expected2 = {'sadio': 2, 'ardido': 6, 'brocado': 0, 'marinheiro': 22, 'preto': 0, 'verde': 0}
+    counts = count_beans_pred(pred[0])
+    expected = {'sadio': 1, 'ardido': 1, 'brocado': 2, 'marinheiro': 26, 'preto': 0, 'verde': 0}
 
     def compare(prediction, expected):
         for label in label_names:
@@ -147,10 +137,7 @@ def test_classify_images():
 
         return True
 
-    # sometimes the images load in a different order
-    normal_order = compare(counts1, expected1) and compare(counts2, expected2)
-    invers_order = compare(counts1, expected2) and compare(counts2, expected1)
-    assert normal_order or invers_order
+    assert compare(counts, expected)
 
 
 def test_tolite(tmpdir):
@@ -162,5 +149,5 @@ def test_tolite(tmpdir):
 def test_to_saved_model(tmpdir):
     resultpath = tmpdir.mkdir("result")
     export_savedmodel('models/h5_models/CoffeeNet6', 500, resultpath)
-    model = tf.keras.models.load_model(resultpath)
+    model = tf.keras.models.load_model(resultpath, compile=False)
     assert model != None

@@ -77,8 +77,7 @@ def read_tfrecord(filenames, im_size=64):
 
         return image, label
 
-    dataset = raw_dataset.map(parser, num_parallel_calls=4)
-    return dataset
+    return raw_dataset.map(parser, num_parallel_calls=tf.data.AUTOTUNE, deterministic=True)
 
 
 def show_dataset(dataset, batch=36, augment=True):

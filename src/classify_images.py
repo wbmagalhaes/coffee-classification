@@ -30,7 +30,7 @@ def load_images(images_dir, im_size=64, load_previous=True):
 
 
 def classify_imgs(dataset, modeldir):
-    model = tf.keras.models.load_model(modeldir)
+    model = tf.keras.models.load_model(modeldir, compile=False)
     return [classify_img(data, model) for data in dataset]
 
 

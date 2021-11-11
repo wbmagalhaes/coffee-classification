@@ -1,9 +1,9 @@
 # Classificação de grãos de café arábica
 
-![Python](https://img.shields.io/badge/python-3.7%2B-blue)(https://www.python.org/downloads/)
-![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)(https://www.tensorflow.org/)
+[![Python](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/downloads/)
+[![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)](https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
-![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)(https://github.com/wbmagalhaes/coffee-classification/issues)
+[![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)](https://github.com/wbmagalhaes/coffee-classification/issues)
 
 <p align="center">
   Rede neural para classificação de defeitos em grãos crus de café arábica.

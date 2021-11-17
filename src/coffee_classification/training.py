@@ -1,8 +1,8 @@
 import sys
 import argparse
 
-from utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
-from utils.visualize import count_in_dataset
+from coffee_classification.utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
+from coffee_classification.utils.visualize import count_in_dataset
 
 
 def main(args):

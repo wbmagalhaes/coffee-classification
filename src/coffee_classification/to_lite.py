@@ -2,7 +2,7 @@ import sys
 import argparse
 
 import tensorflow as tf
-from utils.reload_model import from_json
+from coffee_classification.utils.reload_model import from_json
 
 
 def export_tolite(modeldir, epoch, output):

@@ -3,9 +3,9 @@ import argparse
 
 from random import shuffle
 
-from utils.data_reader import open_image, open_jsons
-from utils.segmentation import crop_beans, count_beans_set
-from utils.tfrecords import save_tfrecord
+from coffee_classification.utils.data_reader import open_image, open_jsons
+from coffee_classification.utils.segmentation import crop_beans, count_beans_set
+from coffee_classification.utils.tfrecords import save_tfrecord
 
 
 def load_datafiles(input_dir, im_size=64, random=True, train_percent=0.8):

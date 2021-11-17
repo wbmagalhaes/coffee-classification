@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from utils.labelmap import label_names
+from coffee_classification.utils.labelmap import label_names
 
 
 def crop_beans(image, beans_data, cut_size):

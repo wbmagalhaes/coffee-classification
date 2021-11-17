@@ -3,9 +3,9 @@ import tensorflow as tf
 import os
 import json
 
-from utils import tfrecords
-from utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
-from utils.labelmap import label_names
+from coffee_classification.utils import tfrecords
+from coffee_classification.utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from coffee_classification.utils.labelmap import label_names
 
 import math
 

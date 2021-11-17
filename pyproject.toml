@@ -4,8 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["William <william1504@gmail.com>"]
 packages = [
-    { include = "src" },
-    { include = "src/**/*.py" },
+    { include = "coffee_classification", from = "src" },
+    { include = "utils", from = "src/coffee_classification" },
 ]
 
 [tool.poetry.dependencies]
@@ -14,9 +14,15 @@ opencv-python = "^4.5.4"
 tensorflow = "^2.7.0"
 matplotlib = "^3.4.3"
 sklearn = "^0.0"
-pytest = "^6.2.5"
 
 [tool.poetry.dev-dependencies]
+autopep8 = "^1.6.0"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+tox = "^3.24.4"
+
+[tool.pytest.ini_options]
+addopts = "--cov=league"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

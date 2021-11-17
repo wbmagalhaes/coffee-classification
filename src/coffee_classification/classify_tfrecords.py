@@ -2,8 +2,8 @@ import sys
 import argparse
 import tensorflow as tf
 
-from utils.tfrecords import read_tfrecord
-from utils.visualize import plot_images, plot_confusion_matrix
+from coffee_classification.utils.tfrecords import read_tfrecord
+from coffee_classification.utils.visualize import plot_images, plot_confusion_matrix
 
 
 def classify_tfs(filenames, modeldir, im_size, batch):

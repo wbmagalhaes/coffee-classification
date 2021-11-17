@@ -2,8 +2,8 @@ import os
 import sys
 import argparse
 
-from utils.data_reader import open_images, open_json, save_json
-from utils.segmentation import process_image
+from coffee_classification.utils.data_reader import open_images, open_json, save_json
+from coffee_classification.utils.segmentation import process_image
 
 
 def make_segmentation(images_dir, load_previous=True, output_dir=None):

@@ -1,20 +1,19 @@
 import os
-import pytest
 import numpy as np
 
 import tensorflow as tf
 
-from utils.tfrecords import read_tfrecord
-from utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
-from utils.segmentation import count_beans_pred
-from utils.labelmap import label_names
+from coffee_classification.utils.tfrecords import read_tfrecord
+from coffee_classification.utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
+from coffee_classification.utils.segmentation import count_beans_pred
+from coffee_classification.utils.labelmap import label_names
 
-from segment_images import make_segmentation, save_segmentation
-from create_tfrecords import load_datafiles, save_datasets
-from classify_tfrecords import classify_tfs
-from classify_images import load_images, classify_imgs
-from to_saved_model import export_savedmodel
-from to_lite import export_tolite
+from coffee_classification.segment_images import make_segmentation, save_segmentation
+from coffee_classification.create_tfrecords import load_datafiles, save_datasets
+from coffee_classification.classify_tfrecords import classify_tfs
+from coffee_classification.classify_images import load_images, classify_imgs
+from coffee_classification.to_saved_model import export_savedmodel
+from coffee_classification.to_lite import export_tolite
 
 
 def test_segmentation(tmpdir):

@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.tfrecords import read_tfrecord, show_dataset
+from coffee_classification.utils.tfrecords import read_tfrecord, show_dataset
 
 
 def main(args):

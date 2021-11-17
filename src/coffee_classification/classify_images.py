@@ -5,8 +5,8 @@ import argparse
 import numpy as np
 import tensorflow as tf
 
-from utils.data_reader import open_images, open_json
-from utils.segmentation import process_image, crop_beans, count_beans_pred
+from coffee_classification.utils.data_reader import open_images, open_json
+from coffee_classification.utils.segmentation import process_image, crop_beans, count_beans_pred
 
 
 def load_images(images_dir, im_size=64, load_previous=True):

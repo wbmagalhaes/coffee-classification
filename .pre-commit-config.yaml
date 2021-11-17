@@ -1,0 +1,25 @@
+#? pra instalar:
+# poetry add pre-commit --dev
+# pre-commit install
+
+#? pra testar:
+# pre-commit run --all-files -v
+
+repos:
+-   repo: local
+    hooks:
+    -   id: generate-requirements
+        name: Gerar requirements.txt
+        description: Gera o arquivo requirements.txt de forma automática
+        entry: poetry export -f requirements.txt --without-hashes --output requirements.txt
+        language: system
+        stages: [commit, merge-commit]
+        pass_filenames: false
+
+    -   id: generate-requirements-dev
+        name: Gerar requirements_dev.txt
+        description: Gera o arquivo requirements_dev.txt de forma automática
+        entry: poetry export -f requirements.txt --dev --without-hashes --output requirements_dev.txt
+        language: system
+        stages: [commit, merge-commit]
+        pass_filenames: false

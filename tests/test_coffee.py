@@ -18,7 +18,7 @@ from coffee_classification.to_lite import export_tolite
 
 def test_segmentation(tmpdir):
     data_dir = tmpdir.mkdir("data")
-    json_addrs, imgs_data = make_segmentation('src/tests', False, data_dir)
+    json_addrs, imgs_data = make_segmentation('./tests', False, data_dir)
 
     assert len(imgs_data) == 1
     assert len(imgs_data[0]) == 30
@@ -30,7 +30,7 @@ def test_segmentation(tmpdir):
 
 def test_create_tfrecords(tmpdir):
     datasets = load_datafiles(
-        input_dir='src/tests',
+        input_dir='./tests',
         im_size=64,
         train_percent=0.6,
         random=True
@@ -49,12 +49,12 @@ def test_create_tfrecords(tmpdir):
 
 
 def test_show_tfrecord():
-    dataset = read_tfrecord(['src/tests/dataset.tfrecord'])
+    dataset = read_tfrecord(['./tests/dataset.tfrecord'])
     assert len([0 for _ in dataset]) == 5
 
 
 def test_train(tmpdir):
-    train_ds, valid_ds = load_datasets(['src/tests/dataset.tfrecord'], ['src/tests/dataset.tfrecord'])
+    train_ds, valid_ds = load_datasets(['./tests/dataset.tfrecord'], ['./tests/dataset.tfrecord'])
     train_ds = apply_augmentations(train_ds, aug=['zoom', 'rotate', 'flip', 'gaussian'])
     train_ds, valid_ds, train_steps, valid_steps = prepare_datasets(
         train_ds,
@@ -101,7 +101,7 @@ def test_train(tmpdir):
 
 def test_classify_tfrecords():
     _, _, pred = classify_tfs(
-        filenames=['src/tests/dataset.tfrecord'],
+        filenames=['./tests/dataset.tfrecord'],
         modeldir='models/saved_models/CoffeeNet6',
         im_size=64,
         batch=64
@@ -114,7 +114,7 @@ def test_classify_tfrecords():
 
 def test_classify_images():
     _, dataset = load_images(
-        images_dir='src/tests',
+        images_dir='./tests',
         im_size=64,
         load_previous=False
     )

@@ -4,7 +4,12 @@ import numpy as np
 import tensorflow as tf
 
 from coffee_classification.utils.tfrecords import read_tfrecord
-from coffee_classification.utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
+from coffee_classification.utils.neural_net import (
+    load_datasets,
+    apply_augmentations,
+    prepare_datasets,
+    create_model,
+    save_model)
 from coffee_classification.utils.segmentation import count_beans_pred
 from coffee_classification.utils.labelmap import label_names
 

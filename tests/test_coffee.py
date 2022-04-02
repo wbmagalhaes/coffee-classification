@@ -149,4 +149,4 @@ def test_to_saved_model(tmpdir):
     resultpath = tmpdir.mkdir("result")
     export_savedmodel('models/h5_models/CoffeeNet6', 500, resultpath)
     model = tf.keras.models.load_model(resultpath, compile=False)
-    assert model != None
+    assert model is not None

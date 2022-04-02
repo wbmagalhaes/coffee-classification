@@ -1,12 +1,9 @@
 import os
 import tensorflow as tf
 
-from random import shuffle
-from coffee_classification.utils import data_reader
-
 from coffee_classification.utils.labelmap import label_names
 from coffee_classification.utils import visualize
-from coffee_classification.utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from coffee_classification.utils.augmentation import rotate, flip, clip01
 
 
 def save_tfrecord(data, name, output_dir, n=1):

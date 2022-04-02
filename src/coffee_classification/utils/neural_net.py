@@ -4,7 +4,13 @@ import os
 import json
 
 from coffee_classification.utils import tfrecords
-from coffee_classification.utils.augmentation import color, zoom, rotate, flip, gaussian, clip01
+from coffee_classification.utils.augmentation import (
+    color,
+    zoom,
+    rotate,
+    flip,
+    gaussian,
+    clip01)
 from coffee_classification.utils.labelmap import label_names
 
 import math

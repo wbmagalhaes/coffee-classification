@@ -1,7 +1,12 @@
 import sys
 import argparse
 
-from coffee_classification.utils.neural_net import load_datasets, apply_augmentations, prepare_datasets, create_model, save_model
+from coffee_classification.utils.neural_net import (
+    load_datasets,
+    apply_augmentations,
+    prepare_datasets,
+    create_model,
+    save_model)
 from coffee_classification.utils.visualize import count_in_dataset
 
 
@@ -56,7 +61,7 @@ def main(args):
 
     cbs = save_model(model, args.output, args.logdir)
 
-    history = model.fit(
+    model.fit(
         train_ds,
         steps_per_epoch=train_steps,
         epochs=args.epochs,

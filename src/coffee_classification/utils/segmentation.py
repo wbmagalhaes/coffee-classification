@@ -69,8 +69,8 @@ def count_labels(labels):
     for label in label_names:
         result[label] = 0
 
-    for l, n in zip(labels, counts):
-        name = label_names[l]
+    for label, n in zip(labels, counts):
+        name = label_names[label]
         result[name] = n
         print(name, n)
 
@@ -78,7 +78,7 @@ def count_labels(labels):
 
 
 def process_image(image):
-    input_img, mask = otsu(image, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
+    _, mask = otsu(image, ColorSpace.LAB, 0, True, 5, 5, 0.7, 1)
     beans = find_beans(mask, 1.1, 200, 4000)
     return [get_bean_data(bean) for bean in beans]
 

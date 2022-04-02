@@ -1,6 +1,6 @@
 # Classificação de grãos de café arábica
 
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.7%7C3.8%7C3.9%7C3.10-blue)](https://www.python.org/downloads/)
 [![Tensorflow](https://img.shields.io/badge/tensorflow-2.7-blue)](https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
 [![Issues](https://img.shields.io/github/issues/wbmagalhaes/coffee-classification)](https://github.com/wbmagalhaes/coffee-classification/issues)
@@ -28,8 +28,8 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 
 # Requisitos
 
-- Python 3.8
-- Tensorflow 2.4.1
+- Python 3.7, 3.8, 3.9 ou 3.10
+- Tensorflow 2.8
 
 # Uso
 

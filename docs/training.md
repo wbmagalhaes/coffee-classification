@@ -44,7 +44,7 @@ python segment_images.py
 
 **Parâmetro -i**
 
-Define o diretório onde estão as imagens para segmentação. 
+Define o diretório onde estão as imagens para segmentação.
 
 **Parâmetro -o**
 

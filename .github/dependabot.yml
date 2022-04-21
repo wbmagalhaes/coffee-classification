@@ -8,5 +8,5 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     versioning-strategy: increase-if-necessary

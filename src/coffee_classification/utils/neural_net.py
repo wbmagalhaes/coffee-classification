@@ -23,7 +23,10 @@ def load_datasets(train_filenames, valid_filenames):
     return train_ds, valid_ds
 
 
-def apply_augmentations(dataset, aug=['zoom', 'rotate', 'flip', 'gaussian']):
+def apply_augmentations(dataset, aug=None):
+    if aug is None:
+        aug = ['zoom', 'rotate', 'flip', 'gaussian']
+
     if 'zoom' in aug:
         dataset = zoom(dataset)
 

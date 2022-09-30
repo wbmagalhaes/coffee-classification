@@ -1,7 +1,7 @@
 # Classificação de grãos de café arábica
 
-[![Python](https://img.shields.io/badge/python-3.7%7C3.8%7C3.9%7C3.10-blue?logo=python)](https://www.python.org/)
-[![Tensorflow](https://img.shields.io/badge/tensorflow-2.9-blue?logo=tensorflow)](https://www.tensorflow.org/)
+[![Python](https://img.shields.io/badge/python-3.9%7C3.10-blue?logo=python)](https://www.python.org/)
+[![Tensorflow](https://img.shields.io/badge/tensorflow-2.10-blue?logo=tensorflow)](https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/python-package.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions)
 
 <p align="center">
@@ -25,8 +25,8 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 
 ## Requisitos
 
-- Python 3.7, 3.8, 3.9 ou 3.10
-- Tensorflow 2.9
+- Python 3.9 ou 3.10
+- Tensorflow 2.10
 
 ## Uso
 
@@ -55,21 +55,21 @@ python classify_tfrecords.py
 | --im_size     |               64               | tamanho das imagens de input |
 | --batch       |               36               | número de imagens por batch  |
 
-**Parâmetro -i**
+##### **Parâmetro -i**
 
 Define o caminho até o arquivo TFRecord que será classificado.
 
-**Parâmetro -m**
+##### **Parâmetro -m**
 
 Define o diretório onde está o modelo no formato Saved Model.
 
-**Parâmetro --im_size**
+##### **Parâmetro --im_size**
 
 Tamanho do lado da imagem que está salva no TFRecord.
 
 O formato da imagem será quadrado, com 3 canais RGB (--im_size, --im_size, 3).
 
-**Parâmetro --batch**
+##### **Parâmetro --batch**
 
 Define o tamanho da batch de imagens que será passada à rede em cada step da classificação.
 
@@ -113,21 +113,21 @@ python classify_images.py
 | --im_size     |               64               | tamanho das imagens de input     |
 | --ignore      |             False              | ignora segmentação pré-existente |
 
-**Parâmetro -i**
+##### **Parâmetro -i**
 
 Define o caminho até o arquivo TFRecord que será classificado.
 
-**Parâmetro -m**
+##### **Parâmetro -m**
 
 Define o diretório onde está o modelo no formato Saved Model.
 
-**Parâmetro --im_size**
+##### **Parâmetro --im_size**
 
 Tamanho do lado da imagem que é esperado pela rede.
 
 O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
-**Parâmetro --ignore**
+##### **Parâmetro --ignore**
 
 Caso este parâmetro esteja presente, ignora a segmentação pré-existente e faz uma nova segmentação.
 

@@ -2,7 +2,7 @@
 
 Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord), no diretório [data](data) você pode encontrar os TFRecords das imagens localizadas em [images](images).
 
-# Tabela de Conteúdos
+## Tabela de Conteúdos
 
 - [Treinamento da Rede](#treinamento-da-rede)
 - [Tabela de Conteúdos](#tabela-de-conteúdos)
@@ -25,15 +25,15 @@ Para o treinamento de um novo modelo, utilize o formato [TFRecord](https://www.t
     - [Parâmetros](#parâmetros-5)
     - [Formato do Resultado](#formato-do-resultado-5)
 
-## Segmentar Imagens
+### Segmentar Imagens
 
 Segmentar e gerar os .json
 
-```
+```cmd
 python segment_images.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro**  | **Padrão** | **Descrição**                            |
 | :------------- | :--------: | :--------------------------------------- |
@@ -42,27 +42,27 @@ python segment_images.py
 | --ignore       |   False    | ignora segmentação pré-existente         |
 | --overwrite    |   False    | sobreescreve a segmentação pré-existente |
 
-**Parâmetro -i**
+##### **Parâmetro -i**
 
 Define o diretório onde estão as imagens para segmentação.
 
-**Parâmetro -o**
+##### **Parâmetro -o**
 
 Define o diretório onde serão salvas as segmentações.
 
-**Parâmetro --ignore**
+##### **Parâmetro --ignore**
 
 Se presente, ignora a segmentação pré-existente e cria uma nova.
 
-**Parâmetro --overwrite**
+##### **Parâmetro --overwrite**
 
 Se presente, sobreescreve o arquivo de segmentação pre-existente.
 
-### Formato do Resultado
+#### Formato do Resultado
 
 Os arquivos contendo a segmentação são criados no mesmo diretório das imagens, ou no diretório definido.
 
-```
+```cmd
 [
   {
     "label": "não classificado",
@@ -93,15 +93,15 @@ Os arquivos contendo a segmentação são criados no mesmo diretório das imagen
 ]
 ```
 
-## Criar TFRecords
+### Criar TFRecords
 
 Você pode criar TFRecords para o treinamento a partir suas próprias imagens.
 
-```
+```cmd
 python create_tfrecords.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro**   | **Padrão** | **Descrição**                                       |
 | :-------------- | :--------: | :-------------------------------------------------- |
@@ -111,33 +111,33 @@ python create_tfrecords.py
 | --train_percent |    0.8     | porcentagem de imagens para treinamento             |
 | --no-shuffle    |    True    | não randomiza as imagens antes de dividir o dataset |
 
-**Parâmetro -i**
+##### **Parâmetro -i**
 
 Define o diretório onde são as imagens do dataset de grãos.
 
 As imagens devem estar no formato JPG, podendo estar separadas em subspastas. Os arquivos de segmentação devem estar na mesma pasta e ter o mesmo nome da imagem correspondente.
 
-**Parâmetro -o**
+##### **Parâmetro -o**
 
 Define o diretório onde serão criados os arquivos .tfrecord usados pela rede.
 
 Os arquivos são criados com os nomes train_dataset.tfrecord, valid_dataset.tfrecord e teste_dataset.tfrecord. Arquivos de mesmo nome serão substituídos.
 
-**Parâmetro --im_size**
+##### **Parâmetro --im_size**
 
 Define o redimensionamento do recorte quadrado do grão de café.
 
-**Parâmetro --train_percent**
+##### **Parâmetro --train_percent**
 
 Define a porcentagem de imagens que serão utilizadas no treinamento, a porcentagem restante é dividida igualmente entre validação e teste. O valor padrão de 0.8 corresponde a 80%.
 
-**Parâmetro --no-shuffle**
+##### **Parâmetro --no-shuffle**
 
 Por padrão, as imagens são randomizadas antes da divisão em treinamento, validação e teste. Se este parâmetro estiver presente, as imagens não são randomizadas.
 
-### Formato do Resultado
+#### Formato do Resultado
 
-```
+```cmd
 4275 total images
 normal: 1149
 ardido: 1139
@@ -173,15 +173,15 @@ verde: 62
 
 Após carregar as imagens e gerar os TFRecords, será mostrado uma lista contendo a quantidade de imagens de cada classe separadas nos datasets de treinamento, validação e teste.
 
-## Ver TFRecords
+### Ver TFRecords
 
 Para verificar as imagens armazenadas nos TFRecords.
 
-```
+```cmd
 python show_tfrecords.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro** |         **Padrão**          | **Descrição**                   |
 | :------------ | :-------------------------: | :------------------------------ |
@@ -189,33 +189,33 @@ python show_tfrecords.py
 | --batch       |             36              | quantidades de imagens          |
 | --augment     |            False            | aplica augmentation nas imagens |
 
-**Parâmetro -p**
+##### **Parâmetro -p**
 
 Define o path para o arquivo TFRecord contendo as imagens que se deseja visualizar.
 
-**Parâmetro --batch**
+##### **Parâmetro --batch**
 
 Define o número de imagens que serão mostradas. Sugiro no máximo 64 imagens.
 
-**Parâmetro --augment**
+##### **Parâmetro --augment**
 
 Caso este parâmetro esteja presente, aplica o data augmentation, rotações e espelhamento nas imagens e mostra o resultado.
 
-### Formato do Resultado
+#### Formato do Resultado
 
 <img src="dataset_samples.png" width="500">
 
 Mostra o primeiro batch de imagens no arquivo TFRecords com o nome de suas respectivas classes.
 
-## Treinamento
+### Treinamento
 
 A rede é treinada usando a biblioteca TensorFlow 2.4.1 utilizando a pipeline TFRecords.
 
-```
+```cmd
 python training.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro**    |         **Padrão**          | **Descrição**                                    |
 | :--------------- | :-------------------------: | :----------------------------------------------- |
@@ -236,73 +236,73 @@ python training.py
 | --lr             |            1e-4             | learning rate do otimizador Adam                 |
 | --labelsmoothing |             0.2             | suavização aplicada no vetor onehot              |
 
-**Parâmetro -t**
+##### **Parâmetro -t**
 
 Define o caminho para o arquivo TFRecords contendo o dataset de treinamento.
 
-**Parâmetro -v**
+##### **Parâmetro -v**
 
 Define o caminho para o arquivo TFRecords contendo o dataset de validação.
 
-**Parâmetro -output**
+##### **Parâmetro -output**
 
 Define o diretório onde será salvo o modelo.
 
-**Parâmetro -logdir**
+##### **Parâmetro -logdir**
 
 Define o diretório onde serão salvos os logs de treinamento para visualização no TensorBoard.
 
-**Parâmetro --batch**
+##### **Parâmetro --batch**
 
 Define o tamanho da batch de imagens que será passada à rede em cada step do treinamento.
 
-**Parâmetro --epochs**
+##### **Parâmetro --epochs**
 
 Define o número de epochs de treinamento. A quantidade de steps por epoch é calculada automaticamente.
 
-**Parâmetro --im_size**
+##### **Parâmetro --im_size**
 
 Define o tamanho do lado da imagem que está salva no TFRecord. O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3).
 
-**Parâmetro --nlayers**
+##### **Parâmetro --nlayers**
 
 Define a quantidade de camadas de convolução extratoras.
 
-**Parâmetro --filters**
+##### **Parâmetro --filters**
 
 Define o número de filtros na primeira camada. Após a primeira camada, a quantidade de filtros sempre dobra.
 
-**Parâmetro --kernelinit**
+##### **Parâmetro --kernelinit**
 
 Define o tipo de inicialização dos weights.
 
-**Parâmetro --l2**
+##### **Parâmetro --l2**
 
 Define o valor do fator de regularização L2.
 
-**Parâmetro --biasinit**
+##### **Parâmetro --biasinit**
 
 Define o valor inicial dos biases.
 
-**Parâmetro --lrelualpha**
+##### **Parâmetro --lrelualpha**
 
 Define o valor do alfa da ativação LeakyReLU entre as camadas de convolução.
 
-**Parâmetro --outactivation**
+##### **Parâmetro --outactivation**
 
 Define o tipo de ativação da última camada.
 
-**Parâmetro --lr**
+##### **Parâmetro --lr**
 
 Define o learning rate do otimizador Adam.
 
-**Parâmetro --labelsmoothing**
+##### **Parâmetro --labelsmoothing**
 
 Define o valor da suavização do vetor one hot encoded.
 
-### Formato do Resultado
+#### Formato do Resultado
 
-```
+```cmd
 Epoch 1/10
 182/182 [==============] - 16s 66ms/step - loss: 40.8213 - logits_loss: 1.4470 - logits_categorical_accuracy: 0.5326 - val_loss: 39.7749 - val_logits_loss: 1.6034 - val_logits_categorical_accuracy: 0.3621
 Epoch 2/10
@@ -314,13 +314,13 @@ Epoch 4/10
 ```
 <img src="tensorboard_graph.png">
 
-## Export to .lite
+### Export to .lite
 
-```
+```cmd
 python to_lite.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro** |              **Padrão**              | **Descrição**                              |
 | :------------ | :----------------------------------: | :----------------------------------------- |
@@ -328,15 +328,15 @@ python to_lite.py
 | --epoch       |                 500                  | epoch que será salva                       |
 | --output      | models/tflite_models/coffeenet6.lite | caminho onde sera salvo o arquivo          |
 
-**Parâmetro --modeldir**
+##### **Parâmetro --modeldir**
 
 Define o diretório onde está o modelo no formato h5.
 
-**Parâmetro --epoch**
+##### **Parâmetro --epoch**
 
 Define qual época de modelo será carregada.
 
-**Parâmetro --output**
+##### **Parâmetro --output**
 
 Define o diretório onde será salvo o modelo no formato lite.
 
@@ -344,13 +344,13 @@ Define o diretório onde será salvo o modelo no formato lite.
 
 Gera o arquivo com o modelo no formato lite.
 
-## Export to Saved Model
+### Export to Saved Model
 
-```
+```cmd
 python to_saved_model.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro** |           **Padrão**           | **Descrição**                              |
 | :------------ | :----------------------------: | :----------------------------------------- |
@@ -358,18 +358,18 @@ python to_saved_model.py
 | --epoch       |              500               | epoch que será salva                       |
 | --output      | models/saved_models/CoffeeNet6 | diretório onde sera salvo o modelo         |
 
-**Parâmetro --modeldir**
+##### **Parâmetro --modeldir**
 
 Define o diretório onde está o modelo no formato h5.
 
-**Parâmetro --epoch**
+##### **Parâmetro --epoch**
 
 Define qual época de modelo será carregada.
 
-**Parâmetro --output**
+##### **Parâmetro --output**
 
 Define o diretório onde será salvo o Saved Model.
 
-### Formato do Resultado
+#### Formato do Resultado
 
 Gera o arquivo com o modelo no formato Saved Model.

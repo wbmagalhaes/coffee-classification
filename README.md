@@ -11,26 +11,24 @@
 
 Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado para obtenção do título de Mestre em Química pela Universidade Estadual de Londrina.
 
-# Tabela de Conteúdos
+## Tabela de Conteúdos
 
-- [Classificação de grãos de café arábica](#classificação-de-grãos-de-café-arábica)
-- [Tabela de Conteúdos](#tabela-de-conteúdos)
 - [Requisitos](#requisitos)
 - [Uso](#uso)
-	- [Classificar TFRecords](#classificar-tfrecords)
-		- [Parâmetros](#parâmetros)
-		- [Formato do Resultado](#formato-do-resultado)
-	- [Classificar Imagens](#classificar-imagens)
-		- [Parâmetros](#parâmetros-1)
-		- [Formato do Resultado](#formato-do-resultado-1)
+  - [Classificar TFRecords](#classificar-tfrecords)
+    - [Parâmetros](#parâmetros)
+    - [Formato do Resultado](#formato-do-resultado)
+  - [Classificar Imagens](#classificar-imagens)
+    - [Parâmetros](#parâmetros-1)
+    - [Formato do Resultado](#formato-do-resultado-1)
 - [Cite Este Projeto](#cite-este-projeto)
 
-# Requisitos
+## Requisitos
 
 - Python 3.7, 3.8, 3.9 ou 3.10
 - Tensorflow 2.9
 
-# Uso
+## Uso
 
 Existem duas formas de realizar a classificação, utilizando o formato [TFRecord](https://www.tensorflow.org/tutorials/load_data/tfrecord) ou utilizando imagens no formato JPG.
 
@@ -40,15 +38,15 @@ Para classificar imagens diretamente, eles devem estar no formato JPG. Se uma se
 
 Uma rede de exemplo treinada com imagens de grãos de café arábica pode ser encontrada no diretório [models/saved_models](models/saved_models), mas você pode treinar uma nova rede utilizando seus dados. A documentação para o treinamento de uma rede pode ser encontrada em [Treinamento](docs/training.md#treinamento).
 
-## Classificar TFRecords
+### Classificar TFRecords
 
 No TFRecord, os grãos estão recortados da imagem e a classificação já é conhecida. Esse método é utilizado para comparar a classificação esperada e a classificação obtida
 
-```
+```cmd
 python classify_tfrecords.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro** |           **Padrão**           | **Descrição**                |
 | :------------ | :----------------------------: | :--------------------------- |
@@ -75,7 +73,7 @@ O formato da imagem será quadrado, com 3 canais RGB (--im_size, --im_size, 3).
 
 Define o tamanho da batch de imagens que será passada à rede em cada step da classificação.
 
-### Formato do Resultado
+#### Formato do Resultado
 
 Após a classificação, são mostradas algumas das imagens que foram classificadas e a matriz de confusão da rede.
 
@@ -83,7 +81,7 @@ Após a classificação, são mostradas algumas das imagens que foram classifica
 
 <img src="docs/conf_matrix.png" width="400">
 
-```
+```cmd
               precision    recall  f1-score   support
 
            0       0.99      0.96      0.98       123
@@ -98,15 +96,15 @@ Após a classificação, são mostradas algumas das imagens que foram classifica
 weighted avg       0.96      0.96      0.96       428
 ```
 
-## Classificar Imagens
+### Classificar Imagens
 
 Pode classificar diretamente qualquer imagem JPG. Os grãos são recortados da imagem utilizando o arquivo de segmentação e classificados.
 
-```
+```cmd
 python classify_images.py
 ```
 
-### Parâmetros
+#### Parâmetros
 
 | **Parâmetro** |           **Padrão**           | **Descrição**                    |
 | :------------ | :----------------------------: | :------------------------------- |
@@ -133,11 +131,11 @@ O formato da imagem será um quadrado com 3 canais RGB, (--im_size, --im_size, 3
 
 Caso este parâmetro esteja presente, ignora a segmentação pré-existente e faz uma nova segmentação.
 
-### Formato do Resultado
+#### Formato do Resultado
 
 Gera uma lista da quantidade de grão de cada classe em cada imagem classificada.
 
-```
+```cmd
 images\20200122_150244.jpg
 normal 8
 ardido 14
@@ -160,9 +158,9 @@ preto 27
 verde 35
 ```
 
-# Cite Este Projeto
+## Cite Este Projeto
 
-```
+```bib
 @misc{magalhaes2021,
   author =  {William Bernardes Magalh{\~a}es},
   title  =  {Classificação de defeitos em grãos de café arábica},

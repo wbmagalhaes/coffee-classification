@@ -53,11 +53,9 @@ def plot_dataset(dataset, figsize=8, fontsize=10):
 
 def plot_images(x_data, y_true, y_pred=None, figsize=8, fontsize=10):
     def get_label(y):
-        try:
-            len(y)
-            y = np.argmax(y)
-        finally:
-            return label_names[int(y)][:3]
+        len(y)
+        y = np.argmax(y)
+        return label_names[int(y)][:3]
 
     n = len(x_data)
 
@@ -91,11 +89,9 @@ def plot_images(x_data, y_true, y_pred=None, figsize=8, fontsize=10):
 
 
 def get_label_list(ys):
-    try:
-        len(ys[0])
-        ys = np.argmax(ys, axis=1)
-    finally:
-        return ys
+    len(ys[0])
+    ys = np.argmax(ys, axis=1)
+    return ys
 
 
 def plot_confusion_matrix(y_true, y_pred, normalize=False, cmap='Blues'):

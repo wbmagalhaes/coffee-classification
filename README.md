@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/python-3.9%7C3.10-blue?logo=python)](https://www.python.org/)
 [![Tensorflow](https://img.shields.io/badge/tensorflow-2.10-blue?logo=tensorflow)](https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/tests.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/tests.yml)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f638417b8f844f41b14c87c24ac286c3)](https://www.codacy.com/gh/wbmagalhaes/coffee-classification/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wbmagalhaes/coffee-classification&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f638417b8f844f41b14c87c24ac286c3)](https://www.codacy.com/gh/wbmagalhaes/coffee-classification/dashboard)
 
 <p align="center">
   Rede neural para classificação de defeitos em grãos crus de café arábica.

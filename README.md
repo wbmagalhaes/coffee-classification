@@ -1,5 +1,6 @@
 # Classificação de grãos de café arábica
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a343eea7e6fa4bf69eeea22a1681104b)](https://app.codacy.com/gh/wbmagalhaes/coffee-classification?utm_source=github.com&utm_medium=referral&utm_content=wbmagalhaes/coffee-classification&utm_campaign=Badge_Grade_Settings)
 [![Python](https://img.shields.io/badge/python-3.9%7C3.10-blue?logo=python)](https://www.python.org/)
 [![Tensorflow](https://img.shields.io/badge/tensorflow-2.10-blue?logo=tensorflow)](https://www.tensorflow.org/)
 [![Tests](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/tests.yml/badge.svg)](https://github.com/wbmagalhaes/coffee-classification/actions/workflows/tests.yml)

@@ -14,20 +14,16 @@ Desenvolvida por William Bernardes Magalhães como parte do projeto de Mestrado 
 
 ## Tabela de Conteúdos
 
-- [Requisitos](#requisitos)
-- [Uso](#uso)
-  - [Classificar TFRecords](#classificar-tfrecords)
-    - [Parâmetros](#parâmetros)
-    - [Formato do Resultado](#formato-do-resultado)
-  - [Classificar Imagens](#classificar-imagens)
-    - [Parâmetros](#parâmetros-1)
-    - [Formato do Resultado](#formato-do-resultado-1)
-- [Cite Este Projeto](#cite-este-projeto)
+- [Classificação de grãos de café arábica](#classificação-de-grãos-de-café-arábica)
+	- [Tabela de Conteúdos](#tabela-de-conteúdos)
+	- [Requisitos](#requisitos)
+	- [Uso](#uso)
+	- [Cite Este Projeto](#cite-este-projeto)
 
 ## Requisitos
 
 - Python 3.9 ou 3.10
-- Tensorflow 2.10
+- Tensorflow 2.11
 
 ## Uso
 
